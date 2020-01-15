@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>员工列表</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet"th:href="@{../../static/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" th:href="@{../../static/css/skins/_all-skins.min.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function deleteUser(id) {
+            if (confirm("您确定要删除吗？连同相关数据也将被删除！")) {
+                location.href = "/app/delete/" + id;
+            }
+        }
+        window.onload = function () {
+            document.getElementById("delSelected").onclick = function () {
+                if (confirm("您确定要删除选中项吗？连同相关数据也将被删除！")) {
+                    var flag = false;
+                    var cbs = document.getElementsByName("check");
+                    for (var i = 0; i < cbs.length; i++) {
+                        if (cbs[i].checked) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        document.getElementById("form").submit();
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!--全选-->
+    <script>
+        function selectAll(obj) {
+            $(".itemSelect").prop("checked",obj.checked);
+        }
+    </script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<section class="wrapper">
+
+    <header class="main-header">
+        <div th:replace="pub/bar::topbar"></div>
+    </header>
+    <div th:replace="pub/bar::leftbar(activeUri='/app/apps')"></div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                招聘管理
+            </h1>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div style="float: left;margin: 5px;">
+                                <a type="button" class="btn btn-primary" th:href="@{/app/toAdd}"><i class="fa fa-user-plus"></i> 添加应聘人员</a>
+                                <a type="button" class="btn btn-danger"   href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
+
+                            </div>
+
+
+
+                            <form class="form-inline" th:action="@{/app/app}" style="float: right;margin: 5px;">
+                                <div class="form-group" >
+                                    <label for="username">姓名</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入姓名" style="width: 150px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="deptName">部门</label>
+                                    <input type="text" class="form-control" id="deptName" name="deptName" placeholder="请输入部门名称" style="width: 150px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobName">职位</label>
+                                    <input type="text" class="form-control" id="jobName" name="jobName" placeholder="请输入职位名称" style="width: 150px;">
+                                </div>
+                                <button type="submit" class="btn btn-default">搜索</button>
+                            </form>
+
+
+                        </div>
+                        <!-- /.box-header -->
+                        <form id="form" th:action="@{/app/deleteBatch}" method="post">
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="firstCb" onclick="selectAll(this)"></th>
+                                        <th>序号</th>
+                                        <th>姓名</th>
+                                        <th>部门</th>
+                                        <th>职位</th>
+                                        <th>期望工资</th>
+                                        <th>到岗日期</th>
+                                        <th>居住地址</th>
+                                        <th>生日</th>
+                                        <th>邮箱</th>
+                                        <th>电话</th>
+                                        <th>简历</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tr th:each="app:${apps}">
+                                        <td><input type="checkbox" th:value="${app.id}" name="check" class="itemSelect"></td>
+                                        <td th:text="${appStat.count}"></td>
+                                        <td th:text="${app.username}"></td>
+                                        <td th:text="${app.deptName}"></td>
+                                        <td th:text="${app.jobName}"></td>
+                                        <td th:text="${app.expWages}"></td>
+                                        <td th:text="${#dates.format(app.comeDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${app.address}"></td>
+                                        <td th:text="${#dates.format(app.birthday,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${app.email}"></td>
+                                        <td th:text="${app.phone}">183</td>
+                                        <td >
+                                            <a type="button" class="btn btn-info" th:href="@{/app/resume/}+${app.id}" download="简历"><i class="fa fa-search" ></i> 下载查看</a>
+                                        </td>
+                                        <td th:text="${app.state}==0?'待面试':(${app.state}==1?'面试通过':'面试未通过')">11-7-2014</td>
+                                        <td>
+                                            <a type="button" class="btn btn-primary" th:href="@{/app/app/}+${app.id}"><i class="fa fa-edit" ></i> 编辑</a>
+                                            <a type="button" class="btn btn-danger" th:href="'javascript:deleteUser('+${app.id}+');'"><i class="fa fa-trash-o" ></i> 删除</a>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                        <!-- /.box-body -->
+
+
+
+
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+
+        </section>
+
+
+        <!--pagestart-->
+
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/app/apps?pageNum=1'}" >首页</a></li>
+                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/app/apps?pageNum=' + ${page.prePage}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/app/apps?pageNum=' + ${i}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/app/apps?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/app/apps?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+        <!--pageend-->
+
+    </div>
+
+    </div>
+</section>
+<!-- jQuery 3 -->
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../../static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../../static/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../static/js/demo.js"></script>
+</body>
+</html>
+
+

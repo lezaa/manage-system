@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/../static/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/../static/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/../static/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet"th:href="@{/../static/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" th:href="@{/../static/css/skins/skin-blue.min.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function deleteUser(id) {
+            if (confirm("您确定要删除吗")) {
+                location.href = "/wages/delete/" + id;
+            }
+        }
+        window.onload = function () {
+            document.getElementById("delSelected").onclick = function () {
+                if (confirm("您确定要删除选中项吗？")) {
+                    var flag = false;
+                    var cbs = document.getElementsByName("check");
+                    for (var i = 0; i < cbs.length; i++) {
+                        if (cbs[i].checked) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        document.getElementById("form").submit();
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!--全选-->
+    <script>
+        function selectAll(obj) {
+            $(".itemSelect").prop("checked",obj.checked);
+        }
+    </script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <div th:replace="pub/bar::topbar"></div>
+    <!-- Left side column. contains the logo and sidebar -->
+    <div th:replace="pub/bar::leftbar(activeUri='/wages/list')"></div>
+
+    Content Wrapper. Contains page content
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                工资信息
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <div style="float: left;margin: 5px;">
+                            <shiro:hasRole name="admin">
+                            <a type="button" class="btn btn-primary" th:href="@{/wages/toAdd}"><i class="fa fa-plus"></i> 添加工资信息</a>
+                            <a type="button" class="btn btn-danger"  href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
+                            </shiro:hasRole>
+                            <a type="button" class="btn btn-info" th:href="@{/wages/download}"><i class="fa fa-print"></i> 打印</a>
+                        </div>
+                        <form class="form-inline" th:action="@{/wages/search}" style="float: right;margin: 5px;">
+                            <div class="form-group">
+                                <label for="username">姓名</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="请输入姓名" style="width: 150px;">
+                            </div>
+                            <button type="submit" class="btn btn-default">搜索</button>
+                        </form>
+                    </div>
+                    <!-- /.box-header -->
+                    <!--管理员总表-->
+                    <shiro:hasRole name="admin">
+                    <form id="form" th:action="@{/wages/deleteBatch}" method="post">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="firstCb" onclick="selectAll(this)"></th>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>部门</th>
+                                    <th>岗位</th>
+                                    <th>基本工资</th>
+                                    <th>交通房补</th>
+                                    <th>加班补贴</th>
+                                    <th>奖金</th>
+                                    <th>五险一金扣款</th>
+                                    <th>缺勤扣款</th>
+                                    <th>迟到扣款</th>
+                                    <th>实际工资</th>
+                                    <th>签发日期</th>
+                                    <th>操作</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="w:${wages}">
+                                    <td><input type="checkbox" th:value="${w.id}" name="check" class="itemSelect"></td>
+                                    <td th:text="${wStat.count}"></td>
+                                    <td th:text="${w.username}"></td>
+                                    <td th:text="${w.deptName}"></td>
+                                    <td th:text="${w.jobName}"></td>
+                                    <td th:text="${w.basicWages}"></td>
+                                    <td th:text="${w.livePay}">183</td>
+                                    <td th:text="${w.nightPay}">John Doe</td>
+                                    <td th:text="${w.rewardPay}">John Doe</td>
+                                    <td th:text="${w.socialPay}">John Doe</td>
+                                    <td th:text="${w.absenceFines}">John Doe</td>
+                                    <td th:text="${w.lateFines}">John Doe</td>
+                                    <td th:text="${w.realWages}">John Doe</td>
+                                    <td class="mailbox-date" th:text="${#dates.format(w.payDate,'yyyy-MM-dd')}"></td>
+                                    <td>
+                                        <a type="button" class="btn btn-danger" th:href="'javascript:deleteUser('+${w.id}+');'"><i class="fa fa-trash-o" ></i> 删除</a>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                    </form>
+                    </shiro:hasRole>
+
+                    <!--员工个人表-->
+                    <shiro:hasRole name="user">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>部门</th>
+                                    <th>岗位</th>
+                                    <th>基本工资</th>
+                                    <th>交通房补</th>
+                                    <th>加班补贴</th>
+                                    <th>奖金</th>
+                                    <th>五险一金扣款</th>
+                                    <th>缺勤扣款</th>
+                                    <th>迟到扣款</th>
+                                    <th>实际工资</th>
+                                    <th>签发日期</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="s:${self}">
+                                    <td th:text="${sStat.count}"></td>
+                                    <td th:text="${s.username}"></td>
+                                    <td th:text="${s.deptName}"></td>
+                                    <td th:text="${s.jobName}"></td>
+                                    <td th:text="${s.basicWages}"></td>
+                                    <td th:text="${s.livePay}">183</td>
+                                    <td th:text="${s.nightPay}">John Doe</td>
+                                    <td th:text="${s.rewardPay}">John Doe</td>
+                                    <td th:text="${s.socialPay}">John Doe</td>
+                                    <td th:text="${s.absenceFines}">John Doe</td>
+                                    <td th:text="${s.lateFines}">John Doe</td>
+                                    <td th:text="${s.realWages}">John Doe</td>
+                                    <td class="mailbox-date" th:text="${#dates.format(s.payDate,'yyyy-MM-dd')}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                    </shiro:hasRole>
+
+                    <!-- /.mail-box-messages -->
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+        </section>
+        <!-- /.content -->
+        <!--pagestart-->
+
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/wages/list?pageNum=1'}" >首页</a></li>
+                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/wages/list?pageNum=' + ${page.prePage}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/wages/list?pageNum=' + ${i}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/wages/list?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/wages/list?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+        <!--pageend-->
+    </div>
+</div>
+
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../static/js/adminlte.min.js"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+
+</body>
+</html>
