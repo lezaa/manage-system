@@ -78,23 +78,6 @@ public class WagesController {
     }
 
 
-    @RequestMapping("/result")
-    public String getResult(WagesDto wagesDto,Model model){
-        int realWages =wagesDto.getBasicWages()+wagesDto.getLivePay()+wagesDto.getNightPay()+wagesDto.getRewardPay()-wagesDto.getSocialPay()-wagesDto.getAbsenceFines()-wagesDto.getLateFines();
-        wagesDto.setRealWages(realWages);
-        model.addAttribute("wages",wagesDto);
-        return "wages/confirmWages";
-
-    }
-
-    @RequestMapping("/getWages/{id}")
-    public String getEmp(@PathVariable("id") long id , Model model){
-        WagesDto wagesDto = wagesService.getOne(id);
-        model.addAttribute("wages",wagesDto);
-        return "wages/confirmWages";
-    }
-
-
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id){
         wagesMapper.deleteWages(id);
