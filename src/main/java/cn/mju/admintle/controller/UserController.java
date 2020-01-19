@@ -57,7 +57,7 @@ public class UserController {
 
     //登录
     @RequestMapping("/login")
-    public String login(@Qualifier("role") String role,User user, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String login(@RequestParam("role") String role,User user, Model model, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String sysCode = (String) session.getAttribute("randomcode_key");
         String formCode = request.getParameter("verifycode");

@@ -51,7 +51,7 @@ public class ShiroConfig {
         linkedHashMap.put("/user/logout", "logout");
 
         //记住我
-        linkedHashMap.put("/main","user");
+        linkedHashMap.put("/main","authc");
 
         linkedHashMap.put("/emp/addEmp","roles[admin],perms[add]");
         linkedHashMap.put("/emp/update","roles[admin],perms[update]");
@@ -93,11 +93,10 @@ public class ShiroConfig {
     }
 
     @Bean("securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm,
-                                                                  @Qualifier("cookieRememberMeManager") CookieRememberMeManager rememberMeManager) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm
+                                                                  ) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm);
-        securityManager.setRememberMeManager(rememberMeManager);
         return securityManager;
     }
 
@@ -125,29 +124,6 @@ public class ShiroConfig {
     }
 
 
-    /**
-     * 设置rememberMe cookie
-     * @return
-     */
-    @Bean("simpleCookie")
-    public SimpleCookie simpleCookie(){
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        simpleCookie.setMaxAge(259200);
-        return simpleCookie;
-    }
-    /**
-     * cookie管理对象;
-     * @return
-     */
-    @Bean("cookieRememberMeManager")
-    public CookieRememberMeManager rememberMeManager(@Qualifier("simpleCookie")SimpleCookie simpleCookie){
-
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(simpleCookie);
-
-        return cookieRememberMeManager;
-    }
 
 
     /**
