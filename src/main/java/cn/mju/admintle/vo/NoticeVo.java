@@ -9,8 +9,6 @@ public class NoticeVo {
     private Integer id;
     @NotBlank
     private String title;
-    @NotBlank
-    @Length(min=15,message = "通告长度至少15位")
     private String content;
     private Date createTime;
     //发布人

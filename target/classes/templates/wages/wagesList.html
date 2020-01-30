@@ -49,7 +49,22 @@
             }
         }
     </script>
+    <script>
+        function add() {
+            //页面层
 
+            layer.open({
+                type: 2,
+                title: '添加工资信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '800px'],
+                content: '/wages/toAdd' //iframe的url
+            });
+        }
+
+
+    </script>
     <!--全选-->
     <script>
         function selectAll(obj) {
@@ -81,7 +96,7 @@
                     <div class="box-header with-border">
                         <div style="float: left;margin: 5px;">
                             <shiro:hasRole name="admin">
-                            <a type="button" class="btn btn-primary" th:href="@{/wages/toAdd}"><i class="fa fa-plus"></i> 添加工资信息</a>
+                            <a type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-plus"></i> 添加工资信息</a>
                             <a type="button" class="btn btn-danger"  href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
                             </shiro:hasRole>
                             <a type="button" class="btn btn-info" th:href="@{/wages/download}"><i class="fa fa-print"></i> 打印</a>
@@ -220,11 +235,13 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="../static/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../static/js/adminlte.min.js"></script>
+<script src="../../static/js/adminlte.min.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

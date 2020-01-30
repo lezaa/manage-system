@@ -1,11 +1,16 @@
 package cn.mju.admintle.domain;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Applicant {
     private Long id;
+    @NotBlank
     private String username;
+    @NotNull
     private Integer deptId;
+    @NotNull
     private Integer jobId;
     private Integer expWages;
     private Date comeDate;
@@ -15,6 +20,7 @@ public class Applicant {
     private Long phone;
 
     //简历
+    @NotBlank
     private String resume;
 
     //待面试0面试通过1面试未通过2

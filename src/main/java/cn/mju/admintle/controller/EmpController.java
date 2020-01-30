@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +37,6 @@ public class EmpController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private JobMapper jobMapper;
 
     @Autowired
     private DeptMapper deptMapper;
@@ -48,9 +48,8 @@ public class EmpController {
     @Autowired
     private PubService pubService;
 
-    @Autowired
-    private RoleMapper roleMapper;
 
+    private static final Logger log = LoggerFactory.getLogger(EmpController.class);
 
     @GetMapping("/emps")
     public String empsList(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model){
@@ -84,7 +83,7 @@ public class EmpController {
     public String addEmp(@Validated User user, Model model, BindingResult bindingResult, String roleName){
         if (bindingResult.hasErrors()) {
 
-            //bindingResult.getAllErrors().get(0).getDefaultMessage());
+            log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         Dept dept = deptMapper.getDeptById(user.getDeptId());
         if (dept != null){
@@ -92,7 +91,8 @@ public class EmpController {
 
             boolean flag = adminService.addUser(dbUser, roleName);
             if (flag){
-                return "redirect:/emp/emps";
+                model.addAttribute("addMsg","添加成功！");
+                return "emp/addEmp";
             }else{
                 model.addAttribute("addMsg","添加失败,请重试！");
                 return "emp/addEmp";
@@ -120,7 +120,8 @@ public class EmpController {
         if (dept != null){
             boolean flag = adminService.update(user,roleName);
             if (flag){
-                return "redirect:/emp/emps";
+                model.addAttribute("updateMsg","修改成功！");
+                return "emp/updateEmp";
             }else{
 
                model.addAttribute("updateMsg","修改失败,请重试！");

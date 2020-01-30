@@ -21,6 +21,12 @@ public class FileProvider {
             if (file.getQuitTime() != null) {
                 VALUES("quit_time", "#{quitTime}");
             }
+            if (file.getDeptName() != null) {
+                VALUES("dept_name", "#{deptName}");
+            }
+            if (file.getJobName() != null) {
+                VALUES("job_name", "#{jobName}");
+            }
 
         }}.toString();
     }
@@ -36,6 +42,12 @@ public class FileProvider {
             }
             if (file.getQuitTime() != null) {
                 SET("quit_time = #{quitTime}");
+            }
+            if (file.getDeptName() != null) {
+                SET("dept_name = #{deptName}");
+            }
+            if (file.getJobName() != null) {
+                SET("job_name = #{jobName}");
             }
             WHERE("id = #{id}");
         }}.toString();

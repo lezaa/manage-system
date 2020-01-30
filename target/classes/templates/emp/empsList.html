@@ -50,6 +50,35 @@
     }
 </script>
 
+    <script>
+        function add() {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '添加员工',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '900px'],
+                content: '/emp/toAdd' //iframe的url
+            });
+        }
+
+        function update(id) {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '更新员工',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '850px'],
+                content: '/emp/getEmp/'+id //iframe的url
+            });
+        }
+
+    </script>
+
 <!--全选-->
 <script>
         function selectAll(obj) {
@@ -79,7 +108,7 @@
                     <div class="box-header">
                             <div style="float: left;margin: 5px;">
                                 <shiro:hasRole name="admin">
-                                <a type="button" class="btn btn-primary" th:href="@{/emp/toAdd}"><i class="fa fa-user-plus"></i> 添加用户</a>
+                                <a type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-user-plus"></i> 添加用户</a>
                                 <a type="button" class="btn btn-danger"   href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
                                 </shiro:hasRole>
                                 <a type="button" class="btn btn-info" th:href="@{/emp/download}"><i class="fa fa-print"></i> 打印</a>
@@ -143,8 +172,8 @@
 
                                     <a type="button" class="btn btn-danger" th:href="'javascript:deleteUser('+${user.id}+');'"><i class="fa fa-trash-o" ></i> 删除</a>
                                     <!--th:href="@{/emp/getEmp(id=${user.id})}" =? 得用getParameter取，等同于页码拼接用法-->
-                                    <!--下面为retful风格拼接，用pathvariable取-->
-                                    <a type="button" class="btn btn-primary" th:if="${user.state==1}" th:href="@{/emp/getEmp/}+${user.id}"><i class="fa fa-edit" ></i> 编辑</a>
+                                    <!--th:href="@{/emp/getEmp/}+${user.id}"为retful风格拼接，用pathvariable取-->
+                                    <a type="button" class="btn btn-primary" th:if="${user.state==1}" th:href="'javascript:update('+${user.id}+');'"><i class="fa fa-edit" ></i> 编辑</a>
 
                                 </td>
                                 </shiro:hasRole>
@@ -196,6 +225,8 @@
 <script src="../../static/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/js/demo.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
 </body>
 </html>
 

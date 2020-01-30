@@ -1,11 +1,17 @@
 package cn.mju.admintle.domain;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class Notice {
 
     private Integer id;
+    @NotBlank
     private String head;
+    @NotBlank
+    @Length(min=15, message = "公告内容长度最小为15")
     private String content;
     private Date createTime;
     private Long userId;

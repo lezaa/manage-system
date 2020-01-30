@@ -30,10 +30,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <!-- Main Header -->
-    <div th:replace="pub/bar::topbar"></div>
-    <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="pub/bar::leftbar(activeUri='/dept/depts')"></div>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -43,7 +39,6 @@
             <div class="box box-info">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="box box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">添加部门</h3>
                         </div>
@@ -51,27 +46,30 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="form-horizontal">
-                            <form th:action="@{/dept/add}" method="post">
+                            <form th:action="@{/dept/add}" method="post" id="form">
                                 <div class="box-body">
+                                    <span id="mytip" ></span>
                                     <div class="form-group">
                                         <label for="username" class="col-sm-2 control-label">部门名：</label>
                                         <div class="col-sm-10">
-                                            <input type="username" class="form-control" id="username" name="deptName" placeholder="部门名" required="required">
+                                            <input type="username" class="form-control" id="username" name="deptName" placeholder="部门名" >
                                         </div>
                                     </div>
 
-
+                                    <span id="mytip1" ></span>
                                     <div class="form-group">
-                                        <label for="address" class="col-sm-2 control-label">部门描述：</label>
+                                        <label for="pp" class="col-sm-2 control-label">部门描述：</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="address" name="book" placeholder="部门描述" required="required">
+                                            <textarea id="pp" name="book" class="form-control" style="height: 300px"></textarea>
                                         </div>
+
+                                    </div>
                                     </div>
 
 
 
-                                </div>
+
 
                                 <br/>
                                 <br/>
@@ -85,16 +83,16 @@
                                         <h4><i class="icon fa fa-warning"></i> 警告！</h4>
                                         <p th:inline="text">[[${addMsg}]]!</p>
                                     </div>
-                                    <a type="button" class="btn btn-default" th:href="@{/dept/depts}"><i class="fa fa-reply"></i> 返回列表页</a>
                                     <button type="reset" class="btn btn-default">重置</button>
                                     <button type="submit"  class="btn btn-primary pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
+
 
         </section>
         <!-- /.content -->
@@ -111,9 +109,22 @@
 <!-- AdminLTE App -->
 <script src="../../static/js/adminlte.min.js"></script>
 
+<script>
+    /*表单验证*/
+    $('#form').submit(function (e) {
+        if ($('#username').val() == ""){
+            $('#mytip').html('部门名不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#pp').val() == "") {
+            $('#mytip1').html('请填写部门描述信息').css("color","#f00");
+            return false;
+        }
+        return true;
+    })
+</script>
 
 
-<!--表单验证-->
+
 
 
 

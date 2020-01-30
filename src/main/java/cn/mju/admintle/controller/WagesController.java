@@ -11,9 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +41,7 @@ public class WagesController {
     @Autowired
     private WagesMapper wagesMapper;
 
+    private static final Logger log = LoggerFactory.getLogger(WagesController.class);
 
     @GetMapping("/list")
     public String getAll(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model,HttpServletRequest request){
@@ -67,10 +72,14 @@ public class WagesController {
     }
 
     @RequestMapping("/add")
-    public String add(WagesDto wagesDto,Model model){
+    public String add(@Validated WagesDto wagesDto, Model model, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
         boolean flag = wagesService.insertWages(wagesDto);
         if (flag){
-            return "redirect:/wages/list";
+            model.addAttribute("addMsg","添加工资信息成功！");
+            return "wages/addWages";
         }else {
             model.addAttribute("addMsg","添加工资信息失败！");
             return "wages/addWages";

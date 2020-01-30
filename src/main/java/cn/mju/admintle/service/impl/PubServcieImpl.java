@@ -11,21 +11,15 @@ import cn.mju.admintle.vo.NoticeVo;
 import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Select;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.lang.model.element.VariableElement;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,11 +34,6 @@ public class PubServcieImpl implements PubService {
     @Autowired
     private DeptMapper deptMapper;
 
-    @Autowired
-    private RoleMapper roleMapper;
-
-    @Autowired
-    private WagesMapper wagesMapper;
 
     @Autowired
     private ApplicantMapper applicantMapper;
@@ -95,8 +84,7 @@ public class PubServcieImpl implements PubService {
         List<File> files = pageInfo.getList();
         List<FileDto> fileDtos = files.stream().map(e ->(
                 new FileDto(e.getId(),userMapper.getUserById(e.getUserId()).getUsername(),e.getEntryTime(),
-                        e.getQuitTime(),deptMapper.getDeptById(userMapper.getUserById(e.getUserId()).getDeptId()).getDeptName(),
-                        jobMapper.getJobById(userMapper.getUserById(e.getUserId()).getJobId()).getJobName()
+                        e.getQuitTime(),e.getDeptName(),e.getJobName()
                 ))
 
         ).collect(Collectors.toList());

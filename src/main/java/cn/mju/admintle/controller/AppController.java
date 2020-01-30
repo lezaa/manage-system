@@ -11,9 +11,13 @@ import cn.mju.admintle.vo.ApplicantVo;
 import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +37,8 @@ public class AppController {
     private ApplicantMapper applicantMapper;
     //简历存储路径
     String  filePath = "F:/resume/";
+
+    private static final Logger log = LoggerFactory.getLogger(AppController.class);
 
     @GetMapping("/apps")
     public String appsList(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model){
@@ -62,7 +68,10 @@ public class AppController {
     }
 
     @PostMapping("/add")
-    public String addApp(@RequestParam("file") MultipartFile file,Model model,Applicant applicant) {
+    public String addApp(@RequestParam("file") MultipartFile file,Model model,@Validated Applicant applicant, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
         try {
             if (file.isEmpty()) {
                 applicant.setResume("");
@@ -80,7 +89,8 @@ public class AppController {
             }
 
             applicantService.addApp(applicant);
-            return "redirect:/app/apps";
+            model.addAttribute("addMsg","添加成功！");
+            return "app/addApp";
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -115,7 +125,9 @@ public class AppController {
                 applicant.setResume(path);
             }
             applicantService.update(applicant);
-            return "redirect:/app/apps";
+            model.addAttribute("updateMsg","信息修改成功！");
+            model.addAttribute("app",applicant);
+            return "app/updateApp";
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {

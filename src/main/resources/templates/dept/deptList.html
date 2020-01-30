@@ -24,6 +24,35 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script>
+        function add() {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '添加部门',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '750px'],
+                content: '/dept/toAdd' //iframe的url
+            });
+        }
+
+        function update(id) {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '更新部门信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '750px'],
+                content: '/dept/dept/'+id //iframe的url
+            });
+        }
+
+    </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <section class="wrapper">
@@ -46,7 +75,7 @@
                     <div class="box">
                         <div class="box-header">
                             <div style="float: left;margin: 5px;">
-                                <a type="button" class="btn btn-primary" th:href="@{/dept/toAdd}"><i class="fa fa-plus"></i> 添加部门</a>
+                                <a type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-plus"></i> 添加部门</a>
                             </div>
                         </div>
                         <!-- /.box-header -->
@@ -71,7 +100,7 @@
                                         <td th:text="${dept.book}"></td>
 
                                         <td>
-                                            <a type="button" class="btn btn-primary" th:href="@{/dept/dept/}+${dept.id}"><i class="fa fa-edit" ></i> 编辑</a>
+                                            <a type="button" class="btn btn-primary" th:href="'javascript:update('+${dept.id}+');'"><i class="fa fa-edit" ></i> 编辑</a>
                                         </td>
                                     </tr>
                                 </table>
@@ -108,6 +137,8 @@
 <script src="../../static/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/js/demo.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
 </body>
 </html>
 

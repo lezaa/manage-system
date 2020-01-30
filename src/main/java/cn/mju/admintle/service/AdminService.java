@@ -1,18 +1,12 @@
 package cn.mju.admintle.service;
 
 import cn.mju.admintle.domain.*;
-import cn.mju.admintle.dto.FileDto;
 import cn.mju.admintle.vo.NoticeVo;
 import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageInfo;
-import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.StyledEditorKit;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public interface AdminService {
 

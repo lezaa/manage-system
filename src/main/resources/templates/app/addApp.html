@@ -31,11 +31,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <!-- Main Header -->
-    <div th:replace="pub/bar::topbar"></div>
-    <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="pub/bar::leftbar(activeUri='/emp/emps')"></div>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
@@ -44,34 +39,40 @@
             <div class="box box-info">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="box box-info">
+
                         <div class="box-header with-border">
-                            <h3 class="box-title">添加用户</h3>
+                            <h3 class="box-title">添加</h3>
                         </div>
+                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
+                        <p th:inline="text">[[${addMsg}]]!</p>
+                    </div>
 
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="form-horizontal">
                             <form id="form" th:action="@{/app/add}" method="post" enctype="multipart/form-data">
                                 <div class="box-body">
+                                    <span id="mytip" ></span>
                                     <div class="form-group">
                                         <label for="username" class="col-sm-2 control-label">用户名：</label>
                                         <div class="col-sm-10">
-                                            <input type="username" class="form-control" id="username" name="username" placeholder="用户名" required="required">
+                                            <input type="username" class="form-control" id="username" name="username" placeholder="用户名" >
                                         </div>
                                     </div>
-
+                                    <span id="mytip1" ></span>
                                     <div class="form-group">
                                         <label for="deptId" class="col-sm-2 control-label">部门ID：</label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" required="required">
+                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" >
                                         </div>
                                     </div>
-
+                                    <span id="mytip2" ></span>
                                     <div class="form-group ">
                                         <label for="jobId" class="col-sm-2 control-label">职位：</label>
                                         <div class="col-sm-10">
-                                            <select name="jobId" class="form-control " id="jobId" required="required">
+                                            <select name="jobId" class="form-control " id="jobId" >
                                                 <option  value=""selected="selected">-------------选择职位------------</option>
                                                 <option value="1">主管</option>
                                                 <option value="2">部门经理</option>
@@ -132,12 +133,12 @@
                                         </div>
                                     </div>
 
-
+                                    <span id="mytip3" ></span>
                                     <div class="form-group">
                                         <label for="address" class="col-sm-2 control-label">简历：</label>
 
                                         <div class="col-sm-10">
-                                            <input type="file" class="form-control" id="file" name="file" value="上传" required="required">
+                                            <input type="file" class="form-control" id="file" name="file" value="上传">
                                         </div>
                                     </div>
 
@@ -160,20 +161,13 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer">
 
-
-                                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                        <p th:inline="text">[[${addMsg}]]!</p>
-                                    </div>
-                                    <a type="button" class="btn btn-default" th:href="@{/app/apps}"><i class="fa fa-reply"></i> 返回列表页</a>
                                     <button type="reset" class="btn btn-default">重置</button>
                                     <button type="submit"   class="btn btn-info pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -191,8 +185,28 @@
 <!-- AdminLTE App -->
 <script src="../../static/js/adminlte.min.js"></script>
 
-
-
+<script>
+    /*表单验证*/
+    $('#form').submit(function (e) {
+        if ($('#username').val() == ""){
+            $('#mytip').html('用户名不允许为空').css("color","#f00");
+            $("html,body").animate({scrollTop:0});
+            return false;
+        }else if ($('#deptId').val() == "") {
+            $('#mytip1').html('请填写部门ID').css("color","#f00");
+            $("html,body").animate({scrollTop:0});
+            return false;
+        }else if ($('#jobId').select().val() == "") {
+            $('#mytip2').html('请选择职位').css("color","#f00");
+            $("html,body").animate({scrollTop:0});
+            return false;
+        }else if ($('#file').val() == "") {
+            $('#mytip3').html('请选择简历文件').css("color","#f00");
+            return false;
+        }
+        return true;
+    })
+</script>
 
 
 

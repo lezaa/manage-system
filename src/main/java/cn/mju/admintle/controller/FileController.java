@@ -1,8 +1,8 @@
 package cn.mju.admintle.controller;
 
 import cn.mju.admintle.domain.File;
+
 import cn.mju.admintle.dto.FileDto;
-import cn.mju.admintle.mapper.FileMapper;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
 import com.github.pagehelper.PageInfo;
@@ -26,8 +26,6 @@ public class FileController {
     @Autowired
     private PubService pubService;
 
-    @Autowired
-    private FileMapper fileMapper;
 
     @RequestMapping("/list")
     public String getAllFiles(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model){

@@ -1,10 +1,7 @@
 package cn.mju.admintle.service.impl;
 
-import cn.mju.admintle.domain.Dept;
 import cn.mju.admintle.domain.User;
 import cn.mju.admintle.domain.Wages;
-import cn.mju.admintle.dto.FileDto;
-import cn.mju.admintle.dto.RoleDto;
 import cn.mju.admintle.dto.WagesDto;
 import cn.mju.admintle.mapper.DeptMapper;
 import cn.mju.admintle.mapper.JobMapper;
@@ -13,7 +10,6 @@ import cn.mju.admintle.mapper.WagesMapper;
 import cn.mju.admintle.service.WagesService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

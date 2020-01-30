@@ -1,8 +1,6 @@
 package cn.mju.admintle.service.impl;
 
 import cn.mju.admintle.domain.*;
-import cn.mju.admintle.dto.FileDto;
-import cn.mju.admintle.dto.RoleDto;
 import cn.mju.admintle.mapper.*;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
@@ -10,19 +8,13 @@ import cn.mju.admintle.vo.NoticeVo;
 import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.lang.model.element.VariableElement;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.StyledEditorKit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,6 +86,8 @@ public class AdminServiceImpl implements AdminService {
             File file = new File();
             file.setUserId(user.getId());
             file.setEntryTime(new Date());
+            file.setDeptName(deptMapper.getDeptById(userMapper.getUserById(user.getId()).getDeptId()).getDeptName());
+            file.setJobName(jobMapper.getJobById(userMapper.getUserById(user.getId()).getJobId()).getJobName());
             fileMapper.insertFile(file);
 
             Role role = new Role();
@@ -112,21 +106,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean update(User user,String roleName) {
         //修改部门和职位信息自动添加档案记录
         User dbuser = userMapper.getUserById(user.getId());
-        if (user.getDeptId()!=dbuser.getDeptId() || user.getJobId()!=dbuser.getJobId()){
-            //旧档案添加离职日期
-            List<File> fileByUserId = fileMapper.getFileByUserId(user.getId());
 
-            File oldFile = fileByUserId.get(fileByUserId.size() - 1);
-
-            oldFile.setQuitTime(new Date());
-            fileMapper.updateFile(oldFile);
-            //添加新档案
-            File file = new File();
-            file.setUserId(user.getId());
-            file.setEntryTime(new Date());
-            fileMapper.insertFile(file) ;
-
-        }
         //修改角色
         Role role = new Role();
         role.setUserId(user.getId());
@@ -134,6 +114,25 @@ public class AdminServiceImpl implements AdminService {
         roleMapper.updateRole(role);
 
         boolean flag = userMapper.updateUser(user) >0;
+        if (user.getDeptId()!=dbuser.getDeptId() || user.getJobId()!=dbuser.getJobId()){
+            //旧档案添加离职日期
+            List<File> fileByUserId = fileMapper.getFileByUserId(user.getId());
+
+            File oldFile = fileByUserId.get(fileByUserId.size() - 1);
+
+            oldFile.setQuitTime(new Date());
+
+
+            fileMapper.updateFile(oldFile);
+            //添加新档案
+            File file = new File();
+            file.setUserId(user.getId());
+            file.setEntryTime(new Date());
+            file.setDeptName(deptMapper.getDeptById(userMapper.getUserById(user.getId()).getDeptId()).getDeptName());
+            file.setJobName(jobMapper.getJobById(userMapper.getUserById(user.getId()).getJobId()).getJobName());
+            fileMapper.insertFile(file) ;
+
+        }
         return flag;
 
     }

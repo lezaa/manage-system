@@ -44,11 +44,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <!-- Main Header -->
-    <div th:replace="pub/bar::topbar"></div>
-    <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="pub/bar::leftbar(activeUri='/wages/list')"></div>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
@@ -57,10 +52,15 @@
             <div class="box box-info">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">添加工资信息</h3>
+                            <h3 class="box-title">新增</h3>
                         </div>
+
+                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
+                        <p th:inline="text">[[${addMsg}]]!</p>
+                    </div>
 
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -71,18 +71,20 @@
 
                                     <div class="form-group">
                                         <label for="username" class="col-sm-2 control-label">姓名：</label>
+                                        <span id="mytip" ></span>
                                         <div class="col-sm-10">
-                                            <input type="username" class="form-control" id="username" name="username"   placeholder="姓名" required="required">
+                                            <input type="username" class="form-control" id="username" name="username"   placeholder="姓名" >
                                             <div class="col-sm-10"></div>
-                                            <span id="s_username"></span>
+
                                         </div>
 
                                     </div>
 
                                     <div class="form-group">
                                         <label for="basicWages" class="col-sm-2 control-label">基本工资</label>
+                                        <span id="mytip1" ></span>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="basicWages" name="basicWages"   placeholder="基本工资" required="required">
+                                            <input type="number" class="form-control" id="basicWages" name="basicWages"   placeholder="基本工资" >
                                         </div>
                                     </div>
                                     <div class="box-header with-border">
@@ -90,14 +92,20 @@
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control" id="livePay" name="livePay"  placeholder="交通房补" required="required">
+                                                <span id="mytip2" ></span>
+                                                <input type="number" class="form-control" id="livePay" name="livePay"  placeholder="交通房补" >
                                             </div>
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control" id="nightPay" name="nightPay"  placeholder="加班费" required="required">
+                                                <span id="mytip3" ></span>
+                                                <input type="number" class="form-control" id="nightPay" name="nightPay"  placeholder="加班费" >
                                             </div>
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control" id="rewardPay" name="rewardPay" placeholder="奖金" required="required">
+                                                <span id="mytip4" ></span>
+                                                <input type="number" class="form-control" id="rewardPay" name="rewardPay" placeholder="奖金" >
                                             </div>
                                         </div>
                                     </div>
@@ -107,14 +115,20 @@
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control" id="socialPay" name="socialPay"  placeholder="五险一金" required="required">
+                                                <span id="mytip5" ></span>
+                                                <input type="number" class="form-control" id="socialPay" name="socialPay"  placeholder="五险一金" >
                                             </div>
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control"  id="absenceFines" name="absenceFines"   placeholder="缺勤扣款" required="required">
+                                                <span id="mytip6" ></span>
+                                                <input type="number" class="form-control"  id="absenceFines" name="absenceFines"   placeholder="缺勤扣款" >
                                             </div>
+
                                             <div class="col-xs-4">
-                                                <input type="number" class="form-control"  id="lateFines" name="lateFines"   placeholder="迟到扣款" required="required">
+                                                <span id="mytip7" ></span>
+                                                <input type="number" class="form-control"  id="lateFines" name="lateFines"   placeholder="迟到扣款" >
                                             </div>
                                         </div>
                                     </div>
@@ -123,22 +137,22 @@
 
                                     <div class="form-group">
                                         <label for="payDate" class="col-sm-2 control-label">签发日期</label>
+
                                         <div class="col-sm-10">
-                                            <input type="date" class="form-control" id="payDate" name="payDate"   placeholder="签发日期" required="required">
+                                            <span id="mytip8" ></span>
+                                            <input type="date" class="form-control" id="payDate" name="payDate"   placeholder="签发日期" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-sm-1"></div>
-                                        <button  type="button" id="count" class="btn btn-primary col-sm-1"  onclick="oo()">计算</button>
+
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control pull-right " id="realWages" name="realWages"   placeholder="实际工资" required="required" onfocus="this.blur()"  >
+                                            <span id="mytip9" ></span>
+                                            <input type="text" class="form-control pull-right " id="realWages" name="realWages"   placeholder="实际工资"  onfocus="this.blur()"  >
+
                                         </div>
                                     </div>
-
-
-
-
+                                    <button  type="button" id="count" class="btn btn-primary col-sm-1 pull-left"  onclick="oo()">计算</button>
                                 </div>
 
                                 <br/>
@@ -147,20 +161,12 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer">
 
-
-                                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                        <p th:inline="text">[[${addMsg}]]!</p>
-                                    </div>
-                                    <a type="button" class="btn btn-default" th:href="@{/wages/list}"><i class="fa fa-reply"></i> 返回列表页</a>
                                     <button type="reset" class="btn btn-default">重置</button>
                                     <button type="submit"  class="btn btn-primary pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
                         </div>
-                    </div>
                 </div>
             </div>
 
@@ -180,7 +186,6 @@
 <script src="../../static/js/adminlte.min.js"></script>
 
 
-<%--用户名校验--%>
 <script>
     //在页面加载完成后
     $(function () {
@@ -190,7 +195,7 @@
 
             //发送ajax请求
             $.post("/wages/userCheck",{"username":username},function (data) {
-                var span = $("#s_username");
+                var span = $("#mytip");
                 if(data.userExsit){
                     //用户名存在
                     span.css("color","green");
@@ -204,8 +209,37 @@
 
         });
         $("#form").submit(function (e) {
-            if($("#s_username").html() === "此用户名已存在"){
-                alert("此用户名已存在!");
+            if($("#mytip").html() === "此用户名已存在"){
+                return false;
+            }else if ($('#username').val() == ""){
+                $('#mytip').html('用户名不允许为空').css("color","#f00");
+                return false;
+            }else if ($('#basicWages').val() == "") {
+                $('#mytip1').html('请填写基本工资').css("color","#f00");
+                return false;
+            }else if ($('#livePay').val() == "") {
+                $('#mytip2').html('请填写交通房补金额').css("color","#f00");
+                return false;
+            }else if ($('#nightPay').val() == "") {
+                $('#mytip3').html('请填写加班补贴金额').css("color","#f00");
+                return false;
+            }else if ($('#rewardtPay').val() == "") {
+                $('#mytip4').html('请填写奖金金额').css("color","#f00");
+                return false;
+            }else if ($('#socialPay').val() == "") {
+                $('#mytip5').html('请填写五险一金金额').css("color","#f00");
+                return false;
+            }else if ($('#absenceFines').val() == "") {
+                $('#mytip6').html('请填写缺勤扣款').css("color","#f00");
+                return false;
+            }else if ($('#lateFines').val() == "") {
+                $('#mytip7').html('请填写迟到扣款').css("color","#f00");
+                return false;
+            }else if ($('#payDate').val() == "") {
+                $('#mytip8').html('请填写签发日期').css("color","#f00");
+                return false;
+            }else if ($('#realWages').val() == "") {
+                $('#mytip9').html('请计算实际工资').css("color","#f00");
                 return false;
             }
             return true;

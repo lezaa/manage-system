@@ -1,11 +1,13 @@
 package cn.mju.admintle.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class WagesDto {
 
     //员工信息
     private Long id;
+    @NotBlank
     private String username;
     private String deptName;
     private String jobName;

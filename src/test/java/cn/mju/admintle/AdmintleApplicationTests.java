@@ -1,28 +1,18 @@
 package cn.mju.admintle;
 
 import cn.mju.admintle.controller.EmpController;
-import cn.mju.admintle.controller.WagesController;
 import cn.mju.admintle.domain.*;
-import cn.mju.admintle.dto.FileDto;
 import cn.mju.admintle.mapper.*;
-import cn.mju.admintle.provider.UserProvider;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.UserService;
 import cn.mju.admintle.service.WagesService;
-import cn.mju.admintle.vo.NoticeVo;
-import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.One;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.thymeleaf.spring5.context.SpringContextUtils;
 
-import java.io.OutputStream;
 import java.util.*;
 
 @SpringBootTest

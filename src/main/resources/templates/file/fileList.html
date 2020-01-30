@@ -76,8 +76,8 @@
                                     <tr th:each="file:${files}">
                                         <td th:text="${fileStat.count}">1</td>
                                         <td th:text="${file.userName}">喔喔</td>
-                                        <td th:text="${#dates.format(file.getEntryTime(),'yyyy-MM-dd')}">日期</td>
-                                        <td th:text="${#dates.format(file.getQuitTime(),'yyyy-MM-dd')}">日期</td>
+                                        <td th:text="${#dates.format(file.entryTime,'yyyy-MM-dd')}">日期</td>
+                                        <td th:text="${#dates.format(file.quitTime,'yyyy-MM-dd')}">日期</td>
                                         <td th:text="${file.deptName}">技术部</td>
                                         <td th:text="${file.jobName}">程序员</td>
                                         <td>

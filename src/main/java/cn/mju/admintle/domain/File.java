@@ -7,6 +7,8 @@ public class File {
     private Long userId;
     private Date entryTime;
     private Date quitTime;
+    private String deptName;
+    private String jobName;
 
     public Long getId() {
         return id;
@@ -40,13 +42,19 @@ public class File {
         this.quitTime = quitTime;
     }
 
-    @Override
-    public String toString() {
-        return "File{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", entryTime=" + entryTime +
-                ", quitTime=" + quitTime +
-                '}';
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 }

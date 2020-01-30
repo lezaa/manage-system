@@ -7,9 +7,13 @@ import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.vo.NoticeVo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +26,8 @@ public class NoticeController {
     private AdminService adminService;
     @Autowired
     private PubService pubService;
+
+    private static final Logger log = LoggerFactory.getLogger(NoticeController.class);
 
     @GetMapping("/notices")
     public String noticeList(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model){
@@ -51,7 +57,10 @@ public class NoticeController {
     }
 
     @PostMapping("/publish")
-    public String publish(Notice notice, Model model, HttpServletRequest request){
+    public String publish(@Validated Notice notice, Model model, HttpServletRequest request, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
         boolean flag = adminService.publishNotice(notice,request);
         if (flag){
             model.addAttribute("addMsg","发布公告成功！");

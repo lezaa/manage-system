@@ -29,6 +29,7 @@
             if (confirm("您确定要删除吗？连同相关数据也将被删除！")) {
                 location.href = "/app/delete/" + id;
             }
+
         }
         window.onload = function () {
             document.getElementById("delSelected").onclick = function () {
@@ -48,6 +49,36 @@
             }
         }
     </script>
+
+    <script>
+        function add() {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '添加应聘人员',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '900px'],
+                content: '/app/toAdd' //iframe的url
+            });
+        }
+
+        function update(id) {
+            //页面层
+
+            layer.open({
+                type: 2,
+                title: '更新应聘人员',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '900px'],
+                content: '/app/app/'+id //iframe的url
+            });
+        }
+
+    </script>
+
 
     <!--全选-->
     <script>
@@ -77,7 +108,7 @@
                     <div class="box">
                         <div class="box-header">
                             <div style="float: left;margin: 5px;">
-                                <a type="button" class="btn btn-primary" th:href="@{/app/toAdd}"><i class="fa fa-user-plus"></i> 添加应聘人员</a>
+                                <a type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-user-plus"></i> 添加应聘人员</a>
                                 <a type="button" class="btn btn-danger"   href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
 
                             </div>
@@ -142,7 +173,7 @@
                                         </td>
                                         <td th:text="${app.state}==0?'待面试':(${app.state}==1?'面试通过':'面试未通过')">11-7-2014</td>
                                         <td>
-                                            <a type="button" class="btn btn-primary" th:href="@{/app/app/}+${app.id}"><i class="fa fa-edit" ></i> 编辑</a>
+                                            <a type="button" class="btn btn-primary" th:href="'javascript:update('+${app.id}+');'"><i class="fa fa-edit" ></i> 编辑</a>
                                             <a type="button" class="btn btn-danger" th:href="'javascript:deleteUser('+${app.id}+');'"><i class="fa fa-trash-o" ></i> 删除</a>
 
                                         </td>
@@ -194,6 +225,8 @@
 <script src="../../static/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/js/demo.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
 </body>
 </html>
 
