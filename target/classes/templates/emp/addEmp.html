@@ -30,11 +30,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <!-- Main Header -->
-    <div th:replace="pub/bar::topbar"></div>
-    <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="pub/bar::leftbar(activeUri='/emp/emps')"></div>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
@@ -43,9 +38,14 @@
             <div class="box box-info">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="box box-info">
+
                         <div class="box-header with-border">
-                            <h3 class="box-title">添加用户</h3>
+                            <h3 class="box-title">添加</h3>
+                        </div>
+                        <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4><i class="icon fa fa-warning"></i> 警告！</h4>
+                            <p th:inline="text">[[${addMsg}]]!</p>
                         </div>
 
                         <!-- /.box-header -->
@@ -55,17 +55,18 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="username" class="col-sm-2 control-label">用户名：</label>
+                                        <span id="mytip" ></span>
                                         <div class="col-sm-10">
-                                            <input type="username" class="form-control" id="username" name="username" placeholder="用户名" required="required">
+                                            <input type="username" class="form-control" id="username" name="username" placeholder="用户名">
                                         </div>
                                         <div class="col-sm-10"></div>
-                                        <span id="s_username" name="s_username"></span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="password" class="col-sm-2 control-label">密码：</label>
+                                        <span id="mytip1" ></span>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="密码" required="required" minlength="3" maxlength="15">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="密码" >
                                         </div>
                                     </div>
 
@@ -104,15 +105,17 @@
 
                                     <div class="form-group">
                                         <label for="deptId" class="col-sm-2 control-label">部门ID：</label>
+                                        <span id="mytip2" ></span>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" required="required">
+                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" >
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="jobId" class="col-sm-2 control-label">职位：</label>
+                                        <span id="mytip3" ></span>
                                         <div class="col-sm-10">
-                                            <select name="jobId" class="form-control " id="jobId" required="required">
+                                            <select name="jobId" class="form-control " id="jobId" >
                                                 <option  value=""selected="selected">-------------选择职位------------</option>
                                                 <option value="1">主管</option>
                                                 <option value="2">部门经理</option>
@@ -127,8 +130,9 @@
 
                                     <div class="form-group ">
                                         <label for="roleSelect" class="col-sm-2 control-label">权限角色：</label>
+                                        <span id="mytip4" ></span>
                                         <div class="col-sm-10">
-                                            <select class="form-control " id="roleSelect" name="roleName" required="required">
+                                            <select class="form-control " id="roleSelect" name="roleName" >
                                                 <option  value=""selected="selected">-------------选择权限角色------------</option>
                                                 <option  value="admin">管理员</option>
                                                 <option  value="user">员工</option>
@@ -144,20 +148,13 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer">
 
-
-                                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                        <p th:inline="text">[[${addMsg}]]!</p>
-                                    </div>
-                                    <a type="button" class="btn btn-default" th:href="@{/emp/emps}"><i class="fa fa-reply"></i> 返回列表页</a>
                                     <button type="reset" class="btn btn-default">重置</button>
                                     <button type="submit"   class="btn btn-info pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -177,7 +174,6 @@
 
 
 
-<%--用户名校验--%>
 <script>
     //在页面加载完成后
     $(function () {
@@ -187,7 +183,7 @@
 
             //发送ajax请求
             $.post("/emp/userCheck",{"username":username},function (data) {
-                var span = $("#s_username");
+                var span = $("#mytip");
                 if(data.userExsit){
                     //用户名存在
                     span.css("color","red");
@@ -202,9 +198,27 @@
         });
         $("#form").submit(function (e) {
             if($("#s_username").html() === "此用户名已存在"){
-                alert("此用户名已存在!");
+                return false;
+            }else if ($('#username').val() == "") {
+                $('#mytip').html('用户名不允许为空').css("color","#f00");
+                return false;
+            }else if ($('#password').val() == "") {
+                $('#mytip1').html('密码不允许为空').css("color","#f00");
+                return false;
+            }else if ($('#password').val().length <=3 || $('#password').val().length >=15) {
+                $('#mytip1').html('密码长度需在3到15位').css("color","#f00");
+                return false;
+            }else if ($('#deptId').val() == "") {
+                $('#mytip2').html('请填写部门ID').css("color","#f00");
+                return false;
+            }else if ($('#jobId').select().val() == "") {
+                $('#mytip3').html('请选择职位').css("color","#f00");
+                return false;
+            }else if ($('#roleSelect').select().val() == "") {
+                $('#mytip4').html('请选择权限角色').css("color","#f00");
                 return false;
             }
+
             return true;
         });
     });

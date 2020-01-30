@@ -29,11 +29,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <!-- Main Header -->
-    <div th:replace="pub/bar::topbar"></div>
-    <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="pub/bar::leftbar(activeUri='/emp/emps')"></div>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
@@ -42,21 +37,25 @@
             <div class="box box-info">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">修改用户</h3>
+                            <h3 class="box-title">修改信息</h3>
                         </div>
+                    <div class="alert alert-warning alert-dismissible"  th:if="${updateMsg != null}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
+                        <p th:inline="text">[[${updateMsg}]]!</p>
+                    </div>
 
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="form-horizontal">
-                            <form th:action="@{/emp/update}" method="post">
+                            <form th:action="@{/emp/update}" id="form" method="post">
                                 <div class="box-body">
                                     <input type="hidden" name="id" th:value="${user.id}">
                                     <div class="form-group">
                                         <label for="inputUsername3" class="col-sm-2 control-label">用户名：</label>
                                         <div class="col-sm-10">
-                                            <input type="username" class="form-control" id="inputUsername3" name="username" th:value="${user.username}" placeholder="用户名" required="required" readonly="readonly">
+                                            <input type="username" class="form-control" id="inputUsername3" name="username" th:value="${user.username}" placeholder="用户名"  readonly="readonly">
                                         </div>
                                     </div>
 
@@ -95,13 +94,15 @@
 
                                     <div class="form-group">
                                         <label for="deptId" class="col-sm-2 control-label">部门ID：</label>
+                                        <span id="mytip" ></span>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" th:value="${user.deptId}" required="required">
+                                            <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" th:value="${user.deptId}" >
                                         </div>
                                     </div>
     <!--部门end-->
                                     <div class="form-group ">
                                         <label for="jobId" class="col-sm-2 control-label" >职位：</label>
+                                        <span id="mytip1" ></span>
                                         <div class="col-sm-10" th:if="${user.jobId==1}">
                                             <select name="jobId" class="form-control " id="jobId">
                                                 <option  value="">-------------选择职位------------</option>
@@ -192,8 +193,9 @@
 
                                     <div class="form-group ">
                                         <label for="roleSelect" class="col-sm-2 control-label">权限角色：</label>
+                                        <span id="mytip2" ></span>
                                         <div class="col-sm-10" th:if="${roleName =='admin'}">
-                                            <select class="form-control " id="roleSelect" name="roleName" required="required">
+                                            <select class="form-control " id="roleSelect" name="roleName">
                                                 <option  value="">-------------选择权限角色------------</option>
                                                 <option  value="admin" selected="selected">管理员</option>
                                                 <option  value="user">员工</option>
@@ -216,19 +218,14 @@
 
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-                                    <div class="alert alert-warning alert-dismissible"  th:if="${updateMsg != null}">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                        <p th:inline="text">[[${updateMsg}]]!</p>
-                                    </div>
-                                    <a type="button" class="btn btn-default" th:href="@{/emp/emps}"><i class="fa fa-reply"></i> 返回列表页</a>
+
                                     <button type="reset"  id="res" class="btn btn-default">重置</button>
                                     <button type="submit" id="send" class="btn btn-info pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -251,7 +248,22 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/js/demo.js"></script>
 <!--表单验证-->
+<script>
+    $("#form").submit(function (e) {
+        if ($('#deptId').val() == "") {
+            $('#mytip').html('请填写部门ID').css("color","#f00");
+            return false;
+        }else if ($('#jobId').select().val() == "") {
+            $('#mytip1').html('请选择职位').css("color","#f00");
+            return false;
+        }else if ($('#roleSelect').select().val() == "") {
+            $('#mytip2').html('请选择权限角色').css("color","#f00");
+            return false;
+        }
 
+        return true;
+    });
+</script>
 
 
 
