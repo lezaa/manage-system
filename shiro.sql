@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50642
 File Encoding         : 65001
 
-Date: 2020-01-15 19:11:42
+Date: 2020-02-09 00:22:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,12 +33,11 @@ CREATE TABLE `tb_app` (
   `resume` varchar(1024) DEFAULT NULL,
   `state` int(2) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_app
 -- ----------------------------
-INSERT INTO `tb_app` VALUES ('4', '小王', '1', '4', '2000', '2020-01-22', '王俊凯企鹅款机器外壳', '2020-01-15', '111111@qq.com', '23112312', 'F:/resume/6555.jpg', '0');
 INSERT INTO `tb_app` VALUES ('5', '小林', '1', '4', '3000', '2020-01-31', '福建省福州市', '2020-06-11', '111111@qq.com', '66666', 'F:/resume/1F54E20B661A3F7B962CC1A53E2F63ED.png', '1');
 INSERT INTO `tb_app` VALUES ('6', '委屈二', '2', '3', '6000', '2020-01-24', '福建省福州市', '2020-01-14', 'we@qq.com', '333', 'F:/resume/ChMlWlx3h7GIC9E1ABX80TL6sY8AAIg5gLI4i8AFfzp759.jpg', '2');
 INSERT INTO `tb_app` VALUES ('8', '123123123', '2', '4', '111', '2020-01-29', '台湾', '2020-01-23', '1@qq.com', '12312312', 'F:/resume/91ef76c6a7efce1be275fbdea751f3deb48f6543.jpg', '0');
@@ -52,7 +51,7 @@ CREATE TABLE `tb_dept` (
   `dept_name` varchar(32) NOT NULL,
   `book` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_dept
@@ -73,30 +72,38 @@ CREATE TABLE `tb_file` (
   `user_id` bigint(11) NOT NULL,
   `entry_time` date NOT NULL,
   `quit_time` date DEFAULT NULL,
+  `dept_name` varchar(11) DEFAULT NULL,
+  `job_name` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_file
 -- ----------------------------
-INSERT INTO `tb_file` VALUES ('1', '49', '2019-12-27', '2019-12-28');
-INSERT INTO `tb_file` VALUES ('5', '49', '2019-12-28', '2019-12-28');
-INSERT INTO `tb_file` VALUES ('6', '49', '2019-12-28', '2019-12-28');
-INSERT INTO `tb_file` VALUES ('27', '62', '2020-01-07', null);
-INSERT INTO `tb_file` VALUES ('37', '63', '2020-01-07', '2020-01-07');
-INSERT INTO `tb_file` VALUES ('38', '63', '2020-01-07', '2020-01-07');
-INSERT INTO `tb_file` VALUES ('39', '63', '2020-01-07', null);
-INSERT INTO `tb_file` VALUES ('40', '64', '2020-01-09', null);
-INSERT INTO `tb_file` VALUES ('43', '67', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('44', '68', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('45', '69', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('46', '70', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('47', '71', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('48', '72', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('49', '73', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('50', '74', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('51', '75', '2020-01-12', null);
-INSERT INTO `tb_file` VALUES ('52', '76', '2020-01-12', null);
+INSERT INTO `tb_file` VALUES ('1', '49', '2019-12-27', '2019-12-28', '技术部', '程序员');
+INSERT INTO `tb_file` VALUES ('5', '49', '2019-12-28', '2019-12-28', '技术部', '主管');
+INSERT INTO `tb_file` VALUES ('6', '49', '2019-12-28', '2019-12-28', '运营部', '清洁员');
+INSERT INTO `tb_file` VALUES ('27', '62', '2020-01-07', null, '技术部', '主管');
+INSERT INTO `tb_file` VALUES ('37', '63', '2020-01-07', '2020-01-07', '销售部', '实习生');
+INSERT INTO `tb_file` VALUES ('38', '63', '2020-01-07', '2020-01-07', '销售部', '前台');
+INSERT INTO `tb_file` VALUES ('39', '63', '2020-01-07', '2020-01-30', '人力资源部', '清洁员');
+INSERT INTO `tb_file` VALUES ('40', '64', '2020-01-09', '2020-01-30', '运营部', '实习生');
+INSERT INTO `tb_file` VALUES ('43', '67', '2020-01-12', null, '技术部', '清洁员');
+INSERT INTO `tb_file` VALUES ('44', '68', '2020-01-12', null, '技术部', '清洁员');
+INSERT INTO `tb_file` VALUES ('45', '69', '2020-01-12', null, '技术部', '程序员');
+INSERT INTO `tb_file` VALUES ('46', '70', '2020-01-12', null, '技术部', '前台');
+INSERT INTO `tb_file` VALUES ('47', '71', '2020-01-12', null, '技术部', '清洁员');
+INSERT INTO `tb_file` VALUES ('48', '72', '2020-01-12', null, '技术部', '程序员');
+INSERT INTO `tb_file` VALUES ('49', '73', '2020-01-12', null, '技术部', '清洁员');
+INSERT INTO `tb_file` VALUES ('50', '74', '2020-01-12', null, '技术部', '清洁员');
+INSERT INTO `tb_file` VALUES ('51', '75', '2020-01-12', null, '技术部', '程序员');
+INSERT INTO `tb_file` VALUES ('52', '76', '2020-01-12', null, '技术部', '部门经理');
+INSERT INTO `tb_file` VALUES ('53', '64', '2020-01-30', '2020-01-30', '运营部', '清洁员');
+INSERT INTO `tb_file` VALUES ('54', '64', '2020-01-30', '2020-01-30', '运营部', '实习生');
+INSERT INTO `tb_file` VALUES ('56', '77', '2020-01-30', '2020-01-30', '运营部', '程序员');
+INSERT INTO `tb_file` VALUES ('57', '77', '2020-01-30', '2020-01-30', '运营部', '实习生');
+INSERT INTO `tb_file` VALUES ('58', '64', '2020-01-30', null, '财务部', '前台');
+INSERT INTO `tb_file` VALUES ('59', '77', '2020-01-30', null, '运营部', '架构师');
 
 -- ----------------------------
 -- Table structure for `tb_job`
@@ -130,17 +137,13 @@ CREATE TABLE `tb_notice` (
   `create_time` datetime NOT NULL,
   `user_id` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_notice
 -- ----------------------------
-INSERT INTO `tb_notice` VALUES ('1', '财务部通知', '财务部的人立马给我过来带上各个部门的工资统计详情', '2020-01-03 00:00:00', '53');
-INSERT INTO `tb_notice` VALUES ('3', '这是一条新通知', '  这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知这是一条新通知                    ', '2020-01-04 00:00:00', '53');
-INSERT INTO `tb_notice` VALUES ('4', '噢噢噢噢噢噢噢噢哦哦哦哦哦哦', '  噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦噢噢噢噢噢噢噢噢哦哦哦哦哦哦', '2020-01-04 00:00:00', '53');
-INSERT INTO `tb_notice` VALUES ('5', '啊啊啊啊啊啊啊啊啊啊啊啊', '  啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊        ', '2020-01-04 00:00:00', '53');
-INSERT INTO `tb_notice` VALUES ('6', '人事部通知', '    所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼 所有人都被炒鱿鱼', '2020-01-15 00:00:00', '62');
-INSERT INTO `tb_notice` VALUES ('7', '今晚出去聚餐', '  所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅所有人5点下班去吃火锅', '2020-01-15 17:24:46', '62');
+INSERT INTO `tb_notice` VALUES ('11', '春节放假延长假期通知', '  受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。受新型肺炎影响，全体员工放假延长至2.9。', '2020-01-29 21:21:04', '62');
+INSERT INTO `tb_notice` VALUES ('34', '复工通知', '  全体员工2月10号返工，公司口罩很多可以放心上班。全体员工2月10号返工，公司口罩很多可以放心上班。全体员工2月10号返工，公司口罩很多可以放心上班。全体员工2月10号返工，公司口罩很多可以放心上班。', '2020-02-08 23:58:52', '62');
 
 -- ----------------------------
 -- Table structure for `tb_permission`
@@ -190,8 +193,9 @@ INSERT INTO `tb_role` VALUES ('61', '71', 'admin');
 INSERT INTO `tb_role` VALUES ('62', '72', 'admin');
 INSERT INTO `tb_role` VALUES ('63', '73', 'user');
 INSERT INTO `tb_role` VALUES ('64', '74', 'user');
-INSERT INTO `tb_role` VALUES ('65', '75', 'admin');
+INSERT INTO `tb_role` VALUES ('65', '75', 'user');
 INSERT INTO `tb_role` VALUES ('66', '76', 'user');
+INSERT INTO `tb_role` VALUES ('67', '77', 'user');
 
 -- ----------------------------
 -- Table structure for `tb_user`
@@ -218,8 +222,8 @@ INSERT INTO `tb_user` VALUES ('49', 'test6', '1e72d9027f646fa4746dbcb640129cc2',
 INSERT INTO `tb_user` VALUES ('53', '1', 'e67b190e741c0c43c2bf71bd4350226e', '维护局可千万和亲王', '331@qq.com', '1996-06-06', '23131211', '2', '3', '1');
 INSERT INTO `tb_user` VALUES ('58', '噢噢噢噢噢噢噢噢', 'a791ba9ab6beae1ae35394f1ee844595', 'wqeqweq', 'ejkqwle@qq.com', '0666-06-06', '1111111', '1', '4', '1');
 INSERT INTO `tb_user` VALUES ('62', '1@qq.com', 'a3cf184b63661b7d0367af860838d853', '王俊凯企鹅款机器外壳', 'we@qq.com', '1998-02-05', '66666', '1', '1', '1');
-INSERT INTO `tb_user` VALUES ('63', 'qwe', '514f70e88fd768b45c04f1c51871b784', '驱蚊器翁群翁', 'we@qq.com', '0019-05-05', '666', '5', '6', '1');
-INSERT INTO `tb_user` VALUES ('64', 'admin', 'c41d7c66e1b8404545aa3a0ece2006ac', '驱蚊器翁群翁群翁', '111111@qq.com', '2020-11-11', '6666666666666', '2', '1', '1');
+INSERT INTO `tb_user` VALUES ('63', 'qwe', '514f70e88fd768b45c04f1c51871b784', '驱蚊器翁群翁', 'we@qq.com', '0019-05-05', '666', '5', '6', '0');
+INSERT INTO `tb_user` VALUES ('64', 'admin', 'c41d7c66e1b8404545aa3a0ece2006ac', '驱蚊器翁群翁群翁', '111111@qq.com', '2020-11-11', '6666666666666', '3', '5', '1');
 INSERT INTO `tb_user` VALUES ('67', 'werewr', '5676fdcfe9237c830e2f1a453c379ffb', 'qeqwe', 'qweqwe@qq.com', '0222-02-02', '1111', '1', '6', '1');
 INSERT INTO `tb_user` VALUES ('68', 'new', '6dc61104a80f2072cb1d6a8e7219a688', 'qeqwe', 'qweqwe@qq.com', '2222-02-02', '2222222', '1', '6', '1');
 INSERT INTO `tb_user` VALUES ('69', 'asd', '2e79d9458d93eceb589a0d3901feaae7', 'asd', 'asdsa@qq.com', '0200-12-12', '12312421', '1', '4', '1');
@@ -230,6 +234,7 @@ INSERT INTO `tb_user` VALUES ('73', 'qwqe', 'c470afa356499289d7afb6108e1e9775', 
 INSERT INTO `tb_user` VALUES ('74', 'asdasasd', '691bb3a4a4d8ae2b6596d93149fe024a', 'sd@qq.com', 'asdads@qq.com', '2020-01-24', '123123', '1', '6', '1');
 INSERT INTO `tb_user` VALUES ('75', 'asd1', '59becc347f987979d618586cf95d0d2f', 'asd', '', null, null, '1', '4', '1');
 INSERT INTO `tb_user` VALUES ('76', 'llllll', 'fa77074593cf3b3dd139753377e663cf', '', '', null, null, '1', '2', '1');
+INSERT INTO `tb_user` VALUES ('77', '档案测试1', '23771f3c325a75c317daad9c3e0ff6cb', '泉州市丰泽区', '99@qq.com', '2020-01-14', '66666', '2', '3', '1');
 
 -- ----------------------------
 -- Table structure for `tb_wages`
@@ -248,7 +253,7 @@ CREATE TABLE `tb_wages` (
   `real_wages` int(11) DEFAULT '0',
   `pay_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_wages
@@ -261,3 +266,9 @@ INSERT INTO `tb_wages` VALUES ('5', '53', '2', '1', '1', '1', '1', '1', '1', '2'
 INSERT INTO `tb_wages` VALUES ('6', '62', '1', '1', '1', '1', '1', '1', '1', '1', '2020-11-10');
 INSERT INTO `tb_wages` VALUES ('11', '62', '999', '0', '0', '0', '0', '0', '30', '0', '2023-06-06');
 INSERT INTO `tb_wages` VALUES ('12', '62', '6000', '0', '1000', '1000', '1000', '60', '60', '7880', '2020-01-14');
+INSERT INTO `tb_wages` VALUES ('13', '62', '1', '1', '1', '1', '1', '1', '1', '0', '2020-01-09');
+INSERT INTO `tb_wages` VALUES ('14', '62', '33', '3', '3', '3', '3', '3', '3', '0', '2020-01-22');
+INSERT INTO `tb_wages` VALUES ('15', '49', '66', '1', '1', '1', '1', '1', '1', '0', '2020-01-30');
+INSERT INTO `tb_wages` VALUES ('16', '62', '23', '1', '1', '1', '1', '1', '1', '23', '2020-01-23');
+INSERT INTO `tb_wages` VALUES ('17', '62', '77', '1', '1', '1', '1', '1', '1', '77', '2020-01-31');
+INSERT INTO `tb_wages` VALUES ('18', '62', '1', '1', '1', '1', '1', '1', '1', '1', '2020-01-15');
