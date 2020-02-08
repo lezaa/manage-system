@@ -32,6 +32,10 @@ public interface AdminService {
 
     List<Dept> getDepts();
 
+    List<Dept> getDeptData();
+
+    List<Job> getJobData();
+
     Dept getDeptAndUsers(int id);
 
     boolean addDept(Dept dept);

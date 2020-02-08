@@ -226,6 +226,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<Dept> getDeptData() {
+        List<Dept> deptData = deptMapper.getDeptData();
+        return deptData;
+    }
+
+    @Override
+    public List<Job> getJobData() {
+        List<Job> jobData = jobMapper.getJobData();
+        return jobData;
+    }
+
+    @Override
     public Dept getDeptAndUsers(int id) {
         Dept deptAndUser = deptMapper.getDeptAndUser(id);
         return deptAndUser;

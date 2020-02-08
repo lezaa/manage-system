@@ -28,6 +28,19 @@ public interface DeptMapper {
             })
     Dept getDeptAndUser(int id);
 
+    @Select("select * from tb_dept")
+    @Results(
+            value = {
+                    @Result(id = true, property = "id", column = "id"),
+                    @Result(property = "deptName", column = "dept_name"),
+                    @Result(property = "describe", column = "describe"),
+                    @Result(property = "users", column = "id",
+                            many = @Many(select = "cn.mju.admintle.mapper.UserMapper.getUserByDeptId", fetchType = FetchType.EAGER)
+                    )
+
+            })
+    List<Dept> getDeptData();
+
 
     @SelectProvider(type = DeptProvider.class,method = "selectDept")
     Dept getDeptByName(HashMap<String, Object> map);

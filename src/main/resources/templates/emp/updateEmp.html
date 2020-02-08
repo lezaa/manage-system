@@ -105,7 +105,7 @@
                                         <span id="mytip1" ></span>
                                         <div class="col-sm-10" th:if="${user.jobId==1}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" selected="selected">主管</option>
                                                 <option value="2">部门经理</option>
                                                 <option value="3">架构师</option>
@@ -117,7 +117,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==2}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" selected="selected">部门经理</option>
                                                 <option value="3">架构师</option>
@@ -129,7 +129,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==3}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" >部门经理</option>
                                                 <option value="3" selected="selected">架构师</option>
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==4}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" >部门经理</option>
                                                 <option value="3" >架构师</option>
@@ -153,7 +153,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==5}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" >部门经理</option>
                                                 <option value="3" >架构师</option>
@@ -165,7 +165,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==6}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" >部门经理</option>
                                                 <option value="3" >架构师</option>
@@ -177,7 +177,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${user.jobId==7}">
                                             <select name="jobId" class="form-control " id="jobId">
-                                                <option  value="">-------------选择职位------------</option>
+                                                <option  value="" disabled>-------------选择职位------------</option>
                                                 <option value="1" >主管</option>
                                                 <option value="2" >部门经理</option>
                                                 <option value="3" >架构师</option>
@@ -196,14 +196,14 @@
                                         <span id="mytip2" ></span>
                                         <div class="col-sm-10" th:if="${roleName =='admin'}">
                                             <select class="form-control " id="roleSelect" name="roleName">
-                                                <option  value="">-------------选择权限角色------------</option>
+                                                <option  value="" disabled>-------------选择权限角色------------</option>
                                                 <option  value="admin" selected="selected">管理员</option>
                                                 <option  value="user">员工</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-10" th:if="${roleName =='user'}">
                                             <select class="form-control " id="roleSelect" name="roleName" required="required">
-                                                <option  value="">-------------选择权限角色------------</option>
+                                                <option  value="" disabled>-------------选择权限角色------------</option>
                                                 <option  value="admin">管理员</option>
                                                 <option  value="user" selected="selected">员工</option>
                                             </select>

@@ -217,7 +217,7 @@
                                         <label for="state" class="col-sm-2 control-label">招聘状态：</label>
                                         <div class="col-sm-10" th:if="${app.state == 0}">
                                             <select name="state" class="form-control " id="state" >
-                                                <option  value="" >-------------招聘状态------------</option>
+                                                <option  value="" disabled>-------------招聘状态------------</option>
                                                 <option value="0" selected="selected">待面试</option>
                                                 <option value="1">面试通过</option>
                                                 <option value="2">面试未通过（人才库）</option>
@@ -225,7 +225,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${app.state == 1}">
                                             <select name="state" class="form-control " id="state" >
-                                                <option  value=""selected="selected">-------------招聘状态------------</option>
+                                                <option  value="" selected="selected" disabled>-------------招聘状态------------</option>
                                                 <option value="0">待面试</option>
                                                 <option value="1" selected="selected">面试通过</option>
                                                 <option value="2">面试未通过（人才库）</option>
@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="col-sm-10" th:if="${app.state == 3}">
                                             <select name="state" class="form-control " id="state" >
-                                                <option  value=""selected="selected">-------------招聘状态------------</option>
+                                                <option  value="" selected="selected" disabled>-------------招聘状态------------</option>
                                                 <option value="0">待面试</option>
                                                 <option value="1">面试通过</option>
                                                 <option value="2" selected="selected">面试未通过（人才库）</option>

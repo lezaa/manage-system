@@ -2,7 +2,6 @@ package cn.mju.admintle.controller;
 
 
 import cn.mju.admintle.domain.Dept;
-import cn.mju.admintle.mapper.DeptMapper;
 import cn.mju.admintle.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,18 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 //对部门的增改查
 @Controller
 @RequestMapping("/dept")
 public class DeptController {
     @Autowired
     private AdminService adminService;
+
 
     private static final Logger log = LoggerFactory.getLogger(DeptController.class);
 
@@ -75,4 +73,6 @@ public class DeptController {
 
 
     }
+
+
 }

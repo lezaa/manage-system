@@ -18,11 +18,15 @@
           apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" th:href="@{/../static/css/skins/skin-blue.min.css}">
 
+
+    <script src="https://cdn.bootcss.com/echarts/3.7.2/echarts.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
     <![endif]-->
 
 </head>
@@ -47,9 +51,7 @@
         <!-- Main content -->
         <section class="content container-fluid">
 
-            <!--------------------------
-              | Your Page Content Here |
-              -------------------------->
+            <!--公告-->
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">最新公告</h3>
@@ -95,6 +97,52 @@
             <!-- /.box -->
 
 
+            <!--部门扇形图-->
+            <!-- DONUT CHART -->
+            <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">部门人数概况</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="main" style="width: 600px;height:400px;border:1px"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            </div>
+            <!--图表-->
+
+
+            <!--职位扇形图-->
+            <!-- DONUT CHART -->
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">职位人数概况</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="main1" style="width: 600px;height:400px;border:1px"></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!--图表-->
+
+
 
         </section>
         <!-- /.content -->
@@ -111,9 +159,129 @@
 <!-- AdminLTE App -->
 <script src="../static/js/adminlte.min.js"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+
+        var myChart = echarts.init(document.getElementById('main'));
+        var names=[];
+        var values=[];
+        //数据加载完之前先显示一段简单的loading动画
+        myChart.showLoading();
+        $.ajax({
+            type : "post",
+            async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url : "/pie1",
+            data : {},
+            dataType : "json",
+            success : function(result) {
+                if (result) {
+                    for(var i=0;i<result.length;i++){
+                        names.push(result[i].name);
+                        values.push(result[i].num);
+                    }
+                    
+                    myChart.hideLoading();    //隐藏加载动画
+                    myChart.setOption(
+                        {
+                            title: {
+                                text: '部门人数分布',
+                                x: 'center'
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: names
+                            },
+                            series: [
+                                {
+                                    name: '部门人数',
+                                    type: 'pie',
+                                    radius: '55%',
+                                    center: ['50%', '60%'],
+                                    data: result,
+                                    itemStyle: {
+                                        emphasis: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    );
+                }
+            }
+
+        });
+
+    });
+
+
+
+    //职位
+    $(function() {
+        var myChart = echarts.init(document.getElementById('main1'));
+        var names = [];
+        var values = [];
+        myChart.showLoading();
+        $.post("/pie2",function (result) {
+            if (result) {
+                for(var i=0;i<result.length;i++){
+                    names.push(result[i].name);
+                    values.push(result[i].num);
+                }
+                myChart.hideLoading();
+                myChart.setOption(
+                    {
+                        title: {
+                            text: '职位人数分布',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: names
+                        },
+                        series: [
+                            {
+                                name: '职位人数',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '60%'],
+                                data: result,
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                );
+            }
+        });
+    })
+
+
+</script>
+
+
 
 </body>
 </html>

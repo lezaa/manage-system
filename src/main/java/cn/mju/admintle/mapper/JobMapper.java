@@ -31,6 +31,18 @@ public interface JobMapper {
             })
     Job getJobAndUser(int id);
 
+    @Select("select * from tb_job")
+    @Results(
+            value = {
+                    @Result(id = true, property = "id", column = "id"),
+                    @Result(property = "jobName", column = "job_name"),
+                    @Result(property = "users", column = "id",
+                            many = @Many(select = "cn.mju.admintle.mapper.UserMapper.getUserByJobId", fetchType = FetchType.EAGER)
+                    )
+
+            })
+    List<Job> getJobData();
+
 
 
    @SelectProvider(type = JobProvider.class,method = "selectJob")

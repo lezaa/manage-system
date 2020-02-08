@@ -121,6 +121,13 @@ class AdmintleApplicationTests {
 
     }
 
+    @Test
+    void test9(){
+        List<Dept> deptData = adminService.getDeptData();
+        System.out.println("....."+deptData.toString());
+
+    }
+
 
 
 
