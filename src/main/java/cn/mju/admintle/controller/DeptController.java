@@ -3,6 +3,10 @@ package cn.mju.admintle.controller;
 
 import cn.mju.admintle.domain.Dept;
 import cn.mju.admintle.service.AdminService;
+import cn.mju.admintle.utils.AJAXUtil;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.crypto.hash.Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //对部门的增改查
 @Controller
@@ -36,19 +44,15 @@ public class DeptController {
         return "dept/addDept";
     }
 
-    @RequestMapping("/add")
-    public String addDept(Model model,@Validated Dept dept, BindingResult bindingResult){
+    @PostMapping("/add")
+    @ResponseBody
+    public Map<String, Object> addDept(@Validated Dept dept, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         boolean flag = adminService.addDept(dept);
-        if (flag){
-            model.addAttribute("addMsg","添加部门成功！");
-            return "dept/addDept";
-        }else{
-            model.addAttribute("addMsg","添加部门失败！");
-            return "dept/addDept";
-        }
+        Map<String, Object> data = AJAXUtil.getReturn(flag);
+        return data;
 
     }
 
@@ -59,18 +63,32 @@ public class DeptController {
         return "dept/updateDept";
     }
 
-    @RequestMapping("/update")
-    public String updateDept(Model model,Dept dept){
+    @PostMapping("/update")
+    @ResponseBody
+    public Map<String, Object> updateDept(@Validated Dept dept){
         boolean flag = adminService.updateDept(dept);
-        if (flag){
-            model.addAttribute("updateMsg","修改部门信息成功！");
-            model.addAttribute("dept",dept);
-            return "dept/updateDept";
-        }else{
-            model.addAttribute("updateMsg","修改部门信息失败！");
-            return "dept/updateDept";
-        }
+        Map<String, Object> data = AJAXUtil.getReturn(flag);
+        return data;
 
+    }
+
+    @RequestMapping("/deptCheck")
+    public void regNameCheck(@RequestParam("deptId") Integer deptId, HttpServletResponse response) throws IOException {
+
+        Map<String,Object> map = new HashMap<String,Object>();
+        boolean flag = adminService.checkDept(deptId);
+        if (flag) {
+                map.put("deptExsit", true);
+                map.put("msg", "此部门ID可用");
+
+            } else {
+                map.put("userExsit", false);
+                map.put("msg", "此部门不存在,请重新填写部门ID");
+
+            }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),map);
 
     }
 

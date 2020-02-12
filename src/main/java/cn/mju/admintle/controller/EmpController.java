@@ -8,6 +8,7 @@ import cn.mju.admintle.mapper.RoleMapper;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.UserService;
+import cn.mju.admintle.utils.AJAXUtil;
 import cn.mju.admintle.vo.UserVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
@@ -80,28 +81,16 @@ public class EmpController {
     }
 
     @RequestMapping("/addEmp")
-    public String addEmp(@Validated User user, Model model, BindingResult bindingResult, String roleName){
+    @ResponseBody
+    public Map<String,Object> addEmp(@Validated User user, Model model, BindingResult bindingResult, String roleName){
         if (bindingResult.hasErrors()) {
 
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        Dept dept = deptMapper.getDeptById(user.getDeptId());
-        if (dept != null){
             User dbUser = pubService.passwordToMD5(user);
-
             boolean flag = adminService.addUser(dbUser, roleName);
-            if (flag){
-                model.addAttribute("addMsg","添加成功！");
-                return "emp/addEmp";
-            }else{
-                model.addAttribute("addMsg","添加失败,请重试！");
-                return "emp/addEmp";
-            }
-        }else{
-            model.addAttribute("addMsg", "该部门不存在！");
-            return "emp/addEmp";
-        }
-
+            Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
+            return resultMap;
 
     }
 
@@ -115,23 +104,12 @@ public class EmpController {
     }
 
     @RequestMapping("/update")
-    public String updateEmp(Model model,String roleName,User user ,HttpServletRequest request){
-        Dept dept = deptMapper.getDeptById(user.getDeptId());
-        if (dept != null){
+    @ResponseBody
+    public Map<String,Object> updateEmp(String roleName,User user ,HttpServletRequest request){
             boolean flag = adminService.update(user,roleName);
-            if (flag){
-                model.addAttribute("updateMsg","修改成功！");
-                return "emp/updateEmp";
-            }else{
+            Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
+            return resultMap;
 
-               model.addAttribute("updateMsg","修改失败,请重试！");
-                return "emp/updateEmp";
-            }
-        }else{
-            model.addAttribute("updateMsg", "该部门不存在！");
-            model.addAttribute("roleName",roleName);
-            return "emp/updateEmp";
-        }
 
     }
 

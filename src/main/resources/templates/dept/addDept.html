@@ -76,13 +76,6 @@
 
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-
-
-                                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                        <p th:inline="text">[[${addMsg}]]!</p>
-                                    </div>
                                     <button type="reset" class="btn btn-default">重置</button>
                                     <button type="submit"  class="btn btn-primary pull-right">确认</button>
                                 </div>
@@ -121,6 +114,25 @@
         }
         return true;
     })
+</script>
+
+<script>
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/dept/add",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
+
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
+
+            }
+        })
+        return false;
+    })
+
 </script>
 
 

@@ -7,6 +7,7 @@ import cn.mju.admintle.mapper.WagesMapper;
 import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.UserService;
 import cn.mju.admintle.service.WagesService;
+import cn.mju.admintle.utils.AJAXUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.hssf.usermodel.*;
@@ -72,18 +73,14 @@ public class WagesController {
     }
 
     @RequestMapping("/add")
-    public String add(@Validated WagesDto wagesDto, Model model, BindingResult bindingResult){
+    @ResponseBody
+    public Map<String,Object> add(@Validated WagesDto wagesDto, Model model, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         boolean flag = wagesService.insertWages(wagesDto);
-        if (flag){
-            model.addAttribute("addMsg","添加工资信息成功！");
-            return "wages/addWages";
-        }else {
-            model.addAttribute("addMsg","添加工资信息失败！");
-            return "wages/addWages";
-        }
+        Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
+        return resultMap;
     }
 
 

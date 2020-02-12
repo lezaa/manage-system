@@ -7,6 +7,7 @@ import cn.mju.admintle.domain.User;
 import cn.mju.admintle.mapper.ApplicantMapper;
 import cn.mju.admintle.service.ApplicantService;
 import cn.mju.admintle.service.PubService;
+import cn.mju.admintle.utils.AJAXUtil;
 import cn.mju.admintle.vo.ApplicantVo;
 import cn.mju.admintle.vo.UserVo;
 import com.github.pagehelper.PageInfo;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/app")
@@ -68,10 +70,12 @@ public class AppController {
     }
 
     @PostMapping("/add")
-    public String addApp(@RequestParam("file") MultipartFile file,Model model,@Validated Applicant applicant, BindingResult bindingResult) {
+    @ResponseBody
+    public Map<String, Object> addApp(@RequestParam("file") MultipartFile file, @Validated Applicant applicant, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+        boolean flag = false;
         try {
             if (file.isEmpty()) {
                 applicant.setResume("");
@@ -88,16 +92,17 @@ public class AppController {
                 applicant.setResume(path);
             }
 
-            applicantService.addApp(applicant);
-            model.addAttribute("addMsg","添加成功！");
-            return "app/addApp";
+            flag = applicantService.addApp(applicant);
+            Map<String, Object> data = AJAXUtil.getReturn(flag);
+            return data;
+
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        model.addAttribute("addMsg","文件上传失败！");
-        return "app/addApp";
+        Map<String, Object> data = AJAXUtil.getReturn(flag);
+        return data;
     }
 
     @GetMapping("/app/{id}")
@@ -108,7 +113,9 @@ public class AppController {
     }
 
     @PostMapping("/update")
-    public String updateApp(@RequestParam("file") MultipartFile file,Model model,Applicant applicant) {
+    @ResponseBody
+    public Map<String, Object> updateApp(@RequestParam("file") MultipartFile file,@Validated Applicant applicant) {
+        boolean flag = false;
         try {
             if (file.isEmpty()) {
 
@@ -124,17 +131,16 @@ public class AppController {
                 file.transferTo(dest);// 文件写入
                 applicant.setResume(path);
             }
-            applicantService.update(applicant);
-            model.addAttribute("updateMsg","信息修改成功！");
-            model.addAttribute("app",applicant);
-            return "app/updateApp";
+            flag = applicantService.update(applicant);
+            Map<String, Object> data = AJAXUtil.getReturn(flag);
+            return data;
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        model.addAttribute("updateMsg","文件上传失败！");
-        return "app/updateApp";
+        Map<String, Object> data = AJAXUtil.getReturn(flag);
+        return data;
     }
 
     @RequestMapping("/delete/{id}")
@@ -153,7 +159,7 @@ public class AppController {
 
     //下载简历
     @GetMapping("/resume/{id}")
-    public void getResume(@PathVariable("id")Long id, HttpServletRequest request, HttpServletResponse response){
+    public void getResume(@PathVariable("id")Long id, HttpServletRequest request, HttpServletResponse response,Model model){
 
             //设置文件路径
             Applicant app = applicantMapper.getApplicantById(id);

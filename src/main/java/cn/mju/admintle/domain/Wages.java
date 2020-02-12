@@ -1,9 +1,10 @@
 package cn.mju.admintle.domain;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Wages {
+public class Wages implements Serializable {
     //工资考核计算
     private Long id;
     private Long userId;

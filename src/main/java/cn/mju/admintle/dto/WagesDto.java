@@ -1,6 +1,7 @@
 package cn.mju.admintle.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class WagesDto {
@@ -12,22 +13,31 @@ public class WagesDto {
     private String deptName;
     private String jobName;
     //基本工资
+    @NotNull
     private Integer basicWages;
     //交通房补
+    @NotNull
     private Integer livePay;
     //加班补贴
+    @NotNull
     private Integer nightPay;
     //奖金
+    @NotNull
     private Integer rewardPay;
     //保险金
+    @NotNull
     private Integer socialPay;
     //缺勤罚款
+    @NotNull
     private Integer absenceFines;
     //迟到罚款
+    @NotNull
     private Integer lateFines;
     //实际工资
+    @NotNull
     private Integer realWages;
     //发放日期
+    @NotNull
     private Date payDate;
 
     public WagesDto() {

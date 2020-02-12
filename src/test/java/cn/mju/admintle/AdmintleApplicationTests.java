@@ -129,6 +129,15 @@ class AdmintleApplicationTests {
     }
 
 
+    @Test
+    void test10(){
+        Dept dept = new Dept();
+        dept.setBook("新的");
+        dept.setDeptName("测试");
+        boolean b = adminService.addDept(dept);
+
+    }
+
 
 
 }

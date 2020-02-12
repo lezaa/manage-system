@@ -47,13 +47,21 @@
                 人事管理系统
                 <small>欢迎您！</small>
             </h1>
+
         </section>
 
         <!-- Main content -->
         <section class="content container-fluid">
+            <!--快速入口-->
+            <div class="box-header with-border">
+                <button id="sign" ></button>
+                <button class="btn btn-warning" th:href="@{/time/apply}">快速请假</button>
+            </div>
+            <!--快速入口end-->
 
             <!--公告-->
-            <div class="box box-primary">
+            <div class="col-md-12">
+            <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">最新公告</h3>
 
@@ -66,7 +74,6 @@
                 <div class="box-body">
                     <!-- Main content -->
 
-                        <div class="col-md-12">
 
                                 <div class="box-header with-border">
                                     <h3 class="box-title" th:text="${notice.title}">题目</h3>
@@ -86,16 +93,14 @@
                                 </div>
                                 <!-- /.box-body -->
 
-
-
-                        </div>
                         <!-- /.col -->
-
 
                 </div>
                 <!-- /.box-body -->
             </div>
+            </div>
             <!-- /.box -->
+
 
 
             <!--部门扇形图-->
@@ -161,10 +166,6 @@
 <script src="../static/js/adminlte.min.js"></script>
 <!--echarts-->
  <script src="https://cdn.bootcss.com/echarts/3.7.2/echarts.min.js"></script>
-
-
-
-
 
 
 
@@ -284,6 +285,57 @@
         });
     })
 
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: "/time/signIn",
+            dataType: "json",
+            success: function (data) {
+                if (data.result == "true") {
+                    $("#sign").attr({
+                        "class":"btn btn-success",
+                    })
+                    $("#sign").html("已签到");
+                    $("#sign").unbind("click");
+                } else {
+                    $("#sign").attr({
+                        "class":"btn btn-info",
+                    })
+                    $("#sign").html("快速签到");
+                }
+            },
+            error: function (data) {
+                alert("对不起,服务器出问题了");
+            }
+        });
+        $("#sign").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/time/toSignIn",
+                dataType: "json",
+                success: function (data) {
+                    if (data.result == "true") {
+                        $("#sign").empty();
+                        $("#sign").attr({
+                            "class":"btn btn-success",
+                        })
+                        $("#sign").html("已签到");
+                        $("#sign").unbind("click");
+                    } else {
+                        alert("对不起,签到失败");
+                    }
+                },
+                error: function (data) {
+                    alert("对不起,服务器出问题了");
+                }
+            });
+        });
+
+    });
 
 </script>
 

@@ -144,11 +144,19 @@
             </li>
             </shiro:hasRole>
 
+            <li th:class="${activeUri=='/time/list'?'active':''}">
+                <a href="#" th:href="@{/time/list}"><i class="fa fa-link"></i>
+                    <span>考勤管理</span>
+                </a>
+            </li>
+
             <li th:class="${activeUri=='/wages/list'?'active':''}">
                 <a href="#" th:href="@{/wages/list}"><i class="fa fa-link"></i>
                     <span>薪资管理</span>
                 </a>
             </li>
+
+
             <li  th:class="${activeUri=='/notice/notices'?'active':''}">
                 <a href="#" th:href="@{/notice/notices}"><i class="fa fa-link"></i>
                     <span>系统公告</span>

@@ -38,6 +38,8 @@ public interface AdminService {
 
     Dept getDeptAndUsers(int id);
 
+    boolean checkDept(int id);
+
     boolean addDept(Dept dept);
 
     boolean updateDept(Dept dept);

@@ -43,11 +43,6 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">添加</h3>
                         </div>
-                    <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                        <p th:inline="text">[[${addMsg}]]!</p>
-                    </div>
 
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -200,12 +195,31 @@
             $('#mytip2').html('请选择职位').css("color","#f00");
             $("html,body").animate({scrollTop:0});
             return false;
-        }else if ($('#file').val() == "") {
-            $('#mytip3').html('请选择简历文件').css("color","#f00");
-            return false;
         }
         return true;
     })
+</script>
+
+<script>
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        var formData = new FormData($("#form")[0]);
+        $.post({ url: "/app/add",data:formData,processData: false,contentType: false,dataType : 'json',
+            success: function (data) {
+                if (data.result == "true") {
+                    parent.$("#handle_status").val('1');
+                    parent.layer.close(index);
+
+                } else {
+                    parent.$("#handle_status").val('2');
+                    parent.layer.close(index);
+
+                }
+            }
+        })
+        return false;
+    })
+
 </script>
 
 

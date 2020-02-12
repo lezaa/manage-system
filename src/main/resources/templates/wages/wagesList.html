@@ -59,7 +59,27 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['750px', '800px'],
-                content: '/wages/toAdd' //iframe的url
+                content: '/wages/toAdd', //iframe的url
+                success:function(layero,index){
+                },
+                end:function(){
+                    var handle_status = $("#handle_status").val();
+                    if ( handle_status == '1' ) {
+                        layer.msg('添加成功！',{
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    } else if ( handle_status == '2' ) {
+                        layer.msg('添加失败！',{
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    }
+                }
             });
         }
 
@@ -91,6 +111,7 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
+            <input id="handle_status" value="" hidden="hidden">
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">

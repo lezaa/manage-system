@@ -32,6 +32,7 @@ public interface RoleMapper {
     Set<Role> getRoleByUserId(Long userId);
 
     @InsertProvider(type = RoleProvider.class, method = "insertRole")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addRole(Role role);
 
     @UpdateProvider(type = RoleProvider.class, method = "updateRole")

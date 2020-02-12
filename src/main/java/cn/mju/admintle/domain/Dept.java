@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Dept implements Serializable {
     private Integer id;
-    @NotBlank
+    @NotBlank( message = "部门名不能为空")
     private String deptName;
     private String book;
     private List<User> users;

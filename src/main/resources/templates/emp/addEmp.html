@@ -42,11 +42,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">添加</h3>
                         </div>
-                        <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                            <p th:inline="text">[[${addMsg}]]!</p>
-                        </div>
+
 
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -177,6 +173,7 @@
 <script>
     //在页面加载完成后
     $(function () {
+        /*用户名检查*/
         $("#username").blur(function () {
 
             var username = $(this).val();
@@ -196,6 +193,27 @@
             } ,"json");
 
         });
+        /*部门存在检查*/
+        $("#deptId").blur(function () {
+
+            var deptId = $(this).val();
+
+            //发送ajax请求
+            $.post("/dept/deptCheck",{"deptId":deptId},function (data) {
+                var span = $("#mytip2");
+                if(data.deptExsit){
+                    //部门存在
+                    span.css("color","green");
+                    span.html(data.msg);
+                }else{
+                    //部门不存在
+                    span.css("color","red");
+                    span.html(data.msg);
+                }
+            } ,"json");
+
+        });
+        /*表单验证*/
         $("#form").submit(function (e) {
             if($("#s_username").html() === "此用户名已存在"){
                 return false;
@@ -205,7 +223,7 @@
             }else if ($('#password').val() == "") {
                 $('#mytip1').html('密码不允许为空').css("color","#f00");
                 return false;
-            }else if ($('#password').val().length <=3 || $('#password').val().length >=15) {
+            }else if ($('#password').val().length <3 || $('#password').val().length >15) {
                 $('#mytip1').html('密码长度需在3到15位').css("color","#f00");
                 return false;
             }else if ($('#deptId').val() == "") {
@@ -223,12 +241,27 @@
         });
     });
 
-
-
-
-
 </script>
 
+<script>
+    /*弹窗处理*/
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/emp/addEmp",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
+
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
+
+            }
+        })
+        return false;
+    })
+
+</script>
 
 
 </body>

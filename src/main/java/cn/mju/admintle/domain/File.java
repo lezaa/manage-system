@@ -1,8 +1,9 @@
 package cn.mju.admintle.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class File {
+public class File implements Serializable {
     private Long id;
     private Long userId;
     private Date entryTime;

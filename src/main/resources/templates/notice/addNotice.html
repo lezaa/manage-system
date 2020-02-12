@@ -43,6 +43,8 @@
             return true;
         }
     </script>
+
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -74,16 +76,6 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <div class="alert alert-success alert-dismissible"  th:if="${addMsg != null}" >
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                            <p th:inline="text">[[${addMsg}]]!</p>
-                        </div>
-                        <div class="alert alert-warning alert-dismissible"  th:if="${faddMsg != null}" >
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                            <p th:inline="text">[[${faddMsg}]]!</p>
-                        </div>
                         <div class="pull-right">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> 发布</button>
                         </div>
@@ -114,6 +106,25 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+
+<script>
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/notice//publish",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
+
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
+
+            }
+        })
+        return false;
+    })
+
+</script>
 
 </body>
 </html>

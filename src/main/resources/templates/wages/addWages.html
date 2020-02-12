@@ -208,43 +208,64 @@
             } ,"json");
 
         });
-        $("#form").submit(function (e) {
-            if($("#mytip").html() === "此用户名已存在"){
-                return false;
-            }else if ($('#username').val() == ""){
-                $('#mytip').html('用户名不允许为空').css("color","#f00");
-                return false;
-            }else if ($('#basicWages').val() == "") {
-                $('#mytip1').html('请填写基本工资').css("color","#f00");
-                return false;
-            }else if ($('#livePay').val() == "") {
-                $('#mytip2').html('请填写交通房补金额').css("color","#f00");
-                return false;
-            }else if ($('#nightPay').val() == "") {
-                $('#mytip3').html('请填写加班补贴金额').css("color","#f00");
-                return false;
-            }else if ($('#rewardtPay').val() == "") {
-                $('#mytip4').html('请填写奖金金额').css("color","#f00");
-                return false;
-            }else if ($('#socialPay').val() == "") {
-                $('#mytip5').html('请填写五险一金金额').css("color","#f00");
-                return false;
-            }else if ($('#absenceFines').val() == "") {
-                $('#mytip6').html('请填写缺勤扣款').css("color","#f00");
-                return false;
-            }else if ($('#lateFines').val() == "") {
-                $('#mytip7').html('请填写迟到扣款').css("color","#f00");
-                return false;
-            }else if ($('#payDate').val() == "") {
-                $('#mytip8').html('请填写签发日期').css("color","#f00");
-                return false;
-            }else if ($('#realWages').val() == "") {
-                $('#mytip9').html('请计算实际工资').css("color","#f00");
-                return false;
-            }
-            return true;
-        });
+
     });
+
+</script>
+<script>
+    /*表单验证 */
+    $("#form").submit(function (e) {
+        if($("#mytip").html() === "此用户名已存在"){
+            return false;
+        }else if ($('#username').val() == ""){
+            $('#mytip').html('用户名不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#basicWages').val() == "") {
+            $('#mytip1').html('请填写基本工资').css("color","#f00");
+            return false;
+        }else if ($('#livePay').val() == "") {
+            $('#mytip2').html('请填写交通房补金额').css("color","#f00");
+            return false;
+        }else if ($('#nightPay').val() == "") {
+            $('#mytip3').html('请填写加班补贴金额').css("color","#f00");
+            return false;
+        }else if ($('#rewardPay').val() == "") {
+            $('#mytip4').html('请填写奖金金额').css("color","#f00");
+            return false;
+        }else if ($('#socialPay').val() == "") {
+            $('#mytip5').html('请填写五险一金金额').css("color","#f00");
+            return false;
+        }else if ($('#absenceFines').val() == "") {
+            $('#mytip6').html('请填写缺勤扣款').css("color","#f00");
+            return false;
+        }else if ($('#lateFines').val() == "") {
+            $('#mytip7').html('请填写迟到扣款').css("color","#f00");
+            return false;
+        }else if ($('#payDate').val() == "") {
+            $('#mytip8').html('请填写签发日期').css("color","#f00");
+            return false;
+        }else if ($('#realWages').val() == "") {
+            $('#mytip9').html('请计算实际工资').css("color","#f00");
+            return false;
+        }
+        return true;
+    });
+    /*弹窗处理*/
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/wages/add",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
+
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
+
+            }
+        })
+        return false;
+    })
 
 </script>
 

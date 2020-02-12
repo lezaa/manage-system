@@ -35,7 +35,27 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['750px', '750px'],
-                content: '/dept/toAdd' //iframe的url
+                content: '/dept/toAdd',//iframe的url
+                success:function(layero,index){
+                },
+                end:function(){
+                    var handle_status = $("#handle_status").val();
+                    if ( handle_status == '1' ) {
+                        layer.msg('添加成功！',{
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    } else if ( handle_status == '2' ) {
+                        layer.msg('添加失败！',{
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    }
+                }
             });
         }
 
@@ -48,7 +68,27 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['750px', '750px'],
-                content: '/dept/dept/'+id //iframe的url
+                content: '/dept/dept/'+id,//iframe的url
+                success:function(layero,index){
+                },
+                end:function(){
+                    var handle_status = $("#handle_status").val();
+                    if ( handle_status == '1' ) {
+                        layer.msg('修改成功！',{
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    } else if ( handle_status == '2' ) {
+                        layer.msg('修改失败！',{
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        },function(){
+                            history.go(0);
+                        });
+                    }
+                }
             });
         }
 
@@ -70,6 +110,7 @@
             </h1>
         </section>
         <section class="content">
+            <input id="handle_status" value="" hidden="hidden">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">

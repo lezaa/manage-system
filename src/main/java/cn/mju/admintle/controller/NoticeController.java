@@ -4,9 +4,11 @@ import cn.mju.admintle.domain.Notice;
 import cn.mju.admintle.domain.User;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
+import cn.mju.admintle.utils.AJAXUtil;
 import cn.mju.admintle.vo.NoticeVo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.pagehelper.PageInfo;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/notice")
@@ -57,18 +60,14 @@ public class NoticeController {
     }
 
     @PostMapping("/publish")
-    public String publish(@Validated Notice notice, Model model, HttpServletRequest request, BindingResult bindingResult){
+    @ResponseBody
+    public Map<String,Object> publish(@Validated Notice notice, Model model, HttpServletRequest request, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         boolean flag = adminService.publishNotice(notice,request);
-        if (flag){
-            model.addAttribute("addMsg","发布公告成功！");
-            return "notice/addNotice";
-        }else {
-            model.addAttribute("faddMsg","发布公告失败！");
-            return "notice/addNotice";
-        }
+        Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
+        return resultMap;
 
     }
 

@@ -244,6 +244,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public boolean checkDept(int id) {
+        Dept deptById = deptMapper.getDeptById(id);
+        if (deptById != null){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    @Override
     public boolean addDept(Dept dept) {
         boolean flag= deptMapper.addDept(dept) >0;
         return flag;

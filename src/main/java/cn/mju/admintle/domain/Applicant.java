@@ -2,9 +2,10 @@ package cn.mju.admintle.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Applicant {
+public class Applicant implements Serializable {
     private Long id;
     @NotBlank
     private String username;
@@ -20,7 +21,6 @@ public class Applicant {
     private Long phone;
 
     //简历
-    @NotBlank
     private String resume;
 
     //待面试0面试通过1面试未通过2
