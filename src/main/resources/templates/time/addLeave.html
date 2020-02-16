@@ -33,66 +33,52 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                新建请假申请:
+            </h1>
+        </section>
         <!-- Main content -->
         <section class="content container-fluid">
-
-            <div class="box box-info">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">添加部门</h3>
-                    </div>
-
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <div class="form-horizontal">
-                        <form th:action="@{/dept/add}" method="post" id="form">
-                            <div class="box-body">
-                                <span id="mytip" ></span>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-2 control-label">部门名：</label>
-                                    <div class="col-sm-10">
-                                        <input type="username" class="form-control" id="username" name="deptName" placeholder="部门名" >
-                                    </div>
+            <div class="col-md-12">
+                <!-- /.box-header -->
+                <form th:action="@{/time/apply}" method="post" id="form" >
+                    <div class="box-body">
+                        <label for="applyTime" class="col-sm-2 control-label">请假时间：</label>
+                        <div class="box-body" id="applyTime">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span id="tip1" ></span>
+                                    <input  type="date"  class="form-control" id="beginTime" name="beginTime"  placeholder="开始时间" >
                                 </div>
 
-                                <span id="mytip1" ></span>
-                                <div class="form-group">
-                                    <label for="pp" class="col-sm-2 control-label">部门描述：</label>
-
-                                    <div class="col-sm-10">
-                                        <textarea id="pp" name="book" class="form-control" style="height: 300px"></textarea>
-                                    </div>
-
+                                <div class="col-xs-6">
+                                    <span id="tip2" ></span>
+                                    <input type="date"  class="form-control" id="endTime" name="endTime"  placeholder="结束时间" >
                                 </div>
+
                             </div>
+                        </div>
+                        <span id="tip3" ></span>
+                        <label for="reason" class="col-sm-2 control-label">请假原因：</label>
+                        <div class="form-group">
+                            <textarea id="reason" name="reason" class="form-control" style="height: 300px"></textarea>
+                        </div>
 
-
-
-
-
-                            <br/>
-                            <br/>
-
-                            <!-- /.box-body -->
-                            <div class="box-footer">
-
-
-                                <div class="alert alert-warning alert-dismissible"  th:if="${addMsg != null}" >
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-warning"></i> 警告！</h4>
-                                    <p th:inline="text">[[${addMsg}]]!</p>
-                                </div>
-                                <button type="reset" class="btn btn-default">重置</button>
-                                <button type="submit"  class="btn btn-primary pull-right">确认</button>
-                            </div>
-                            <!-- /.box-footer -->
-                        </form>
                     </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> 申请</button>
+                        </div>
+                        <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> 重置</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
 
-                </div>
+                <!-- /. box -->
             </div>
-
+            <!-- /.col -->
 
         </section>
         <!-- /.content -->
@@ -109,25 +95,47 @@
 <!-- AdminLTE App -->
 <script src="../../static/js/adminlte.min.js"></script>
 
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+
+
 <script>
     /*表单验证*/
     $('#form').submit(function (e) {
-        if ($('#username').val() == ""){
-            $('#mytip').html('部门名不允许为空').css("color","#f00");
+        if ($('#beginTime').val() == null){
+            $('#tip1').html('请填写开始时间').css("color","#f00");
             return false;
-        }else if ($('#pp').val() == "") {
-            $('#mytip1').html('请填写部门描述信息').css("color","#f00");
+        }
+        else if($('#endTime').val() == null){
+            $('#tip2').html('请填写结束时间').css("color","#f00");
+            return false;
+        }
+        else if ($('#reason').val() == "") {
+            $('#tip3').html('请填写请假原因').css("color","#f00");
             return false;
         }
         return true;
     })
 </script>
+<script>
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/time/apply",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
 
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
 
+            }
+        })
+        return false;
+    })
 
-
-
-
+</script>
 
 </body>
 </html>

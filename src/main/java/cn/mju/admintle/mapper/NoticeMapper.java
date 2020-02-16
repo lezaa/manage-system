@@ -30,7 +30,10 @@ public interface NoticeMapper {
     int updateNotice(Notice notice);
 
     @DeleteProvider(type = NoticeProvider.class,method = "batchDelete")
-    int deleleteBatch(List<Long> ids);
+    int deleleteBatch(List<Integer> ids);
+
+    @DeleteProvider(type = NoticeProvider.class,method = "batchDeleteByUserId")
+    int deleleteBatchByUserId(List<Long> ids);
 
     @Delete("delete from tb_notice where id = #{id}")
     int delete(int id);

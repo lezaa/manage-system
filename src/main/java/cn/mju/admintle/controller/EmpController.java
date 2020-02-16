@@ -82,7 +82,7 @@ public class EmpController {
 
     @RequestMapping("/addEmp")
     @ResponseBody
-    public Map<String,Object> addEmp(@Validated User user, Model model, BindingResult bindingResult, String roleName){
+    public Map<String,Object> addEmp(@Validated User user, BindingResult bindingResult, String roleName){
         if (bindingResult.hasErrors()) {
 
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());

@@ -1,11 +1,10 @@
 package cn.mju.admintle.mapper;
 
 import cn.mju.admintle.domain.Sign;
+import cn.mju.admintle.provider.NoticeProvider;
 import cn.mju.admintle.provider.RoleProvider;
 import cn.mju.admintle.provider.SignProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +19,12 @@ public interface SignMapper {
     @Select("select * from tb_sign where id = #{id}")
     Sign getOne(int id);
 
+    //查一个人的签到记录
     @Select("select * from tb_sign where user_id = #{userId} order by time desc")
     List<Sign> getOneList(long userId);
+
+    @Select("SELECT * FROM tb_sign WHERE MONTH(time) = #{month} and user_id = #{userId} order by time desc")
+    List<Sign> getSignByUserIdMonth(long userId,int month);
 
     @Select("select * from tb_sign where user_id =#{userId} and time = #{time}")
     Sign getSign(long userId, Date time);
@@ -29,6 +32,12 @@ public interface SignMapper {
     @InsertProvider(type = SignProvider.class, method = "insertSign")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int insertSign(Sign sign);
+
+    @Delete("delete from tb_sign where user_id = #{userId}")
+    int deleteSignByUserId(long userId);
+
+    @DeleteProvider(type = SignProvider.class,method = "batchDeleteByUserId")
+    int deleleteBatchByUserIdS(List<Long> userIds);
 
 
 }

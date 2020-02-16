@@ -4,6 +4,9 @@ import cn.mju.admintle.domain.Dept;
 import cn.mju.admintle.domain.Leave;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
+import java.util.Map;
+
 public class LeaveProvider {
     public String insertLeave(final Leave leave) {
         return new SQL() {{
@@ -31,7 +34,7 @@ public class LeaveProvider {
         return new SQL() {{
             UPDATE("tb_leave");
             if (leave.getUserId() != null) {
-                SET("user_id = #{useId}");
+                SET("user_id = #{userId}");
             }
             if (leave.getBeginTime() != null) {
                 SET("begin_time = #{beginTime}");
@@ -48,6 +51,53 @@ public class LeaveProvider {
 
             WHERE("id = #{id}");
         }}.toString();
+
+    }
+
+    public String selectLeave(Map map) {
+
+        List<Long> ids = (List<Long>) map.get("list");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("SELECT * FROM tb_leave WHERE user_id IN (");
+
+        for (int i = 0; i < ids.size(); i++) {
+
+            sb.append("").append(ids.get(i)).append("");
+
+            if (i < ids.size() - 1)
+
+                sb.append(",");
+
+        }
+
+        sb.append(")");
+
+        return sb.toString();
+
+    }
+
+
+    public String batchDeleteByUserId(Map map) {
+
+        List<Long> ids = (List<Long>) map.get("list");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("DELETE FROM tb_leave WHERE user_id IN (");
+
+        for (int i = 0; i < ids.size(); i++) {
+
+            sb.append("'").append(ids.get(i)).append("'");
+
+            if (i < ids.size() - 1)
+
+                sb.append(",");
+
+        }
+
+        sb.append(")");
+
+        return sb.toString();
 
     }
 }

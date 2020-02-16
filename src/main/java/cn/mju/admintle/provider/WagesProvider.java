@@ -124,7 +124,7 @@ public class WagesProvider {
 
     public String selectWages(Map map) {
 
-        List<Integer> ids = (List<Integer>) map.get("list");
+        List<Long> ids = (List<Long>) map.get("list");
         StringBuilder sb = new StringBuilder();
 
         sb.append("SELECT * FROM tb_wages WHERE user_id IN (");

@@ -52,7 +52,7 @@ public interface AdminService {
 
     boolean publishNotice(Notice notice, HttpServletRequest request);
 
-    boolean delteBatchNotice(Long[] ids);
+    boolean delteBatchNotice(Integer[] ids);
 
     boolean deleteNotice(Integer id);
 

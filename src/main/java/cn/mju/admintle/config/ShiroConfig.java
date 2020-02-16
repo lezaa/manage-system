@@ -67,6 +67,8 @@ public class ShiroConfig {
         linkedHashMap.put("/notice/delete","roles[admin],perms[delete]");
         linkedHashMap.put("/notice/deleteBatch","roles[admin],perms[delete]");
 
+        linkedHashMap.put("/time//approval","roles[admin],perms[update]");
+
         linkedHashMap.put("/user/**","anon");
         linkedHashMap.put("/emp/**","authc");
         linkedHashMap.put("/role/**","roles[admin]");
@@ -75,6 +77,8 @@ public class ShiroConfig {
         linkedHashMap.put("/notice/**","authc");
         linkedHashMap.put("/wages/**","authc");
         linkedHashMap.put("/app/**","roles[admin]");
+        linkedHashMap.put("/time/sign/**","authc");
+        linkedHashMap.put("/time/leave/**","roles[admin]");
 
 
 

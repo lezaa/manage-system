@@ -56,7 +56,7 @@ public class FileProvider {
 
     public String selectFile(Map map) {
 
-        List<Integer> ids = (List<Integer>) map.get("list");
+        List<Long> ids = (List<Long>) map.get("list");
         StringBuilder sb = new StringBuilder();
 
         sb.append("SELECT * FROM tb_file WHERE user_id IN (");
@@ -79,7 +79,7 @@ public class FileProvider {
 
     public String batchDelete(Map map) {
 
-        List<Integer> ids = (List<Integer>) map.get("list");
+        List<Long> ids = (List<Long>) map.get("list");
         StringBuilder sb = new StringBuilder();
 
         sb.append("DELETE FROM tb_file WHERE user_id IN (");

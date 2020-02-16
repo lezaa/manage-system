@@ -5,6 +5,7 @@ import cn.mju.admintle.domain.Wages;
 import cn.mju.admintle.dto.WagesDto;
 import cn.mju.admintle.mapper.WagesMapper;
 import cn.mju.admintle.service.PubService;
+import cn.mju.admintle.service.TimeService;
 import cn.mju.admintle.service.UserService;
 import cn.mju.admintle.service.WagesService;
 import cn.mju.admintle.utils.AJAXUtil;
@@ -41,6 +42,8 @@ public class WagesController {
     private UserService userService;
     @Autowired
     private WagesMapper wagesMapper;
+    @Autowired
+    private TimeService timeService;
 
     private static final Logger log = LoggerFactory.getLogger(WagesController.class);
 

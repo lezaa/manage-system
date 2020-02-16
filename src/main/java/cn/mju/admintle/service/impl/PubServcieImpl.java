@@ -6,9 +6,8 @@ import cn.mju.admintle.dto.RoleDto;
 import cn.mju.admintle.dto.WagesDto;
 import cn.mju.admintle.mapper.*;
 import cn.mju.admintle.service.PubService;
-import cn.mju.admintle.vo.ApplicantVo;
-import cn.mju.admintle.vo.NoticeVo;
-import cn.mju.admintle.vo.UserVo;
+import cn.mju.admintle.service.TimeService;
+import cn.mju.admintle.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,9 +34,11 @@ public class PubServcieImpl implements PubService {
     @Autowired
     private DeptMapper deptMapper;
 
-
     @Autowired
     private ApplicantMapper applicantMapper;
+
+    @Autowired
+    private TimeService timeService;
 
     //条件查询分页
     @Override
@@ -128,6 +130,33 @@ public class PubServcieImpl implements PubService {
                         )
                 )).collect(Collectors.toList());
         return appVos;
+    }
+
+    @Override
+    public List<SignVo> changeSignVo(PageInfo<Sign> pageInfo)  {
+        List<Sign> signs = pageInfo.getList();
+        List<SignVo> signVos = signs.stream().map(e-> {
+            SignVo signVo = new SignVo();
+            try {
+                signVo = new SignVo(e.getId(), userMapper.getUserById(e.getUserId()).getUsername(), e.getTime(), timeService.judgeLate(e.getTime())
+                );
+
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+            return signVo;
+        }).collect(Collectors.toList());
+        return signVos;
+    }
+
+    @Override
+    public List<LeaveVo> changeLeaveVo(PageInfo<Leave> pageInfo) {
+        List<Leave> leaves = pageInfo.getList();
+        List<LeaveVo> leaveVos = leaves.stream().map(e->(
+                new LeaveVo(e.getId(),userMapper.getUserById(e.getUserId()).getUsername(),
+                        e.getBeginTime(),e.getEndTime(),e.getReason(),e.getState())
+                )).collect(Collectors.toList());
+        return leaveVos;
     }
 
     //转换user vo->user

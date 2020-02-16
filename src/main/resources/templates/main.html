@@ -46,21 +46,21 @@
             <h1>
                 人事管理系统
                 <small>欢迎您！</small>
-            </h1>
 
+            </h1>
         </section>
 
         <!-- Main content -->
         <section class="content container-fluid">
+            <input id="handle_status" value="" hidden="hidden">
             <!--快速入口-->
             <div class="box-header with-border">
                 <button id="sign" ></button>
-                <button class="btn btn-warning" th:href="@{/time/apply}">快速请假</button>
+                <button class="btn btn-warning"  id="leave">快速请假</button>
             </div>
-            <!--快速入口end-->
 
-            <!--公告-->
-            <div class="col-md-12">
+
+
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">最新公告</h3>
@@ -98,7 +98,7 @@
                 </div>
                 <!-- /.box-body -->
             </div>
-            </div>
+
             <!-- /.box -->
 
 
@@ -166,6 +166,8 @@
 <script src="../static/js/adminlte.min.js"></script>
 <!--echarts-->
  <script src="https://cdn.bootcss.com/echarts/3.7.2/echarts.min.js"></script>
+<!--layer-->
+<script src="../static/js/layer/layer.js"></script>
 
 
 
@@ -336,6 +338,39 @@
         });
 
     });
+
+</script>
+
+<script>
+    //弹出一个提示层
+    $("#leave").click(function() {
+        //页面层
+
+        layer.open({
+            type: 2,
+            title: '请假',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['600px', '650px'],
+            content: '/time/toApply/', //iframe的url
+            success:function(layero,index){
+            },
+            end:function(){
+                var handle_status = $("#handle_status").val();
+                if ( handle_status == '1' ) {
+                    layer.msg('发送申请成功，等待管理员审核！',{
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                } else if ( handle_status == '2' ) {
+                    layer.msg('发送申请失败，请重试！',{
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                }
+            }
+        });
+    })
 
 </script>
 

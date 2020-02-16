@@ -32,4 +32,13 @@ public class Sign implements Serializable {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "Sign{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", time=" + time +
+                '}';
+    }
 }

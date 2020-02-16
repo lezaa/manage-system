@@ -86,4 +86,28 @@ public class NoticeProvider {
 
     }
 
+
+    public String batchDeleteByUserId(Map map) {
+
+        List<Long> ids = (List<Long>) map.get("list");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("DELETE FROM tb_notice WHERE user_id IN (");
+
+        for (int i = 0; i < ids.size(); i++) {
+
+            sb.append("'").append(ids.get(i)).append("'");
+
+            if (i < ids.size() - 1)
+
+                sb.append(",");
+
+        }
+
+        sb.append(")");
+
+        return sb.toString();
+
+    }
+
 }

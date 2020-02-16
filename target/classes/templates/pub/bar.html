@@ -38,7 +38,7 @@
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg">
             <span class="glyphicon glyphicon-home"></span>
-            <b>回到首页</b></span>
+            <b>人事管理系统</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -144,10 +144,16 @@
             </li>
             </shiro:hasRole>
 
-            <li th:class="${activeUri=='/time/list'?'active':''}">
-                <a href="#" th:href="@{/time/list}"><i class="fa fa-link"></i>
-                    <span>考勤管理</span>
+            <li class="treeview" th:classappend="${activeUri=='/time/sign/signs'?'active':(activeUri=='/time/leave/leaves'?'active':'')}">
+                <a href="#" ><i class="fa fa-link"></i> <span>考勤管理</span>
+                    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li th:classappend="${activeUri=='/time/sign/signs'?'active':''}"><a href="#"  th:href="@{/time/sign/signs}">签到迟到管理</a></li>
+                    <li th:class="${activeUri=='/time/leave/leaves'?'active':''}"><a href="#"  th:href="@{/time/leave/leaves}">请假管理</a></li>
+                </ul>
             </li>
 
             <li th:class="${activeUri=='/wages/list'?'active':''}">

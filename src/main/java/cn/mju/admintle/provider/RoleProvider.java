@@ -38,7 +38,7 @@ public class RoleProvider {
 
     public String batchDelete(Map map) {
 
-        List<Integer> ids = (List<Integer>) map.get("list");
+        List<Long> ids = (List<Long>) map.get("list");
         StringBuilder sb = new StringBuilder();
 
         sb.append("DELETE FROM tb_role WHERE user_id IN (");

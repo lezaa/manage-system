@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{../../static/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet"th:href="@{../../static/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" th:href="@{../../static/css/skins/skin-blue.min.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <div th:replace="pub/bar::topbar"></div>
+    <!-- Left side column. contains the logo and sidebar -->
+    <div th:replace="pub/bar::leftbar(activeUri='/time/sign/signs')"></div>
+
+    Content Wrapper. Contains page content
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+            <h1>
+                签到管理
+                <small>
+                    上班开始时间：9:00
+                </small>
+            </h1>
+
+
+        </section>
+
+        <!-- Main content -->
+
+        <section class="content container-fluid">
+        <shiro:hasRole name="admin">
+        <!--sign1-->
+        <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">所有签到记录</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive mailbox-messages">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>签到时间</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sign1:${signs1}">
+                            <td th:text="${sign1Stat.count}"></td>
+                            <td class="mailbox-name" th:text="${sign1.userName}">Alexander Pierce</td>
+                            <td class="mailbox-name" th:text="${#dates.format(sign1.time,'yyyy-MM-dd HH:mm:SS')}">Alexander Pierce</td>
+                            <td class="mailbox-name" th:text="${sign1.late}==true?'迟到★':'未迟到'">未迟到</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--pagestart-->
+
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a th:href="@{'/time/signs?pageNum1=1'}" >首页</a></li>
+                        <li><a th:if="${page1.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum1=' + ${page1.prePage}}"  >上一页</a></li>
+
+                        <li><a th:each="i:${page1.navigatepageNums}" th:href="@{'/time/signs?pageNum1=' + ${i}}" th:text="${i}"></a></li>
+
+                        <li><a th:href="@{'/time/signs?pageNum1=' + ${page1.nextPage}}" th:if="${page1.hasNextPage} == true">下一页</a></li>
+                        <li><a th:href="@{'/time/signs?pageNum1='+ ${page1.pages}}" >尾页</a></li>
+                    </ul>
+                </div>
+                <!--pageend-->
+            </div>
+        </div>
+        </div>
+        <!--sign1 end-->
+
+
+        <!--sign2-->
+        <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">我的本月签到记录</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive mailbox-messages">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>签到时间</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sign2:${signs2}">
+                            <td th:text="${sign2Stat.count}"></td>
+                            <td class="mailbox-name" th:text="${sign2.userName}">Alexander Pierce</td>
+                            <td class="mailbox-name" th:text="${#dates.format(sign2.time,'yyyy-MM-dd HH:mm:SS')}">Alexander Pierce</td>
+                            <td class="mailbox-name" th:text="${sign2.late}==true?'迟到★':'未迟到'">未迟到</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--pagestart-->
+
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a th:href="@{'/time/signs?pageNum2=1'}" >首页</a></li>
+                        <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum2=' + ${page2.prePage}}"  >上一页</a></li>
+
+                        <li><a th:each="i:${page2.navigatepageNums}" th:href="@{'/time/signs?pageNum2=' + ${i}}" th:text="${i}"></a></li>
+
+                        <li><a th:href="@{'/time/signs?pageNum2=' + ${page2.nextPage}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                        <li><a th:href="@{'/time/signs?pageNum2='+ ${page2.pages}}" >尾页</a></li>
+                    </ul>
+                </div>
+                <!--pageend-->
+            </div>
+        </div>
+        </div>
+        <!--sign2 end-->
+        </shiro:hasRole>
+
+            <!--sign3-->
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">所有迟到签到记录</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>签到时间</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="sign3:${signs3}">
+                                    <td th:text="${sign3Stat.count}"></td>
+                                    <td class="mailbox-name" th:text="${sign3.userName}">Alexander Pierce</td>
+                                    <td class="mailbox-name" th:text="${#dates.format(sign3.time,'yyyy-MM-dd HH:mm:SS')}"></td>
+                                    <td class="mailbox-name" th:text="${sign3.late}==true?'迟到★':'未迟到'">未迟到</td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--pagestart-->
+
+                        <div class="box-footer clearfix">
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                <li><a th:href="@{'/time/signs?pageNum3=1'}" >首页</a></li>
+                                <li><a th:if="${page3.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum3=' + ${page3.prePage}}"  >上一页</a></li>
+
+                                <li><a th:each="i:${page3.navigatepageNums}" th:href="@{'/time/signs?pageNum3=' + ${i}}" th:text="${i}"></a></li>
+
+                                <li><a th:href="@{'/time/signs?pageNum3=' + ${page3.nextPage}}" th:if="${page3.hasNextPage} == true">下一页</a></li>
+                                <li><a th:href="@{'/time/signs?pageNum3='+ ${page3.pages}}" >尾页</a></li>
+                            </ul>
+                        </div>
+                        <!--pageend-->
+                    </div>
+                </div>
+            </div>
+            <!--sign3 end-->
+        </section>
+    </div>
+</div>
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/js/adminlte.min.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+
+</body>
+</html>

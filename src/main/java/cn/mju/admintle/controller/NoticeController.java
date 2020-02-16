@@ -80,7 +80,7 @@ public class NoticeController {
 
 
     @RequestMapping("/deleteBatch")
-    public String deleteBatch(@RequestParam("check")Long[] ids){
+    public String deleteBatch(@RequestParam("check")Integer[] ids){
         boolean b = adminService.delteBatchNotice(ids);
         return "redirect:/notice/notices";
     }

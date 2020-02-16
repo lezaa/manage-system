@@ -3,9 +3,8 @@ package cn.mju.admintle;
 import cn.mju.admintle.controller.EmpController;
 import cn.mju.admintle.domain.*;
 import cn.mju.admintle.mapper.*;
-import cn.mju.admintle.service.AdminService;
-import cn.mju.admintle.service.UserService;
-import cn.mju.admintle.service.WagesService;
+import cn.mju.admintle.service.*;
+import cn.mju.admintle.vo.SignVo;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +38,12 @@ class AdmintleApplicationTests {
     private EmpController empController;
     @Autowired
     private WagesService wagesService;
+    @Autowired
+    private TimeService timeService;
+    @Autowired
+    private SignMapper signMapper;
+    @Autowired
+    private PubService pubService;
 
 
     @Test
@@ -123,20 +128,13 @@ class AdmintleApplicationTests {
 
     @Test
     void test9(){
-        List<Dept> deptData = adminService.getDeptData();
-        System.out.println("....."+deptData.toString());
+        PageInfo<Sign> pageInfo3 = timeService.getMonthSigns(1, 5, 62, 2);
+        List<SignVo> signVos3 = pubService.changeSignVo(pageInfo3);
+        System.out.println("。。。1"+pageInfo3.getList().size());
+        System.out.println("。。。2"+signVos3.size());
 
     }
 
-
-    @Test
-    void test10(){
-        Dept dept = new Dept();
-        dept.setBook("新的");
-        dept.setDeptName("测试");
-        boolean b = adminService.addDept(dept);
-
-    }
 
 
 

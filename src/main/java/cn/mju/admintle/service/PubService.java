@@ -4,9 +4,7 @@ import cn.mju.admintle.domain.*;
 import cn.mju.admintle.dto.FileDto;
 import cn.mju.admintle.dto.RoleDto;
 import cn.mju.admintle.dto.WagesDto;
-import cn.mju.admintle.vo.ApplicantVo;
-import cn.mju.admintle.vo.NoticeVo;
-import cn.mju.admintle.vo.UserVo;
+import cn.mju.admintle.vo.*;
 import com.github.pagehelper.PageInfo;
 
 import java.util.HashMap;
@@ -29,6 +27,10 @@ public interface PubService {
     List<WagesDto> changeWagesDto(PageInfo<Wages> pageInfo);
 
     List<ApplicantVo> changeApplicantVo(PageInfo<Applicant> pageInfo);
+
+    List<SignVo> changeSignVo(PageInfo<Sign> pageInfo);
+
+    List<LeaveVo> changeLeaveVo(PageInfo<Leave> pageInfo);
 
     User changeEntity(UserVo userVo);
 

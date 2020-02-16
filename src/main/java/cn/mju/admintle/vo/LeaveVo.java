@@ -1,25 +1,28 @@
-package cn.mju.admintle.domain;
+package cn.mju.admintle.vo;
 
-
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
-public class Leave implements Serializable {
+public class LeaveVo {
+
     private Integer id;
-    private  Long userId;
-    @NotNull
+    private  String userName;
     private Date beginTime;
-    @NotNull
     private Date endTime;
-    @NotBlank
-    @Length(min=5, message = "公告内容长度最小为5")
     private String reason;
     //0待批准，1批准，-1不批准
     private Integer state;
+
+    public LeaveVo() {
+    }
+
+    public LeaveVo(Integer id, String userName, Date beginTime, Date endTime, String reason, Integer state) {
+        this.id = id;
+        this.userName = userName;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.reason = reason;
+        this.state = state;
+    }
 
     public Integer getId() {
         return id;
@@ -29,12 +32,12 @@ public class Leave implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Date getBeginTime() {

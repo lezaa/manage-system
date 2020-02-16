@@ -36,6 +36,10 @@ public class AdminServiceImpl implements AdminService {
     private FileMapper fileMapper;
     @Autowired
     private NoticeMapper noticeMapper;
+    @Autowired
+    private SignMapper signMapper;
+    @Autowired
+    private LeaveMapper leaveMapper;
 
     /**
      * 条件组合查询
@@ -141,9 +145,11 @@ public class AdminServiceImpl implements AdminService {
     public boolean delete(Long id) {
         boolean flag = userMapper.deleteUser(id) >0;
         if (flag){
-            boolean i = roleMapper.deleteRole(id) >0;
-            int delete = fileMapper.delete(id);
-            int delete1 = noticeMapper.deleteByUser(id);
+            roleMapper.deleteRole(id);
+            fileMapper.delete(id);
+            noticeMapper.deleteByUser(id);
+            signMapper.deleteSignByUserId(id);
+            leaveMapper.deleteLeaveByUserId(id);
             return true;
         }else{
             return false;
@@ -156,8 +162,11 @@ public class AdminServiceImpl implements AdminService {
         List<Long> cids = new ArrayList<>(Arrays.asList(ids));
         boolean flag = userMapper.deleleteBatch(cids) >0;
         if (flag){
-            boolean i = roleMapper.deleteBatch(cids) >0;
-            boolean j = fileMapper.deleleteBatch(cids) >0;
+            roleMapper.deleteBatch(cids);
+            fileMapper.deleleteBatch(cids);
+            noticeMapper.deleleteBatchByUserId(cids);
+            signMapper.deleleteBatchByUserIdS(cids);
+            leaveMapper.deleleteBatchByUserIdS(cids);
             return true;
         } else {
             return false;
@@ -304,8 +313,8 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public boolean delteBatchNotice(Long[] ids) {
-        List<Long> cids = new ArrayList<>(Arrays.asList(ids));
+    public boolean delteBatchNotice(Integer[] ids) {
+        List<Integer> cids = new ArrayList<>(Arrays.asList(ids));
         boolean flag = noticeMapper.deleleteBatch(cids) >0;
         return flag;
     }

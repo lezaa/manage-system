@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{../../static/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet"th:href="@{../../static/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" th:href="@{../../static/css/skins/skin-blue.min.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        //弹出一个提示层
+        function read(id) {
+            //页面层
+            layer.open({
+                type: 2,
+                title: '请假申请详情',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['700px', '300px'],
+                content: '/time/read/'+id //iframe的url
+
+            });
+        }
+    </script>
+
+    <script>
+        function change(id,state) {
+            $.post("/time/approval",{"id":id,"state":state},function (data) {
+               if (data.result) {
+                   layer.msg('修改成功',{
+                       time: 2000
+                   });
+               }else{
+                   layer.msg('修改成功',{
+                       time: 2000
+                   });
+               }
+            })
+        }
+    </script>
+
+</head>
+<body >
+<div class="wrapper">
+
+
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                新申请
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>开始日期</th>
+                                    <th>结束日期</th>
+                                    <th>理由</th>
+                                    <th>操作</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="leave:${leaves}">
+                                    <td th:text="${leaveStat.count}"></td>
+                                    <td class="mailbox-name" th:text="${leave.userName}">Alexander Pierce</td>
+                                    <td class="mailbox-date" th:text="${#dates.format(leave.beginTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td class="mailbox-date" th:text="${#dates.format(leave.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td class="mailbox-subject" th:text="${leave.reason.substring(0,5)}+'......'"></td>
+                                    <td>
+                                        <span>
+                                        <a type="button" class="btn btn-info" th:href="'javascript:read('+${leave.id}+');'"><i class="fa fa-search"></i> 查看</a>
+                                        <a type="button" class="btn btn-success" th:href="'javascript:change('+${leave.id}+',1);'"><i class="fa fa-search"></i> 批准</a>
+                                        <a type="button" class="btn btn-danger"th:href="'javascript:change('+${leave.id}+',-1);'"><i class="fa fa-search"></i> 不批准</a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+
+                    <!-- /.mail-box-messages -->
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+        </section>
+        <!-- /.content -->
+        <!--pagestart-->
+
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/time/unreadLeaves?pageNum=1'}" >首页</a></li>
+                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/time/unreadLeaves?pageNum=' + ${page.prePage}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/time/unreadLeaves?pageNum=' + ${i}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/time/unreadLeaves?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/time/unreadLeaves?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+        <!--pageend-->
+
+</div>
+
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/js/adminlte.min.js"></script>
+<!--layer-->
+<script src="../../static/js/layer/layer.js"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+
+</body>
+</html>
