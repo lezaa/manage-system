@@ -26,6 +26,9 @@ public interface SignMapper {
     @Select("SELECT * FROM tb_sign WHERE MONTH(time) = #{month} and user_id = #{userId} order by time desc")
     List<Sign> getSignByUserIdMonth(long userId,int month);
 
+    @Select("SELECT * FROM tb_sign WHERE DATE(time) = #{time} and user_id = #{userId} order by time desc")
+    Sign getSignByUserIdDate(long userId,Date time);
+
     @Select("select * from tb_sign where user_id =#{userId} and time = #{time}")
     Sign getSign(long userId, Date time);
 

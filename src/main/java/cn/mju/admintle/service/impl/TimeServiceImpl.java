@@ -61,6 +61,7 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public Sign getSign(long userId) {
+        //改成用sql取年月日
         Date time = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         try {
@@ -68,12 +69,14 @@ public class TimeServiceImpl implements TimeService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Sign sign = signMapper.getSign(userId, time);
+        Sign sign = signMapper.getSignByUserIdDate(userId, time);
         return sign;
+
     }
 
     @Override
     public boolean addSign(long userId) {
+
         Sign sign = new Sign();
         sign.setUserId(userId);
         sign.setTime(new Date());

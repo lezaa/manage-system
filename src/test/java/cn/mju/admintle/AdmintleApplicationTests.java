@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @SpringBootTest
@@ -135,6 +137,12 @@ class AdmintleApplicationTests {
 
     }
 
+    @Test
+    void test10(){
+        Sign sign = timeService.getSign(62l);
+        System.out.println("sign"+sign);
+
+    }
 
 
 
