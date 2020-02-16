@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50642
 File Encoding         : 65001
 
-Date: 2020-02-12 20:10:08
+Date: 2020-02-16 20:40:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `tb_app` (
   `resume` varchar(1024) DEFAULT NULL,
   `state` int(2) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_app
@@ -48,6 +48,7 @@ INSERT INTO `tb_app` VALUES ('21', '里以以以i1', '2', '2', null, null, '', n
 INSERT INTO `tb_app` VALUES ('22', '里以以以i333333', '2', '2', null, null, '', null, '', null, 'F:/resume/10261cc4580588526811b7a4da775de8_big.jpg', '0');
 INSERT INTO `tb_app` VALUES ('23', '二', '4', '1', null, null, '', null, '', '66666666', 'F:/resume/10261cc4580588526811b7a4da775de8_big.jpg', '0');
 INSERT INTO `tb_app` VALUES ('24', '委屈二群翁群无', '2', '1', null, null, '', null, '', null, 'F:/resume/10261cc4580588526811b7a4da775de8_big.jpg', '0');
+INSERT INTO `tb_app` VALUES ('25', '赵四', '3', '2', '1231231', '2020-02-13', '12312312312', '2020-02-13', '99@qq.com', '999', 'F:/resume/10261cc4580588526811b7a4da775de8_big.jpg', '0');
 
 -- ----------------------------
 -- Table structure for `tb_dept`
@@ -69,10 +70,6 @@ INSERT INTO `tb_dept` VALUES ('3', '财务部', '做财务的');
 INSERT INTO `tb_dept` VALUES ('4', '销售部', '做销售的');
 INSERT INTO `tb_dept` VALUES ('5', '人力资源部', '做人力的');
 INSERT INTO `tb_dept` VALUES ('6', '行政部', '做行政的');
-INSERT INTO `tb_dept` VALUES ('11', '123123123123', '123123123123123');
-INSERT INTO `tb_dept` VALUES ('12', '同意', '   2312312 2');
-INSERT INTO `tb_dept` VALUES ('13', '测试测试', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试');
-INSERT INTO `tb_dept` VALUES ('14', '驱蚊器翁群翁群翁', '为其未群翁');
 
 -- ----------------------------
 -- Table structure for `tb_file`
@@ -157,11 +154,22 @@ CREATE TABLE `tb_leave` (
   `reason` text,
   `state` int(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_leave
 -- ----------------------------
+INSERT INTO `tb_leave` VALUES ('1', '62', '2020-02-05 00:00:00', '2020-02-08 00:00:00', '发烧了发烧了', '-1');
+INSERT INTO `tb_leave` VALUES ('2', '62', '2020-02-14 00:00:00', '2020-02-15 00:00:00', '发烧了好累请假一天', '1');
+INSERT INTO `tb_leave` VALUES ('3', '62', '2020-02-06 00:00:00', '2020-02-10 00:00:00', '噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢哦哦', '1');
+INSERT INTO `tb_leave` VALUES ('4', '62', '2020-02-11 00:00:00', '2020-02-04 00:00:00', '恶趣味请问请问请问请问', '-1');
+INSERT INTO `tb_leave` VALUES ('5', '62', '2020-02-12 00:00:00', '2020-02-11 00:00:00', '请问请问请问请问请问', '1');
+INSERT INTO `tb_leave` VALUES ('6', '62', '2020-02-13 00:00:00', '2020-02-11 00:00:00', '请问请问请问请问请问请问委屈委屈', '-1');
+INSERT INTO `tb_leave` VALUES ('7', '62', '2020-02-06 00:00:00', '2020-02-10 00:00:00', '呃呃请问涛涛涛涛涛涛涛涛涛涛', '1');
+INSERT INTO `tb_leave` VALUES ('8', '62', '2020-02-01 00:00:00', '2020-02-17 00:00:00', '不想干了。。。。。。', '-1');
+INSERT INTO `tb_leave` VALUES ('9', '62', '2020-02-20 00:00:00', '2020-02-10 00:00:00', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试', '1');
+INSERT INTO `tb_leave` VALUES ('10', '62', '2020-02-05 00:00:00', '2020-02-17 00:00:00', '与uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu', '1');
+INSERT INTO `tb_leave` VALUES ('11', '62', '2020-02-26 00:00:00', '2020-02-18 00:00:00', '不想干了不想干了不想干了不想干了不想干了不想干了不想干了不想干了不想干了', '1');
 
 -- ----------------------------
 -- Table structure for `tb_notice`
@@ -255,7 +263,7 @@ CREATE TABLE `tb_sign` (
   `user_id` bigint(11) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb_sign
@@ -264,6 +272,9 @@ INSERT INTO `tb_sign` VALUES ('1', '62', '2020-02-10 00:00:00');
 INSERT INTO `tb_sign` VALUES ('2', '49', '2020-02-11 00:00:00');
 INSERT INTO `tb_sign` VALUES ('3', '62', '2020-02-09 00:00:00');
 INSERT INTO `tb_sign` VALUES ('4', '62', '2020-02-11 00:00:00');
+INSERT INTO `tb_sign` VALUES ('5', '62', '2020-02-12 00:00:00');
+INSERT INTO `tb_sign` VALUES ('9', '49', '2020-02-16 19:17:21');
+INSERT INTO `tb_sign` VALUES ('10', '62', '2020-02-16 19:31:46');
 
 -- ----------------------------
 -- Table structure for `tb_user`
