@@ -45,6 +45,7 @@
                 <small>
                     上班开始时间：9:00
                 </small>
+                <button style="float: right" id="sign" ></button>
             </h1>
 
 
@@ -229,6 +230,56 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: "/time/signIn",
+            dataType: "json",
+            success: function (data) {
+                if (data.result == "true") {
+                    $("#sign").attr({
+                        "class":"btn btn-success",
+                    })
+                    $("#sign").html("已签到");
+                    $("#sign").unbind("click");
+                } else {
+                    $("#sign").attr({
+                        "class":"btn btn-info",
+                    })
+                    $("#sign").html("快速签到");
+                }
+            },
+            error: function (data) {
+                alert("对不起,服务器出问题了");
+            }
+        });
+        $("#sign").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/time/toSignIn",
+                dataType: "json",
+                success: function (data) {
+                    if (data.result == "true") {
+                        $("#sign").empty();
+                        $("#sign").attr({
+                            "class":"btn btn-success",
+                        })
+                        $("#sign").html("已签到");
+                        $("#sign").unbind("click");
+                    } else {
+                        alert("对不起,签到失败");
+                    }
+                },
+                error: function (data) {
+                    alert("对不起,服务器出问题了");
+                }
+            });
+        });
+
+    });
+
+</script>
 
 </body>
 </html>
