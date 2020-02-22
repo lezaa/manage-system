@@ -5,12 +5,15 @@ import cn.mju.admintle.domain.*;
 import cn.mju.admintle.mapper.*;
 import cn.mju.admintle.service.*;
 import cn.mju.admintle.vo.SignVo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -139,10 +142,15 @@ class AdmintleApplicationTests {
 
     @Test
     void test10(){
-        Sign sign = timeService.getSign(62l);
-        System.out.println("sign"+sign);
-
+        List<Dept> depts = adminService.getDepts();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Dept> list = objectMapper.convertValue(depts, new TypeReference<List<Dept>>() {});
+        for (Dept dept : list) {
+            System.out.println(dept.toString());
+        }
     }
+
+
 
 
 

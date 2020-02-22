@@ -8,6 +8,8 @@ import cn.mju.admintle.mapper.*;
 import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.TimeService;
 import cn.mju.admintle.vo.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PubServcieImpl implements PubService {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private UserMapper userMapper;

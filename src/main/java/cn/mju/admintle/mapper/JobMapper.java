@@ -50,10 +50,6 @@ public interface JobMapper {
 
 
 
-    @Select("select * from tb_job")
-    List<Job> getJobs();
-
-
     @InsertProvider(type = JobProvider.class, method = "insertJob")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int addJob(Job job);

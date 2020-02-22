@@ -24,17 +24,14 @@ public interface AdminService {
 
     PageInfo<File> getAllFiles(int pageNum, int pageSize);
 
-    boolean updateFile(File file);
-
     PageInfo<File> searchFile(String userName,int pageNum, int pageSize);
 
     boolean quitEmp(Long id);
 
     List<Dept> getDepts();
 
-    List<Dept> getDeptData();
 
-    List<Job> getJobData();
+    List<Job> getJobs();
 
     Dept getDeptAndUsers(int id);
 

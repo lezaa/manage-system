@@ -112,15 +112,15 @@
                     <span>员工管理</span>
                 </a>
             </li>
+
+
+            <li  th:class="${activeUri=='/notice/notices'?'active':''}">
+                <a href="#" th:href="@{/notice/notices}"><i class="fa fa-link"></i>
+                    <span>系统公告</span>
+                </a>
+            </li>
+            
             <shiro:hasRole name="admin">
-                <li th:class="${activeUri=='/role/list'?'active':''}">
-                    <a href="#" th:href="@{/role/list}">
-                        <i class="fa fa-link"></i>
-                        <span>权限管理</span>
-                    </a>
-                </li>
-
-
             <li th:class="${activeUri=='/dept/depts'?'active':''}">
                 <a href="#" th:href="@{/dept/depts}"><i class="fa fa-link"></i>
                     <span>部门管理</span>
@@ -131,6 +131,45 @@
                     <span>变动档案</span>
                 </a>
             </li>
+
+
+            <li class="treeview" th:classappend="${activeUri=='/time/sign/signs'?'active':(activeUri=='/time/leave/leaves'?'active':'')}">
+                <a href="#" ><i class="fa fa-link"></i> <span>考勤管理</span>
+                    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li th:classappend="${activeUri=='/time/sign/signs'?'active':''}"><a href="#"  th:href="@{/time/sign/signs}">签到管理</a></li>
+                    <li th:class="${activeUri=='/time/leave/leaves'?'active':''}"><a href="#"  th:href="@{/time/leave/leaves}">请假管理</a></li>
+                </ul>
+            </li>
+
+            <li th:class="${activeUri=='/role/list'?'active':''}">
+                <a href="#" th:href="@{/role/list}">
+                     <i class="fa fa-link"></i>
+                     <span>权限管理</span>
+                </a>
+            </li>
+
+            </shiro:hasRole>
+
+            <shiro:hasRole name="user">
+            <li th:class="${activeUri=='/time/sign/signs'?'active':''}">
+                <a href="#" th:href="@{/time/sign/signs}"><i class="fa fa-link"></i>
+                    <span>考勤管理</span>
+                </a>
+            </li>
+            </shiro:hasRole>
+
+            <li th:class="${activeUri=='/wages/list'?'active':''}">
+                <a href="#" th:href="@{/wages/list}"><i class="fa fa-link"></i>
+                    <span>薪资管理</span>
+                </a>
+            </li>
+
+
+            <shiro:hasRole name="admin">
             <li class="treeview" th:classappend="${activeUri=='/app/apps'?'active':(activeUri=='/app/talents'?'active':'')}">
                 <a href="#" ><i class="fa fa-link"></i> <span>招聘管理</span>
                     <span class="pull-right-container">
@@ -143,31 +182,6 @@
                 </ul>
             </li>
             </shiro:hasRole>
-
-            <li class="treeview" th:classappend="${activeUri=='/time/sign/signs'?'active':(activeUri=='/time/leave/leaves'?'active':'')}">
-                <a href="#" ><i class="fa fa-link"></i> <span>考勤管理</span>
-                    <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li th:classappend="${activeUri=='/time/sign/signs'?'active':''}"><a href="#"  th:href="@{/time/sign/signs}">签到迟到管理</a></li>
-                    <li th:class="${activeUri=='/time/leave/leaves'?'active':''}"><a href="#"  th:href="@{/time/leave/leaves}">请假管理</a></li>
-                </ul>
-            </li>
-
-            <li th:class="${activeUri=='/wages/list'?'active':''}">
-                <a href="#" th:href="@{/wages/list}"><i class="fa fa-link"></i>
-                    <span>薪资管理</span>
-                </a>
-            </li>
-
-
-            <li  th:class="${activeUri=='/notice/notices'?'active':''}">
-                <a href="#" th:href="@{/notice/notices}"><i class="fa fa-link"></i>
-                    <span>系统公告</span>
-                </a>
-            </li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>

@@ -4,10 +4,14 @@ import cn.mju.admintle.domain.*;
 import cn.mju.admintle.mapper.*;
 import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
+import cn.mju.admintle.utils.RedisUtil;
 import cn.mju.admintle.vo.NoticeVo;
 import cn.mju.admintle.vo.UserVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.Line;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class AdminServiceImpl implements AdminService {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
+
+    private static final String ALL_USER = "allusers";
+
+    private static final String ALL_DEPT = "alldepts";
+
+    private static final String ALL_JOB = "alljobs";
+
+    private static final String DEPT = "dept:";
+
+
+
 
     @Autowired
     private UserMapper userMapper;
@@ -40,6 +58,12 @@ public class AdminServiceImpl implements AdminService {
     private SignMapper signMapper;
     @Autowired
     private LeaveMapper leaveMapper;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private RedisUtil.redisString redisString;
+    @Autowired
+    private RedisUtil.redisList redisList;
 
     /**
      * 条件组合查询
@@ -191,12 +215,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean updateFile(File file) {
-        boolean flag = fileMapper.updateFile(file) >0;
-        return flag;
-    }
-
-    @Override
     public PageInfo<File> searchFile(String userName,int pageNum, int pageSize) {
         ArrayList<Long> ids = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
@@ -230,20 +248,31 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Dept> getDepts() {
-        List<Dept> depts = deptMapper.getDepts();
-        return depts;
+        List<Dept> list= new ArrayList<>();
+        if (redisUtil.hasKey(ALL_DEPT)){
+            log.info("从redis中获取数据.");
+            list = (List<Dept>) redisString.get(ALL_DEPT);
+        }else{
+            log.info("从mysql中获取数据.");
+            list= deptMapper.getDeptData();
+            log.info("将数据存入redis...");
+            redisString.set(ALL_DEPT, list);
+        }
+        return list;
     }
 
-    @Override
-    public List<Dept> getDeptData() {
-        List<Dept> deptData = deptMapper.getDeptData();
-        return deptData;
-    }
 
     @Override
-    public List<Job> getJobData() {
-        List<Job> jobData = jobMapper.getJobData();
-        return jobData;
+    public List<Job> getJobs() {
+        List<Job> list= new ArrayList<>();
+        if (redisUtil.hasKey(ALL_JOB)){
+            //获取数组并转化为实体的集合
+            list = (List<Job>) redisString.get(ALL_JOB);
+        }else{
+            list= jobMapper.getJobData();
+            redisString.set(ALL_JOB, list);
+        }
+        return list;
     }
 
     @Override
@@ -266,12 +295,16 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean addDept(Dept dept) {
         boolean flag= deptMapper.addDept(dept) >0;
+        redisUtil.del(ALL_DEPT);
+        redisString.set(DEPT+dept.getId(),dept);
         return flag;
     }
 
     @Override
     public boolean updateDept(Dept dept) {
         boolean flag= deptMapper.updateDept(dept) >0;
+        redisUtil.del(ALL_DEPT);
+        redisString.set(DEPT+dept.getId(),dept);
         return flag;
     }
 

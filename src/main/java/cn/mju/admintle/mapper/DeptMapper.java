@@ -45,10 +45,6 @@ public interface DeptMapper {
     @SelectProvider(type = DeptProvider.class,method = "selectDept")
     Dept getDeptByName(HashMap<String, Object> map);
 
-
-    @Select("select * from tb_dept")
-    List<Dept> getDepts();
-
     @InsertProvider(type = DeptProvider.class, method = "insertDept")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int addDept(Dept dept);
