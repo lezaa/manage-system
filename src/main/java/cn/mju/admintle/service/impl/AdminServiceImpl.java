@@ -7,7 +7,6 @@ import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.utils.RedisUtil;
 import cn.mju.admintle.vo.NoticeVo;
 import cn.mju.admintle.vo.UserVo;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sound.sampled.Line;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,24 +78,39 @@ public class AdminServiceImpl implements AdminService {
         map.put("deptName",deptName);
         map.put("jobName",jobName);
         map.put("username",username);
-        if ( deptName.equals("") && jobName.equals("")){
+        ArrayList<Integer> jobIds = new ArrayList<>();
+        ArrayList<Integer> deptIds = new ArrayList<>();
+        if (!username.equals("") && deptName.equals("") && jobName.equals("")){
             return pubService.getPage(pageNum,pageSize,map);
 
         }
-        if (deptName.equals("") && !jobName.equals("")){
-            Job job = jobMapper.getJobByName(map);
-            map.put("jobId",job.getId());
+        if (username.equals("") && deptName.equals("") && !jobName.equals("")){
+            List<Job> jobs = jobMapper.getJobByName(map);
+            for (Job job : jobs) {
+                jobIds.add(job.getId());
+            }
+            map.put("jobId",jobIds);
             return pubService.getPage(pageNum,pageSize,map);
         }
-        if (!deptName.equals("") && jobName.equals("")){
-            Dept dept = deptMapper.getDeptByName(map);
-            map.put("deptId",dept.getId());
+        if (username.equals("") && !deptName.equals("") && jobName.equals("")){
+            List<Dept> deptByName = deptMapper.getDeptByName(map);
+            for (Dept dept : deptByName) {
+                deptIds.add(dept.getId());
+            }
+            map.put("deptId",deptIds);
             return pubService.getPage(pageNum,pageSize,map);
         }else{
-        Dept dept = deptMapper.getDeptByName(map);
-        Job job = jobMapper.getJobByName(map);
-        map.put("deptId",dept.getId());
-        map.put("jobId",job.getId());
+            List<Dept> deptByName = deptMapper.getDeptByName(map);
+            for (Dept dept : deptByName) {
+                deptIds.add(dept.getId());
+            }
+            map.put("deptId",deptIds);
+            List<Job> jobByName = jobMapper.getJobByName(map);
+            for (Job job : jobByName) {
+                jobIds.add(job.getId());
+            }
+            map.put("deptId",deptIds);
+            map.put("jobId",jobIds);
             return pubService.getPage(pageNum,pageSize,map);
         }
 
@@ -107,17 +120,15 @@ public class AdminServiceImpl implements AdminService {
      * 添加员工
      */
     @Override
-    public boolean addUser(User user,String roleName) {
+    public boolean addUser(User user,String roleName)  {
         boolean i = userMapper.addUser(user) >0;
         //添加员工时自动添加档案以及角色信息
         if (i){
-            File file = new File();
-            file.setUserId(user.getId());
-            file.setEntryTime(new Date());
-            file.setDeptName(deptMapper.getDeptById(userMapper.getUserById(user.getId()).getDeptId()).getDeptName());
-            file.setJobName(jobMapper.getJobById(userMapper.getUserById(user.getId()).getJobId()).getJobName());
-            fileMapper.insertFile(file);
-
+            try {
+                addFile(user);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             Role role = new Role();
             role.setUserId(user.getId());
             role.setRoleName(roleName);
@@ -153,16 +164,24 @@ public class AdminServiceImpl implements AdminService {
 
             fileMapper.updateFile(oldFile);
             //添加新档案
-            File file = new File();
-            file.setUserId(user.getId());
-            file.setEntryTime(new Date());
-            file.setDeptName(deptMapper.getDeptById(userMapper.getUserById(user.getId()).getDeptId()).getDeptName());
-            file.setJobName(jobMapper.getJobById(userMapper.getUserById(user.getId()).getJobId()).getJobName());
-            fileMapper.insertFile(file) ;
+            try {
+                addFile(user);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         }
         return flag;
 
+    }
+
+    private void addFile(User user) throws Exception{
+        File file = new File();
+        file.setUserId(user.getId());
+        file.setEntryTime(new Date());
+        file.setDeptName(deptMapper.getDeptById(userMapper.getUserById(user.getId()).getDeptId()).getDeptName());
+        file.setJobName(jobMapper.getJobById(userMapper.getUserById(user.getId()).getJobId()).getJobName());
+        fileMapper.insertFile(file) ;
     }
 
     @Override
@@ -379,6 +398,13 @@ public class AdminServiceImpl implements AdminService {
         noticeVo.setUserName(userMapper.getUserById(notice.getUserId()).getUsername());
         BeanUtils.copyProperties(notice,noticeVo);
         return noticeVo;
+    }
+
+    @Override
+    public boolean updatePass(User user) {
+        User user1 = pubService.passwordToMD5(user);
+        boolean flag = userMapper.updateUser(user1) >0;
+        return flag;
     }
 
 

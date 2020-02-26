@@ -1,6 +1,7 @@
 package cn.mju.admintle.controller;
 
 import cn.mju.admintle.domain.Dept;
+import cn.mju.admintle.domain.Role;
 import cn.mju.admintle.domain.User;
 import cn.mju.admintle.mapper.DeptMapper;
 import cn.mju.admintle.mapper.JobMapper;
@@ -12,6 +13,7 @@ import cn.mju.admintle.utils.AJAXUtil;
 import cn.mju.admintle.vo.UserVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.slf4j.Logger;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -46,6 +49,7 @@ public class EmpController {
     @Autowired
     private AdminService adminService;
 
+
     @Autowired
     private PubService pubService;
 
@@ -53,25 +57,36 @@ public class EmpController {
     private static final Logger log = LoggerFactory.getLogger(EmpController.class);
 
     @GetMapping("/emps")
-    public String empsList(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model){
+    public String empsList(@RequestParam(defaultValue = "1", value = "pageNum1",required = true) Integer pageNum1, Model model){
 
         int pageSize = 10;
-        PageInfo<User> pageInfo = userService.getUsersByPage(pageNum,pageSize);
+        PageInfo<User> pageInfo = userService.getUsersByPage(pageNum1,pageSize);
         List<UserVo> userVos = pubService.changeVo(pageInfo);
-        model.addAttribute("page",pageInfo);
+        model.addAttribute("state",1);
+        model.addAttribute("page1",pageInfo);
         model.addAttribute("users",userVos);
 
         return "emp/empsList";
 
     }
 
-    @GetMapping("/emp")
-    public String searchEmp(String username,String deptName,String jobName,@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum,Model model){
+    @RequestMapping("/emp")
+    public String searchEmp(@RequestParam(value = "username",required = false) String username,
+                            @RequestParam(value = "deptName",required = false) String deptName,
+                            @RequestParam(value = "jobName",required = false) String jobName,
+                            @RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2,
+                            Model model){
         int pageSize = 10;
-        PageInfo<User> pageInfo = adminService.getUserByCondition(username,deptName,jobName,pageNum,pageSize);
+        Map<String,Object> data = new HashMap<>();
+        data.put("username",username);
+        data.put("deptName",deptName);
+        data.put("jobName",jobName);
+        PageInfo<User> pageInfo = adminService.getUserByCondition(username,deptName,jobName,pageNum2,pageSize);
         List<UserVo> userVos = pubService.changeVo(pageInfo);
-        model.addAttribute("page",pageInfo);
+        model.addAttribute("state",2);
+        model.addAttribute("page2",pageInfo);
         model.addAttribute("users",userVos);
+        model.addAttribute("params",data);
         return "emp/empsList";
     }
 
@@ -222,29 +237,23 @@ public class EmpController {
     public void regNameCheck(@RequestParam("username") String username,HttpServletResponse response) throws IOException {
 
         Map<String,Object> map = new HashMap<String,Object>();
-        if (!username.equals("") && username != null) {
+
             boolean flag = userService.judUserByName(username);
 
             if (flag) {
-                map.put("userExsit", true);
+                map.put("userExsit", false);
                 map.put("msg", "此用户名已存在");
 
             } else {
-                map.put("userExsit", false);
+                map.put("userExsit", true);
                 map.put("msg", "此用户名可用");
 
             }
-        }else{
-            map.put("userExsit", true);
-            map.put("msg", "此用户名不可用");
-        }
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
 
     }
-
-
-
 
 
 

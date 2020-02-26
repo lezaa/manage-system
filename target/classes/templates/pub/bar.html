@@ -89,7 +89,7 @@
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
+        <input id="handle_status1" value="" hidden="hidden">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
@@ -131,6 +131,7 @@
                     <span>变动档案</span>
                 </a>
             </li>
+            </shiro:hasRole>
 
 
             <li class="treeview" th:classappend="${activeUri=='/time/sign/signs'?'active':(activeUri=='/time/leave/leaves'?'active':'')}">
@@ -144,23 +145,23 @@
                     <li th:class="${activeUri=='/time/leave/leaves'?'active':''}"><a href="#"  th:href="@{/time/leave/leaves}">请假管理</a></li>
                 </ul>
             </li>
-
+            <shiro:hasRole name="admin">
             <li th:class="${activeUri=='/role/list'?'active':''}">
                 <a href="#" th:href="@{/role/list}">
                      <i class="fa fa-link"></i>
                      <span>权限管理</span>
                 </a>
             </li>
-
             </shiro:hasRole>
 
-            <shiro:hasRole name="user">
+
+           <!-- <shiro:hasRole name="user">
             <li th:class="${activeUri=='/time/sign/signs'?'active':''}">
                 <a href="#" th:href="@{/time/sign/signs}"><i class="fa fa-link"></i>
                     <span>考勤管理</span>
                 </a>
             </li>
-            </shiro:hasRole>
+            </shiro:hasRole>-->
 
             <li th:class="${activeUri=='/wages/list'?'active':''}">
                 <a href="#" th:href="@{/wages/list}"><i class="fa fa-link"></i>
@@ -199,5 +200,6 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+
 </body>
 </html>

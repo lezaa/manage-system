@@ -41,13 +41,13 @@ public interface TimeService {
 
     PageInfo<Leave> getAllLeaves(int pageNum, int pageSize);
 
-    List<Leave> getOneLeaves(long userId);
+    PageInfo<Leave> getOneleaves(int pageNum, int pageSize,long userId);
 
     PageInfo<Leave> getLeaveByState(int pageNum, int pageSize,int state);
 
     LeaveVo getLeave(int id);
 
-    List<Leave> searchLeave(String username);
+    PageInfo<Leave> searchLeave(int pageNum, int pageSize,String username);
 
 
 

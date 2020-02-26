@@ -16,6 +16,8 @@ public interface PubService {
 
     PageInfo<Applicant> getAppPage(int pageNum, int pageSize, HashMap<String, Object> map);
 
+    PageInfo<Leave> getLeavePage(int pageNum, int pageSize, List<Long> list);
+
     List<UserVo> changeVo(PageInfo<User> pageInfo);
 
     List<RoleDto> changeRoleDto(PageInfo<Role> pageInfo);
@@ -31,8 +33,6 @@ public interface PubService {
     List<SignVo> changeSignVo(PageInfo<Sign> pageInfo);
 
     List<LeaveVo> changeLeaveVo(PageInfo<Leave> pageInfo);
-
-    User changeEntity(UserVo userVo);
 
     User passwordToMD5(User user);
 

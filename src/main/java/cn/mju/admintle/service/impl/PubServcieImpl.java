@@ -44,12 +44,15 @@ public class PubServcieImpl implements PubService {
     @Autowired
     private TimeService timeService;
 
+    @Autowired
+    private LeaveMapper leaveMapper;
+
     //条件查询分页
     @Override
     public PageInfo<User> getPage(int pageNum, int pageSize, HashMap<String, Object> map) {
         PageHelper.startPage(pageNum,pageSize);
-        List<User> users = userMapper.getUserByName(map);
-        PageInfo<User> page = new PageInfo<>(users);
+        List<User> userByName = userMapper.getUserByName(map);
+        PageInfo<User> page = new PageInfo<>(userByName);
         return page;
     }
 
@@ -61,6 +64,14 @@ public class PubServcieImpl implements PubService {
         PageInfo<Applicant> page = new PageInfo<>(apps);
         return page;
 }
+
+    @Override
+    public PageInfo<Leave> getLeavePage(int pageNum, int pageSize, List<Long> list) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Leave> leaveByUserIds = leaveMapper.getLeaveByUserIds(list);
+        PageInfo<Leave> page = new PageInfo<>(leaveByUserIds);
+        return page;
+    }
 
     //转换user entity->vo
     @Override
@@ -163,18 +174,6 @@ public class PubServcieImpl implements PubService {
         return leaveVos;
     }
 
-    //转换user vo->user
-    @Override
-    public User changeEntity(UserVo userVo) {
-        User user = new User();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("deptName",userVo.getDeptName());
-        map.put("jobName",userVo.getDeptName());
-        user.setDeptId(deptMapper.getDeptByName(map).getId());
-        user.setJobId(jobMapper.getJobByName(map).getId());
-        BeanUtils.copyProperties(userVo,user);
-        return user;
-    }
 
     @Override
     public User passwordToMD5(User user) {
@@ -182,7 +181,6 @@ public class PubServcieImpl implements PubService {
         Object crdentials = user.getPassword();
         ByteSource salt = ByteSource.Util.bytes(user.getUsername());
         int hashIterations = 1024;
-
         Object password = new SimpleHash(hashAlgorithmName, crdentials, salt, hashIterations);
         user.setPassword(password.toString());
         return user;

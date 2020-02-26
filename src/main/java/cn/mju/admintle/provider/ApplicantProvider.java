@@ -150,24 +150,56 @@ public class ApplicantProvider {
 
     }
 
+
+
+
     /**
      * 动态查询
      */
     public String selectApp(Map<String,Object> params) {
 
-        StringBuffer sql=new StringBuffer("select * from tb_app  where 1 = 1"+" ");
+        List<Integer> deptIds = (List<Integer>) params.get("deptId");
+        List<Integer> jobIds = (List<Integer>) params.get("jobId");
+
+        StringBuffer sql=new StringBuffer("select * from tb_app where 1 = 1"+" ");
         if (params.get("username") != null && !params.get("username").equals("")){
             sql.append("and username LIKE CONCAT ('%',#{username},'%') ");
         }
-        if (params.get("deptId") != null && !params.get("deptId").equals("")){
-            sql.append("and dept_id = #{deptId} ");
+        if (params.get("deptId") != null ){
+            sql.append("and dept_id in (");
+
+            for (int i = 0; i < deptIds.size(); i++) {
+
+                sql.append("'").append(deptIds.get(i)).append("'");
+
+                if (i < deptIds.size() - 1)
+
+                    sql.append(",");
+
+            }
+
+            sql.append(")");
         }
-        if (params.get("jobId") != null && !params.get("jobId").equals("")){
-            sql.append("and job_id = #{jobId} ");
+        if (params.get("jobId") != null ){
+            sql.append("and job_id in (");
+
+            for (int i = 0; i < jobIds.size(); i++) {
+
+                sql.append("'").append(jobIds.get(i)).append("'");
+
+                if (i < jobIds.size() - 1)
+
+                    sql.append(",");
+
+            }
+
+            sql.append(")");
         }
         sql.append("and state IN (0,1) ");
         return sql.toString();
     }
+
+
 }
 
 

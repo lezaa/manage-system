@@ -75,6 +75,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+        <shiro:hasRole name="admin">
         <section class="content-header">
             <h1>
                 请假申请总列表
@@ -96,7 +97,7 @@
                         <form class="form-inline" th:action="@{/time/searchLeave}" style="float: right;margin: 5px;">
                             <div class="form-group">
                                 <label for="head">姓名</label>
-                                <input type="text" class="form-control" id="head" name="userName" placeholder="请输入姓名" style="width: 150px;">
+                                <input type="text" class="form-control" id="head" name="username" placeholder="请输入姓名" style="width: 150px;">
                             </div>
                             <button type="submit" class="btn btn-default">搜索</button>
                         </form>
@@ -143,20 +144,104 @@
         <!-- /.content -->
         <!--pagestart-->
 
-        <div class="box-footer clearfix">
+        <div class="box-footer clearfix" th:if="${username} == null">
             <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a th:href="@{'/time/leaves?pageNum=1'}" >首页</a></li>
-                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/time/leaves?pageNum=' + ${page.prePage}}"  >上一页</a></li>
+                <li><a th:href="@{'/time/leave/leaves?pageNum=1'}" >首页</a></li>
+                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/time/leave/leaves?pageNum=' + ${page.prePage}}"  >上一页</a></li>
 
-                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/time/leaves?pageNum=' + ${i}}" th:text="${i}"></a></li>
+                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/time/leave/leaves?pageNum=' + ${i}}" th:text="${i}"></a></li>
 
-                <li><a th:href="@{'/time/leaves?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
-                <li><a th:href="@{'/time/leaves?pageNum='+ ${page.pages}}" >尾页</a></li>
+                <li><a th:href="@{'/time/leave/leaves?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/time/leave/leaves?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+        <!--搜索结果-->
+        <div class="box-footer clearfix"  th:if="${username} != null">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/time/searchLeave?pageNum2=1'+ '&username='+${username}}" >首页</a></li>
+                <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/time/searchLeave?pageNum2=' + ${page2.prePage} + '&username='+${username}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page2.navigatepageNums}" th:href="@{'/time/searchLeave?pageNum2=' + ${i} + '&username='+${username}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/time/searchLeave?pageNum2=' + ${page2.nextPage} + '&username='+${username}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/time/searchLeave?pageNum2='+ ${page2.pages} + '&username='+${username}}" >尾页</a></li>
             </ul>
         </div>
         <!--pageend-->
+        </shiro:hasRole>
+
+
+
+        <shiro:hasRole name="user">
+            <section class="content-header">
+                <h1>
+                    我的请假
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content container-fluid">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <!-- /.box-header -->
+                            <div class="table-responsive mailbox-messages">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>姓名</th>
+                                        <th>开始日期</th>
+                                        <th>结束日期</th>
+                                        <th>理由</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="leave1:${leave1s}">
+                                        <td th:text="${leave1Stat.count}"></td>
+                                        <td class="mailbox-name" th:text="${leave1.userName}">Alexander Pierce</td>
+                                        <td class="mailbox-date" th:text="${#dates.format(leave1.beginTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                        <td class="mailbox-date" th:text="${#dates.format(leave1.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                        <td class="mailbox-subject" th:text="${leave1.reason.substring(0,5)}+'......'"></td>
+                                        <td th:text="${leave1.state}==0?'待批准':(${leave1.state}==1?'已批准':'未批准')">11-7-2014</td>
+                                        <td >
+                                            <a type="button" class="btn btn-info" th:href="'javascript:read('+${leave1.id}+');'"><i class="fa fa-search"></i> 查看</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!-- /.table -->
+                            </div>
+                        <!-- /.mail-box-messages -->
+                    </div>
+                    <!-- /.box-body -->
+
+                </div>
+            </section>
+            <!-- /.content -->
+            <!--pagestart-->
+
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a th:href="@{'/time/leave/leaves?pageNum1=1'}" >首页</a></li>
+                    <li><a th:if="${page1.hasPreviousPage} == true" th:href="@{'/time/leave/leaves?pageNum1=' + ${page1.prePage}}"  >上一页</a></li>
+
+                    <li><a th:each="i:${page1.navigatepageNums}" th:href="@{'/time/leave/leaves?pageNum1=' + ${i}}" th:text="${i}"></a></li>
+
+                    <li><a th:href="@{'/time/leave/leaves?pageNum1=' + ${page1.nextPage}}" th:if="${page1.hasNextPage} == true">下一页</a></li>
+                    <li><a th:href="@{'/time/leave/leaves?pageNum1='+ ${page1.pages}}" >尾页</a></li>
+                </ul>
+            </div>
+            <!--pageend-->
+        </shiro:hasRole>
+
+
     </div>
+
 </div>
+
 
 
 <!-- REQUIRED JS SCRIPTS -->

@@ -145,7 +145,7 @@
                                 <div class="box-footer">
 
                                     <button type="reset" class="btn btn-default">重置</button>
-                                    <button type="submit"   class="btn btn-info pull-right">确认</button>
+                                    <button type="submit"  class="btn btn-info pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
@@ -179,15 +179,16 @@
             var username = $(this).val();
 
             //发送ajax请求
-            $.post("/emp/userCheck",{"username":username},function (data) {
+            $.post(
+                "/emp/userCheck",{"username":username},function (data) {
                 var span = $("#mytip");
                 if(data.userExsit){
-                    //用户名存在
-                    span.css("color","red");
+                    //此用户名可用
+                    span.css("color","green");
                     span.html(data.msg);
                 }else{
-                    //用户名不存在
-                    span.css("color","green");
+                    //此用户名已存在 此用户名不可用
+                    span.css("color","red");
                     span.html(data.msg);
                 }
             } ,"json");
@@ -213,34 +214,41 @@
             } ,"json");
 
         });
-        /*表单验证*/
-        $("#form").submit(function (e) {
-            if($("#s_username").html() === "此用户名已存在"){
-                return false;
-            }else if ($('#username').val() == "") {
-                $('#mytip').html('用户名不允许为空').css("color","#f00");
-                return false;
-            }else if ($('#password').val() == "") {
-                $('#mytip1').html('密码不允许为空').css("color","#f00");
-                return false;
-            }else if ($('#password').val().length <3 || $('#password').val().length >15) {
-                $('#mytip1').html('密码长度需在3到15位').css("color","#f00");
-                return false;
-            }else if ($('#deptId').val() == "") {
-                $('#mytip2').html('请填写部门ID').css("color","#f00");
-                return false;
-            }else if ($('#jobId').select().val() == "") {
-                $('#mytip3').html('请选择职位').css("color","#f00");
-                return false;
-            }else if ($('#roleSelect').select().val() == "") {
-                $('#mytip4').html('请选择权限角色').css("color","#f00");
-                return false;
-            }
 
-            return true;
-        });
     });
 
+</script>
+
+<script>
+    /*表单验证*/
+    $("#form").submit(function (e) {
+        if($("#mytip2").html() === "此部门不存在,请重新填写部门ID") {
+            return false;
+        }else if ($('#username').val() == "") {
+            $('#mytip').html('用户名不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#password').val() == "") {
+            $('#mytip1').html('密码不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#password').val().length <3 || $('#password').val().length >15) {
+            $('#mytip1').html('密码长度需在3到15位').css("color","#f00");
+            return false;
+        }else if ($('#deptId').val() == "") {
+            $('#mytip2').html('请填写部门ID').css("color","#f00");
+            return false;
+        }else if ($('#mytip2').html() === "此部门不存在,请重新填写部门ID"){
+            return false;
+        }else if ($('#jobId').select().val() == "") {
+            $('#mytip3').html('请选择职位').css("color","#f00");
+            return false;
+        }else if ($('#roleSelect').select().val() == "") {
+            $('#mytip4').html('请选择权限角色').css("color","#f00");
+            return false;
+        }else {
+            return true;
+        }
+
+    });
 </script>
 
 <script>

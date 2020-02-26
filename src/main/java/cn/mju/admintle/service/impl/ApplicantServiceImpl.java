@@ -51,25 +51,39 @@ public class ApplicantServiceImpl implements ApplicantService {
         map.put("deptName",deptName);
         map.put("jobName",jobName);
         map.put("username",username);
-        if ( deptName.equals("") && jobName.equals("")){
-
+        ArrayList<Integer> jobIds = new ArrayList<>();
+        ArrayList<Integer> deptIds = new ArrayList<>();
+        if (!username.equals("") && deptName.equals("") && jobName.equals("")){
             return pubService.getAppPage(pageNum,pageSize,map);
 
         }
-        if (deptName.equals("") && !jobName.equals("")){
-            Job job = jobMapper.getJobByName(map);
-            map.put("jobId",job.getId());
+        if (username.equals("") && deptName.equals("") && !jobName.equals("")){
+            List<Job> jobs = jobMapper.getJobByName(map);
+            for (Job job : jobs) {
+                jobIds.add(job.getId());
+            }
+            map.put("jobId",jobIds);
             return pubService.getAppPage(pageNum,pageSize,map);
         }
-        if (!deptName.equals("") && jobName.equals("")){
-            Dept dept = deptMapper.getDeptByName(map);
-            map.put("deptId",dept.getId());
+        if (username.equals("") && !deptName.equals("") && jobName.equals("")){
+            List<Dept> deptByName = deptMapper.getDeptByName(map);
+            for (Dept dept : deptByName) {
+                deptIds.add(dept.getId());
+            }
+            map.put("deptId",deptIds);
             return pubService.getAppPage(pageNum,pageSize,map);
         }else{
-            Dept dept = deptMapper.getDeptByName(map);
-            Job job = jobMapper.getJobByName(map);
-            map.put("deptId",dept.getId());
-            map.put("jobId",job.getId());
+            List<Dept> deptByName = deptMapper.getDeptByName(map);
+            for (Dept dept : deptByName) {
+                deptIds.add(dept.getId());
+            }
+            map.put("deptId",deptIds);
+            List<Job> jobByName = jobMapper.getJobByName(map);
+            for (Job job : jobByName) {
+                jobIds.add(job.getId());
+            }
+            map.put("deptId",deptIds);
+            map.put("jobId",jobIds);
             return pubService.getAppPage(pageNum,pageSize,map);
         }
 

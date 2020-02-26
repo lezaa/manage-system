@@ -25,106 +25,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script>
-    function deleteUser(id) {
-        if (confirm("您确定要删除吗？连同相关数据也将被删除！")) {
-            location.href = "/emp/delete/" + id;
-        }
-    }
-    window.onload = function () {
-        document.getElementById("delSelected").onclick = function () {
-            if (confirm("您确定要删除选中项吗？连同相关数据也将被删除！")) {
-                var flag = false;
-                var cbs = document.getElementsByName("check");
-                for (var i = 0; i < cbs.length; i++) {
-                    if (cbs[i].checked) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) {
-                    document.getElementById("form").submit();
-                }
-            }
-        }
-    }
-</script>
 
-    <script>
-        function add() {
-            //页面层
-
-            layer.open({
-                type: 2,
-                title: '添加员工',
-                shadeClose: true,
-                shade: 0.8,
-                area: ['750px', '900px'],
-                content: '/emp/toAdd', //iframe的url
-                success:function(layero,index){
-                },
-                end:function(){
-                    var handle_status = $("#handle_status").val();
-                    if ( handle_status == '1' ) {
-                        layer.msg('添加成功！',{
-                            icon: 1,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        },function(){
-                            history.go(0);
-                        });
-                    } else if ( handle_status == '2' ) {
-                        layer.msg('添加失败！',{
-                            icon: 2,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        },function(){
-                            history.go(0);
-                        });
-                    }
-                }
-            });
-        }
-
-        function update(id) {
-            //页面层
-
-            layer.open({
-                type: 2,
-                title: '更新员工',
-                shadeClose: true,
-                shade: 0.8,
-                area: ['750px', '850px'],
-                content: '/emp/getEmp/'+id, //iframe的url
-                success:function(layero,index){
-                },
-                end:function(){
-                    var handle_status = $("#handle_status").val();
-                    if ( handle_status == '1' ) {
-                        layer.msg('修改成功！',{
-                            icon: 1,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        },function(){
-                            history.go(0);
-                        });
-                    } else if ( handle_status == '2' ) {
-                        layer.msg('修改失败！',{
-                            icon: 2,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        },function(){
-                            history.go(0);
-                        });
-                    }
-                }
-            });
-        }
-
-    </script>
-
-<!--全选-->
-<script>
-        function selectAll(obj) {
-            $(".itemSelect").prop("checked",obj.checked);
-        }
-</script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <section class="wrapper">
@@ -152,15 +53,15 @@
                                 <a type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-user-plus"></i> 添加用户</a>
                                 <a type="button" class="btn btn-danger"   href="javascript:void(0);" id="delSelected"><i class="fa fa-trash-o" ></i> 删除选中</a>
                                 </shiro:hasRole>
-                                <a type="button" class="btn btn-info" th:href="@{/emp/download}"><i class="fa fa-print"></i> 打印</a>
+                                <a type="button" class="btn btn-info" th:href="@{/emp/download}"><i class="fa fa-print"></i> 导出</a>
 
                             </div>
 
 
-                            <form class="form-inline" th:action="@{/emp/emp}" style="float: right;margin: 5px;">
+                            <form class="form-inline" th:action="@{/emp/emp}" id="search"  style="float: right;margin: 5px;" method="get">
                                 <div class="form-group" >
                                     <label for="username">姓名</label>
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入姓名" style="width: 150px;">
+                                    <input type="text" class="form-control" id="username" name="username"  placeholder="请输入姓名" style="width: 150px;">
                                 </div>
                                 <div class="form-group">
                                     <label for="deptName">部门</label>
@@ -170,7 +71,7 @@
                                     <label for="jobName">职位</label>
                                     <input type="text" class="form-control" id="jobName" name="jobName" placeholder="请输入职位名称" style="width: 150px;">
                                 </div>
-                                <button type="submit" class="btn btn-default">搜索</button>
+                                <button type="submit" id="sub" class="btn btn-default">搜索</button>
                             </form>
 
 
@@ -233,19 +134,30 @@
         </div>
 
 </section>
-
-
         <!--pagestart-->
-
-        <div class="box-footer clearfix">
+        <!--所有-->
+        <div class="box-footer clearfix" th:if="${state} ==1">
             <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a th:href="@{'/emp/emps?pageNum=1'}" >首页</a></li>
-                <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/emp/emps?pageNum=' + ${page.prePage}}"  >上一页</a></li>
+                <li><a th:href="@{'/emp/emps?pageNum1=1'}" >首页</a></li>
+                <li><a th:if="${page1.hasPreviousPage} == true" th:href="@{'/emp/emps?pageNum1=' + ${page1.prePage}}"  >上一页</a></li>
 
-                <li><a th:each="i:${page.navigatepageNums}" th:href="@{'/emp/emps?pageNum=' + ${i}}" th:text="${i}"></a></li>
+                <li><a th:each="i:${page1.navigatepageNums}" th:href="@{'/emp/emps?pageNum1=' + ${i}}" th:text="${i}"></a></li>
 
-                <li><a th:href="@{'/emp/emps?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
-                <li><a th:href="@{'/emp/emps?pageNum='+ ${page.pages}}" >尾页</a></li>
+                <li><a th:href="@{'/emp/emps?pageNum1=' + ${page1.nextPage}}" th:if="${page1.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/emp/emps?pageNum1='+ ${page1.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+
+        <!--搜索结果-->
+        <div class="box-footer clearfix" th:if="${state} ==2">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/emp/emp?pageNum2=1' + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >首页</a></li>
+                <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/emp/emp?pageNum2=' + ${page2.prePage} + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}"  >上一页</a></li>
+
+                <li><a id="p1" th:each="i:${page2.navigatepageNums}" th:href="@{'/emp/emp?pageNum2=' + ${i} + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/emp/emp?pageNum2=' + ${page2.nextPage} + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/emp/emp?pageNum2='+ ${page2.pages} + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >尾页</a></li>
             </ul>
         </div>
         <!--pageend-->
@@ -254,6 +166,8 @@
 
 </div>
 </section>
+<script>
+</script>
 <!-- jQuery 3 -->
 <script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -268,6 +182,112 @@
 <script src="../../static/js/demo.js"></script>
 <!--layer-->
 <script src="../../static/js/layer/layer.js"></script>
+
+
+<script>
+    function deleteUser(id) {
+        if (confirm("您确定要删除吗？连同相关数据也将被删除！")) {
+            location.href = "/emp/delete/" + id;
+        }
+    }
+    window.onload = function () {
+        document.getElementById("delSelected").onclick = function () {
+            if (confirm("您确定要删除选中项吗？连同相关数据也将被删除！")) {
+                var flag = false;
+                var cbs = document.getElementsByName("check");
+                for (var i = 0; i < cbs.length; i++) {
+                    if (cbs[i].checked) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    document.getElementById("form").submit();
+                }
+            }
+        }
+    }
+</script>
+
+<script>
+    function add() {
+        //页面层
+
+        layer.open({
+            type: 2,
+            title: '添加员工',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['750px', '900px'],
+            content: '/emp/toAdd', //iframe的url
+            success:function(layero,index){
+            },
+            end:function(){
+                var handle_status = $("#handle_status").val();
+                if ( handle_status == '1' ) {
+                    layer.msg('添加成功！',{
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    },function(){
+                        history.go(0);
+                    });
+                } else if ( handle_status == '2' ) {
+                    layer.msg('添加失败！',{
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    },function(){
+                        history.go(0);
+                    });
+                }
+            }
+        });
+    }
+
+    function update(id) {
+        //页面层
+
+        layer.open({
+            type: 2,
+            title: '更新员工',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['750px', '850px'],
+            content: '/emp/getEmp/'+id, //iframe的url
+            success:function(layero,index){
+            },
+            end:function(){
+                var handle_status = $("#handle_status").val();
+                if ( handle_status == '1' ) {
+                    layer.msg('修改成功！',{
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    },function(){
+                        history.go(0);
+                    });
+                } else if ( handle_status == '2' ) {
+                    layer.msg('修改失败！',{
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    },function(){
+                        history.go(0);
+                    });
+                }
+            }
+        });
+    }
+
+
+
+
+</script>
+
+<!--全选-->
+<script>
+    function selectAll(obj) {
+        $(".itemSelect").prop("checked",obj.checked);
+    }
+</script>
+
 </body>
 </html>
 

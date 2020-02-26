@@ -163,7 +163,7 @@
                                 <div class="box-footer">
 
                                     <button type="reset" class="btn btn-default">重置</button>
-                                    <button type="submit"  class="btn btn-primary pull-right">确认</button>
+                                    <button type="submit" id="queren" class="btn btn-primary pull-right">确认</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
@@ -216,7 +216,7 @@
 <script>
     /*表单验证 */
     $("#form").submit(function (e) {
-        if($("#mytip").html() === "此用户名已存在"){
+        if($("#mytip").html() === "此用户不存在！"){
             return false;
         }else if ($('#username').val() == ""){
             $('#mytip').html('用户名不允许为空').css("color","#f00");

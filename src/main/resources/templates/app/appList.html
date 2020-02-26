@@ -239,7 +239,7 @@
         <!--pagestart-->
 
         <div class="box-footer clearfix">
-            <ul class="pagination pagination-sm no-margin pull-right">
+            <ul class="pagination pagination-sm no-margin pull-right" th:if="${state} == null">
                 <li><a th:href="@{'/app/apps?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/app/apps?pageNum=' + ${page.prePage}}"  >上一页</a></li>
 
@@ -247,6 +247,19 @@
 
                 <li><a th:href="@{'/app/apps?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
                 <li><a th:href="@{'/app/apps?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+
+
+        <div class="box-footer clearfix" th:if="${state} != null">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/app/app?pageNum2=1'+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >首页</a></li>
+                <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/app/app?pageNum2=' + ${page2.prePage}+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page2.navigatepageNums}" th:href="@{'/app/app?pageNum2=' + ${i}+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/app/app?pageNum2=' + ${page2.nextPage}+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/app/app?pageNum2='+ ${page2.pages}+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >尾页</a></li>
             </ul>
         </div>
         <!--pageend-->

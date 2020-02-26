@@ -4,6 +4,7 @@ import cn.mju.admintle.domain.*;
 import cn.mju.admintle.mapper.LeaveMapper;
 import cn.mju.admintle.mapper.SignMapper;
 import cn.mju.admintle.mapper.UserMapper;
+import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.TimeService;
 import cn.mju.admintle.vo.LeaveVo;
 import cn.mju.admintle.vo.SignVo;
@@ -32,6 +33,8 @@ public class TimeServiceImpl implements TimeService {
     private LeaveMapper leaveMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PubService pubService;
 
 
 
@@ -165,9 +168,10 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public List<Leave> getOneLeaves(long userId) {
+    public PageInfo<Leave> getOneleaves(int pageNum, int pageSize, long userId) {
         List<Leave> oneList = leaveMapper.getOneList(userId);
-        return oneList;
+        PageInfo<Leave> pageInfo = new PageInfo<>(oneList);
+        return pageInfo;
     }
 
     @Override
@@ -188,7 +192,7 @@ public class TimeServiceImpl implements TimeService {
     }
     //根据名字模糊查询请假条
     @Override
-    public List<Leave> searchLeave(String username) {
+    public PageInfo<Leave> searchLeave(int pageNum, int pageSize,String username) {
         HashMap<String, Object> map = new HashMap<>();
         ArrayList<Long> ids = new ArrayList<>();
         map.put("username",username);
@@ -197,8 +201,8 @@ public class TimeServiceImpl implements TimeService {
             Long userId = user.getId();
             ids.add(userId);
         }
-        List<Leave> leaves = leaveMapper.getLeaveByUserIds(ids);
-        return leaves;
+        PageInfo<Leave> leavePage = pubService.getLeavePage(pageNum, pageSize, ids);
+        return leavePage;
     }
 
 

@@ -43,13 +43,14 @@ public class NoticeController {
     }
 
     @GetMapping("/notice")
-    public String search(@RequestParam(defaultValue = "1", value = "pageNum",required = false) Integer pageNum,
-                         Model model,@RequestParam("head") String head){
+    public String search(@RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2,
+                         Model model,@RequestParam(value = "head",required = false) String head){
         int pageSize = 10;
-        PageInfo<Notice> noticePageInfo = adminService.searchNotice(head,pageNum,pageSize);
+        PageInfo<Notice> noticePageInfo = adminService.searchNotice(head,pageNum2,pageSize);
         List<NoticeVo> noticeVos = pubService.changeNoticeVo(noticePageInfo);
+        model.addAttribute("head",head);
         model.addAttribute("notices",noticeVos);
-        model.addAttribute("page",noticePageInfo);
+        model.addAttribute("page2",noticePageInfo);
         return "notice/noticeList";
     }
 

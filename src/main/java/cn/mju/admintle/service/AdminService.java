@@ -57,6 +57,8 @@ public interface AdminService {
 
     NoticeVo getLatest();
 
+    boolean updatePass(User user);
+
 
 
 

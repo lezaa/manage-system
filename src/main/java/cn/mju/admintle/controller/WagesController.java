@@ -61,11 +61,13 @@ public class WagesController {
     }
 
     @RequestMapping("/search")
-    public String search(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum, Model model,@RequestParam("username") String username){
+    public String search(@RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2, Model model,
+                         @RequestParam(value = "username",required = false) String username){
         int pageSize = 10;
-        PageInfo<Wages> pageInfo = wagesService.findWagesByUserName(username,pageNum, pageSize);
+        PageInfo<Wages> pageInfo = wagesService.findWagesByUserName(username,pageNum2, pageSize);
         List<WagesDto> wagesDtos = pubService.changeWagesDto(pageInfo);
-        model.addAttribute("page",pageInfo);
+        model.addAttribute("username",username);
+        model.addAttribute("page2",pageInfo);
         model.addAttribute("wages",wagesDtos);
         return "wages/wagesList";
     }

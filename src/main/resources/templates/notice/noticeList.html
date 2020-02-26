@@ -192,7 +192,7 @@
         <!-- /.content -->
         <!--pagestart-->
 
-        <div class="box-footer clearfix">
+        <div class="box-footer clearfix" th:if="${head} == null">
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/notice/notices?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/notice/notices?pageNum=' + ${page.prePage}}"  >上一页</a></li>
@@ -201,6 +201,19 @@
 
                 <li><a th:href="@{'/notice/notices?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
                 <li><a th:href="@{'/notice/notices?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+
+        <!--搜索结果-->
+        <div class="box-footer clearfix" th:if="${head} != null">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/notice/notice?pageNum2=1'+ '&head='+${head}}" >首页</a></li>
+                <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/notice/notice?pageNum2=' + ${page2.prePage} + '&head='+${head}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page2.navigatepageNums}" th:href="@{'/notice/notice?pageNum2=' + ${i}+ '&head='+${head}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/notice/notice?pageNum2=' + ${page2.nextPage}+ '&head='+${head}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/notice/notice?pageNum2='+ ${page2.pages}+ '&head='+${head}}" >尾页</a></li>
             </ul>
         </div>
         <!--pageend-->

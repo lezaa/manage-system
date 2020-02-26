@@ -237,7 +237,7 @@
         <!-- /.content -->
         <!--pagestart-->
 
-        <div class="box-footer clearfix">
+        <div class="box-footer clearfix" th:if="${username} == null">
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/wages/list?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/wages/list?pageNum=' + ${page.prePage}}"  >上一页</a></li>
@@ -246,6 +246,18 @@
 
                 <li><a th:href="@{'/wages/list?pageNum=' + ${page.nextPage}}" th:if="${page.hasNextPage} == true">下一页</a></li>
                 <li><a th:href="@{'/wages/list?pageNum='+ ${page.pages}}" >尾页</a></li>
+            </ul>
+        </div>
+        <!--查询结果-->
+        <div class="box-footer clearfix" th:if="${username} != null">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a th:href="@{'/wages/search?pageNum2=1'+ '&username='+${username}}" >首页</a></li>
+                <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/wages/search?pageNum2=' + ${page2.prePage}+ '&username='+${username}}"  >上一页</a></li>
+
+                <li><a th:each="i:${page2.navigatepageNums}" th:href="@{'/wages/search?pageNum2=' + ${i}+ '&username='+${username}}" th:text="${i}"></a></li>
+
+                <li><a th:href="@{'/wages/search?pageNum2=' + ${page2.nextPage}+ '&username='+${username}}" th:if="${page2.hasNextPage} == true">下一页</a></li>
+                <li><a th:href="@{'/wages/search?pageNum2='+ ${page2.pages}+ '&username='+${username}}" >尾页</a></li>
             </ul>
         </div>
         <!--pageend-->

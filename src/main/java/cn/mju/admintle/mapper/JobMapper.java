@@ -46,7 +46,7 @@ public interface JobMapper {
 
 
    @SelectProvider(type = JobProvider.class,method = "selectJob")
-    Job getJobByName(HashMap<String, Object> map);
+   List<Job> getJobByName(HashMap<String, Object> map);
 
 
 

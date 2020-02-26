@@ -151,7 +151,31 @@ class AdmintleApplicationTests {
     }
 
 
+    @Test
+    void test11(){
+        //PageInfo<User> e = adminService.getUserByCondition("e", "", "", 1, 10);
+       /* HashMap<String, Object> map = new HashMap<>();
+        map.put("deptName","");
+        map.put("jobName","");
+        map.put("username","e");
+        List<User> userByName = userMapper.getUserByName(map);
+        System.out.println("size。。。。。"+userByName.size());
+        System.out.println("size2。。。。。"+userByName.toString());*/
 
+       /*HashMap<String, Object> map = new HashMap<>();
+        map.put("deptName","");
+        map.put("jobName","");
+        map.put("username","e");
+        PageInfo<User> page = pubService.getPage(1, 10, map);
+        System.out.println("2..."+page.getTotal());*/
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("deptName","");
+        map.put("jobName","");
+        map.put("username","e");
+        List<User> userByName = userMapper.getUserByName(map);
+        System.out.println(".."+userByName.size());
+    }
 
 
 }

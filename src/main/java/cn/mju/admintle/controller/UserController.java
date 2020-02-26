@@ -64,34 +64,43 @@ public class UserController {
 
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+        if (user.getUsername() !=null && !user.getUsername().equals("")) {
+            User userByName = userService.findUserByName(user.getUsername());
 
-        User userByName = userService.findUserByName(user.getUsername());
-        String roleName = userService.getRoleName(userByName.getId());
+            if (userByName != null) {
+                String roleName = userService.getRoleName(userByName.getId());
+                if (role.equals(roleName) && role != null) {
 
-
-        if (role.equals(roleName) && role !=null) {
-
-            if (sysCode.equalsIgnoreCase(formCode) && formCode != null) {
-                try {
-                    subject.login(token);
-                    session.setAttribute("user",userByName);
-                    session.setAttribute("role",roleName);
-                    return "redirect:/main";
-                } catch (UnknownAccountException e) {
-                    model.addAttribute("msg", "用户名错误");
-                    return "forward:/user/toLogin";
-                } catch (IncorrectCredentialsException e) {
-                    model.addAttribute("msg", "密码错误");
+                    if (sysCode.equalsIgnoreCase(formCode) && formCode != null) {
+                        try {
+                            subject.login(token);
+                            session.setAttribute("user", userByName);
+                            session.setAttribute("role", roleName);
+                            return "redirect:/main";
+                        } catch (UnknownAccountException e) {
+                            model.addAttribute("msg", "用户名错误");
+                            return "forward:/user/toLogin";
+                        } catch (IncorrectCredentialsException e) {
+                            model.addAttribute("msg", "密码错误");
+                            return "forward:/user/toLogin";
+                        }
+                    } else {
+                        model.addAttribute("msg", "验证码错误,请重新输入");
+                        return "forward:/user/toLogin";
+                    }
+                } else {
+                    model.addAttribute("msg", "请选择正确角色");
                     return "forward:/user/toLogin";
                 }
-            } else {
-                model.addAttribute("msg", "验证码错误,请重新输入");
+            }else {
+                model.addAttribute("msg", "用户名不存在");
                 return "forward:/user/toLogin";
             }
-        }else{
-            model.addAttribute("msg", "请选择正确角色");
-            return "forward:/user/toLogin";
-        }
+            } else {
+                model.addAttribute("msg", "用户名不允许为空");
+                return "forward:/user/toLogin";
+            }
+
     }
 
     //未授权
@@ -123,5 +132,6 @@ public class UserController {
             e.printStackTrace();
         }
     }
+
 
 }

@@ -16,7 +16,7 @@ public class Leave implements Serializable {
     @NotNull
     private Date endTime;
     @NotBlank
-    @Length(min=5, message = "公告内容长度最小为5")
+    @Length(min=5, message = "请假原因长度最小为5")
     private String reason;
     //0待批准，1批准，-1不批准
     private Integer state;

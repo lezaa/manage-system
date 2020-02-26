@@ -242,23 +242,6 @@
 <script src="../../static/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/js/demo.js"></script>
-<!--表单验证-->
-<script>
-    $("#form").submit(function (e) {
-        if ($('#deptId').val() == "") {
-            $('#mytip').html('请填写部门ID').css("color","#f00");
-            return false;
-        }else if ($('#jobId').select().val() == "") {
-            $('#mytip1').html('请选择职位').css("color","#f00");
-            return false;
-        }else if ($('#roleSelect').select().val() == "") {
-            $('#mytip2').html('请选择权限角色').css("color","#f00");
-            return false;
-        }
-
-        return true;
-    });
-</script>
 <script>
     $(function () {
         /*部门存在检查*/
@@ -268,7 +251,7 @@
 
             //发送ajax请求
             $.post("/dept/deptCheck",{"deptId":deptId},function (data) {
-                var span = $("#mytip2");
+                var span = $("#mytip");
                 if(data.deptExsit){
                     //部门存在
                     span.css("color","green");
@@ -283,6 +266,26 @@
         });
     })
 </script>
+<!--表单验证-->
+<script>
+    $("#form").submit(function (e) {
+        if ($('#deptId').val() == "") {
+            $('#mytip').html('请填写部门ID').css("color","#f00");
+            return false;
+        } else if ($('#mytip').html() === "此部门ID可用") {
+            return false;
+        }else if ($('#jobId').select().val() == "") {
+            $('#mytip1').html('请选择职位').css("color","#f00");
+            return false;
+        }else if ($('#roleSelect').select().val() == "") {
+            $('#mytip2').html('请选择权限角色').css("color","#f00");
+            return false;
+        }
+
+        return true;
+    });
+</script>
+
 <script>
     $("#form").submit(function (e) {
         console.log(e);

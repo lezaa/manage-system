@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,15 +55,26 @@ public class AppController {
 
     }
 
-    @GetMapping("/app")
-    public String searchApp(String username,String deptName,String jobName,@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum,Model model){
+    @RequestMapping("/app")
+    public String searchApp(@RequestParam(value = "username",required = false) String username,
+                            @RequestParam(value = "deptName",required = false) String deptName,
+                            @RequestParam(value = "jobName",required = false) String jobName,
+                            @RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2,
+                            Model model){
         int pageSize = 10;
-        PageInfo<Applicant> pageInfo = applicantService.getAppByCondition(username,deptName,jobName,pageNum,pageSize);
-        List<ApplicantVo> applicantVos = pubService.changeApplicantVo(pageInfo);
-        model.addAttribute("page",pageInfo);
+        Map<String,Object> data = new HashMap<>();
+        data.put("username",username);
+        data.put("deptName",deptName);
+        data.put("jobName",jobName);
+        PageInfo<Applicant> appByCondition = applicantService.getAppByCondition(username, deptName, jobName, pageNum2, pageSize);
+        List<ApplicantVo> applicantVos = pubService.changeApplicantVo(appByCondition);
+        model.addAttribute("state",2);
+        model.addAttribute("page2",appByCondition);
         model.addAttribute("apps",applicantVos);
+        model.addAttribute("params",data);
         return "app/appList";
     }
+
 
     @GetMapping("/toAdd")
     public String toAdd(){

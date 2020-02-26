@@ -77,8 +77,7 @@ public class ShiroConfig {
         linkedHashMap.put("/notice/**","authc");
         linkedHashMap.put("/wages/**","authc");
         linkedHashMap.put("/app/**","roles[admin]");
-        linkedHashMap.put("/time/sign/**","authc");
-        linkedHashMap.put("/time/leave/**","roles[admin]");
+        linkedHashMap.put("/time/**","authc");
 
 
 

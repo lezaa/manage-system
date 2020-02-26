@@ -74,16 +74,26 @@ public class TimeController {
     //全部请假
     @GetMapping("/leave/leaves")
     public String leaveManage(@RequestParam(defaultValue = "1", value = "pageNum",required = false) Integer pageNum,
-                              Model model){
+                              @RequestParam(defaultValue = "1", value = "pageNum",required = false) Integer pageNum1,
+                              Model model,HttpServletRequest request){
         int pageSize = 10;
+        //管理端
         PageInfo<Leave> pageInfo = timeService.getAllLeaves(pageNum, pageSize);
         List<LeaveVo> leaveVos = pubService.changeLeaveVo(pageInfo);
         PageInfo<Leave> leaveByState = timeService.getLeaveByState(pageNum, pageSize, 0);
         model.addAttribute("leaves",leaveVos);
         model.addAttribute("page",pageInfo);
         model.addAttribute("unreadNum",leaveByState.getList().size());
+        //员工端
+        User user = (User) request.getSession().getAttribute("user");
+        PageInfo<Leave> pageInfo1 = timeService.getOneleaves(pageNum1, pageSize, user.getId());
+        List<LeaveVo> leaveVo1s = pubService.changeLeaveVo(pageInfo1);
+        model.addAttribute("leave1s",leaveVo1s);
+        model.addAttribute("page1",pageInfo1);
+
         return "time/leaveMain";
     }
+
 
 
     //尚未操作（新申请）
@@ -100,13 +110,13 @@ public class TimeController {
 
     //根据用户名字来搜索请假条
     @RequestMapping("/searchLeave")
-    public String getSearchLeave(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum,String userName,Model model){
+    public String getSearchLeave(@RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2,
+                                 @RequestParam(value = "username",required = false) String username,Model model){
         int pageSize = 10;
-        PageHelper.startPage(pageNum,pageSize);
-        List<Leave> leaves = timeService.searchLeave(userName);
-        PageInfo<Leave> pageInfo = new PageInfo<>(leaves);
+        PageInfo<Leave> pageInfo = timeService.searchLeave(pageNum2, pageSize, username);
         List<LeaveVo> leaveVos = pubService.changeLeaveVo(pageInfo);
-        model.addAttribute("page",pageInfo);
+        model.addAttribute("username",username);
+        model.addAttribute("page2",pageInfo);
         model.addAttribute("leaves",leaveVos);
         return "time/leaveMain";
     }

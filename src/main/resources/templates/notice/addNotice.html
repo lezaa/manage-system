@@ -110,7 +110,7 @@
 <script>
     $("#form").submit(function (e) {
         var index = parent.layer.getFrameIndex(window.name);
-        $.post("/notice//publish",$('#form').serialize(),function (data) {
+        $.post("/notice/publish",$('#form').serialize(),function (data) {
             if (data.result == "true") {
                 parent.$("#handle_status").val('1');
                 parent.layer.close(index);

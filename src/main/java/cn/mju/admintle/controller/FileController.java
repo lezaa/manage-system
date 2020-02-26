@@ -50,11 +50,13 @@ public class FileController {
     }
 
     @RequestMapping("/search")
-    public String serachFile(@RequestParam(defaultValue = "1", value = "pageNum",required = true) Integer pageNum,@RequestParam("username") String username,Model model){
+    public String serachFile(@RequestParam(defaultValue = "1", value = "pageNum2",required = true) Integer pageNum2,
+                             @RequestParam(value = "username",required = false) String username,Model model){
         int pageSize = 10;
-        PageInfo<File> filePageInfo = adminService.searchFile(username, pageNum, pageSize);
+        PageInfo<File> filePageInfo = adminService.searchFile(username, pageNum2, pageSize);
         List<FileDto> fileDtos = pubService.changeFileDto(filePageInfo);
-        model.addAttribute("filePage",filePageInfo);
+        model.addAttribute("username",username);
+        model.addAttribute("filePage2",filePageInfo);
         model.addAttribute("files",fileDtos);
         return "file/fileList";
     }

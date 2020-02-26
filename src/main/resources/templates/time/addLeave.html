@@ -114,6 +114,9 @@
         else if ($('#reason').val() == "") {
             $('#tip3').html('请填写请假原因').css("color","#f00");
             return false;
+        }else if ($('#reason').val().length <5) {
+            $('#tip3').html('请假理由长度不得小于5个字！').css("color","#f00");
+            return false;
         }
         return true;
     })
