@@ -102,12 +102,21 @@ public class EmpController {
 
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+        boolean b = userService.judUserByName(user.getUsername());
+        boolean b1 = adminService.checkDept(user.getDeptId());
+        if (b || !b1){
+            Map<String, Object> resultMap = new HashMap<String, Object>();
+            resultMap.put("result", "false");
+            return resultMap;
+        }
             User dbUser = pubService.passwordToMD5(user);
             boolean flag = adminService.addUser(dbUser, roleName);
             Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
             return resultMap;
 
     }
+
+
 
     @RequestMapping("/getEmp/{id}")
     public String getEmp(@PathVariable("id") long id ,Model model){
@@ -121,6 +130,13 @@ public class EmpController {
     @RequestMapping("/update")
     @ResponseBody
     public Map<String,Object> updateEmp(String roleName,User user ,HttpServletRequest request){
+        boolean b = userService.judUserByName(user.getUsername());
+        boolean b1 = adminService.checkDept(user.getDeptId());
+        if (b || !b1){
+            Map<String, Object> resultMap = new HashMap<String, Object>();
+            resultMap.put("result", "false");
+            return resultMap;
+        }
             boolean flag = adminService.update(user,roleName);
             Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
             return resultMap;
@@ -254,7 +270,6 @@ public class EmpController {
         mapper.writeValue(response.getWriter(),map);
 
     }
-
 
 
 }

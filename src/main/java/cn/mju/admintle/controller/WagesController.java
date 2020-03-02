@@ -83,6 +83,12 @@ public class WagesController {
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+        boolean b = userService.judUserByName(wagesDto.getUsername());
+        if (b){
+            Map<String, Object> resultMap = new HashMap<String, Object>();
+            resultMap.put("result", "false");
+            return resultMap;
+        }
         boolean flag = wagesService.insertWages(wagesDto);
         Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
         return resultMap;

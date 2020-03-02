@@ -50,16 +50,18 @@
                             <form id="form" th:action="@{/emp/addEmp}" method="post" >
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label for="username" class="col-sm-2 control-label">用户名：</label>
+                                        <label for="username" class="col-sm-2 control-label"><span style="color: red">*</span>用户名：</label>
                                         <span id="mytip" ></span>
+                                        <span id="mytip5" ></span>
                                         <div class="col-sm-10">
                                             <input type="username" class="form-control" id="username" name="username" placeholder="用户名">
                                         </div>
+
                                         <div class="col-sm-10"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password" class="col-sm-2 control-label">密码：</label>
+                                        <label for="password" class="col-sm-2 control-label"><span style="color: red">*</span>密码：</label>
                                         <span id="mytip1" ></span>
                                         <div class="col-sm-10">
                                             <input type="password" class="form-control" id="password" name="password" placeholder="密码" >
@@ -100,15 +102,16 @@
 
 
                                     <div class="form-group">
-                                        <label for="deptId" class="col-sm-2 control-label">部门ID：</label>
+                                        <label for="deptId" class="col-sm-2 control-label"><span style="color: red">*</span>部门ID：</label>
                                         <span id="mytip2" ></span>
+                                        <span id="mytip6" ></span>
                                         <div class="col-sm-10">
                                             <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" >
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for="jobId" class="col-sm-2 control-label">职位：</label>
+                                        <label for="jobId" class="col-sm-2 control-label"><span style="color: red">*</span>职位：</label>
                                         <span id="mytip3" ></span>
                                         <div class="col-sm-10">
                                             <select name="jobId" class="form-control " id="jobId" >
@@ -125,7 +128,7 @@
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for="roleSelect" class="col-sm-2 control-label">权限角色：</label>
+                                        <label for="roleSelect" class="col-sm-2 control-label"><span style="color: red">*</span>权限角色：</label>
                                         <span id="mytip4" ></span>
                                         <div class="col-sm-10">
                                             <select class="form-control " id="roleSelect" name="roleName" >
@@ -222,10 +225,10 @@
 <script>
     /*表单验证*/
     $("#form").submit(function (e) {
-        if($("#mytip2").html() === "此用户名已存在") {
+        if($("#mytip").html() === "此用户名已存在") {
             return false;
         }else if ($('#username').val() == "") {
-            $('#mytip').html('用户名不允许为空').css("color","#f00");
+            $('#mytip5').html('用户名不允许为空').css("color","#f00");
             return false;
         }else if ($('#password').val() == "") {
             $('#mytip1').html('密码不允许为空').css("color","#f00");
@@ -234,7 +237,7 @@
             $('#mytip1').html('密码长度需在3到15位').css("color","#f00");
             return false;
         }else if ($('#deptId').val() == "") {
-            $('#mytip2').html('请填写部门ID').css("color","#f00");
+            $('#mytip6').html('请填写部门ID').css("color","#f00");
             return false;
         }else if ($('#mytip2').html() === "此部门不存在,请重新填写部门ID"){
             return false;

@@ -122,6 +122,7 @@
                             </shiro:hasRole>
                             <a type="button" class="btn btn-info" th:href="@{/wages/download}"><i class="fa fa-print"></i> 打印</a>
                         </div>
+                        <shiro:hasRole name="admin">
                         <form class="form-inline" th:action="@{/wages/search}" style="float: right;margin: 5px;">
                             <div class="form-group">
                                 <label for="username">姓名</label>
@@ -129,6 +130,7 @@
                             </div>
                             <button type="submit" class="btn btn-default">搜索</button>
                         </form>
+                        </shiro:hasRole>
                     </div>
                     <!-- /.box-header -->
                     <!--管理员总表-->

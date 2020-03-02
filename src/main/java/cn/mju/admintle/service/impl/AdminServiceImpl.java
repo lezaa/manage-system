@@ -302,13 +302,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean checkDept(int id) {
-        Dept deptById = deptMapper.getDeptById(id);
-        if (deptById != null){
-            return true;
-        }else {
-            return false;
-        }
-
+        return deptMapper.getDeptById(id) !=null;
     }
 
     @Override

@@ -63,11 +63,12 @@
                     <!-- /.box-header -->
                     <form th:action="@{/notice/publish}" method="post" id="form" onsubmit="return sub()">
                     <div class="box-body">
+                        <label for="title" class="col-sm-2 control-label"><span style="color: red">*</span>标题：</label>
                         <span id="tishi" ></span>
                         <div class="form-group">
                             <input class="form-control" id="title" name="head" placeholder="标题">
                         </div>
-                        <label for="pp" class="col-sm-2 control-label">通知内容：</label>
+                        <label for="pp" class="col-sm-2 control-label"><span style="color: red">*</span>通知内容：</label>
                         <span id="tishi1" ></span>
                         <div class="form-group">
                     <textarea id="pp" name="content" class="form-control" style="height: 300px"></textarea>

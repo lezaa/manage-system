@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Wages implements Serializable {
-    //工资考核计算
+    //工资
     private Long id;
     private Long userId;
     //基本工资
