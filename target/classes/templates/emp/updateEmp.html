@@ -88,7 +88,7 @@
 
 
                                     <div class="form-group">
-                                        <label for="deptId" class="col-sm-2 control-label">部门ID：</label>
+                                        <label for="deptId" class="col-sm-2 control-label"><span style="color: red">*</span>部门ID：</label>
                                         <span id="mytip" ></span>
                                         <div class="col-sm-10">
                                             <input type="number" class="form-control" id="deptId" name="deptId" placeholder="部门ID" th:value="${user.deptId}" >
@@ -96,7 +96,7 @@
                                     </div>
     <!--部门end-->
                                     <div class="form-group ">
-                                        <label for="jobId" class="col-sm-2 control-label" >职位：</label>
+                                        <label for="jobId" class="col-sm-2 control-label" ><span style="color: red">*</span>职位：</label>
                                         <span id="mytip1" ></span>
                                         <div class="col-sm-10" th:if="${user.jobId==1}">
                                             <select name="jobId" class="form-control " id="jobId">
@@ -187,7 +187,7 @@
 
 
                                     <div class="form-group ">
-                                        <label for="roleSelect" class="col-sm-2 control-label">权限角色：</label>
+                                        <label for="roleSelect" class="col-sm-2 control-label"><span style="color: red">*</span>权限角色：</label>
                                         <span id="mytip2" ></span>
                                         <div class="col-sm-10" th:if="${roleName =='admin'}">
                                             <select class="form-control " id="roleSelect" name="roleName">

@@ -137,7 +137,10 @@
         <!--pagestart-->
         <!--所有-->
         <div class="box-footer clearfix" th:if="${state} ==1">
-            <ul class="pagination pagination-sm no-margin pull-right">
+            <span style="float: left">
+            共<span th:text="${page1.getTotal()}"></span>条记录，当前<span th:text="${page1.pageNum}"></span>/<span th:text="${page1.pages}"></span>页
+            </span>
+                <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/emp/emps?pageNum1=1'}" >首页</a></li>
                 <li><a th:if="${page1.hasPreviousPage} == true" th:href="@{'/emp/emps?pageNum1=' + ${page1.prePage}}"  >上一页</a></li>
 
@@ -150,6 +153,9 @@
 
         <!--搜索结果-->
         <div class="box-footer clearfix" th:if="${state} ==2">
+             <span style="float: left">
+            共<span th:text="${page2.getTotal()}"></span>条记录，当前<span th:text="${page2.pageNum}"></span>/<span th:text="${page2.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/emp/emp?pageNum2=1' + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >首页</a></li>
                 <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/emp/emp?pageNum2=' + ${page2.prePage} + '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}"  >上一页</a></li>

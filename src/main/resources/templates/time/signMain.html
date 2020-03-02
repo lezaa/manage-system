@@ -91,6 +91,9 @@
                 <!--pagestart-->
 
                 <div class="box-footer clearfix">
+                     <span style="float: left">
+            共<span th:text="${page1.getTotal()}"></span>条记录，当前<span th:text="${page1.pageNum}"></span>/<span th:text="${page1.pages}"></span>页
+            </span>
                     <ul class="pagination pagination-sm no-margin pull-right">
                         <li><a th:href="@{'/time/signs?pageNum1=1'}" >首页</a></li>
                         <li><a th:if="${page1.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum1=' + ${page1.prePage}}"  >上一页</a></li>
@@ -144,6 +147,9 @@
                 <!--pagestart-->
 
                 <div class="box-footer clearfix">
+                     <span style="float: left">
+            共<span th:text="${page2.getTotal()}"></span>条记录，当前<span th:text="${page2.pageNum}"></span>/<span th:text="${page2.pages}"></span>页
+            </span>
                     <ul class="pagination pagination-sm no-margin pull-right">
                         <li><a th:href="@{'/time/signs?pageNum2=1'}" >首页</a></li>
                         <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum2=' + ${page2.prePage}}"  >上一页</a></li>
@@ -198,6 +204,9 @@
                         <!--pagestart-->
 
                         <div class="box-footer clearfix">
+                             <span style="float: left">
+            共<span th:text="${page3.getTotal()}"></span>条记录，当前<span th:text="${page3.pageNum}"></span>/<span th:text="${page3.pages}"></span>页
+            </span>
                             <ul class="pagination pagination-sm no-margin pull-right">
                                 <li><a th:href="@{'/time/signs?pageNum3=1'}" >首页</a></li>
                                 <li><a th:if="${page3.hasPreviousPage} == true" th:href="@{'/time/signs?pageNum3=' + ${page3.prePage}}"  >上一页</a></li>

@@ -240,6 +240,9 @@
 
         <div class="box-footer clearfix">
             <ul class="pagination pagination-sm no-margin pull-right" th:if="${state} == null">
+                 <span style="float: left">
+            共<span th:text="${page.getTotal()}"></span>条记录，当前<span th:text="${page.pageNum}"></span>/<span th:text="${page.pages}"></span>页
+            </span>
                 <li><a th:href="@{'/app/apps?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/app/apps?pageNum=' + ${page.prePage}}"  >上一页</a></li>
 
@@ -252,6 +255,9 @@
 
 
         <div class="box-footer clearfix" th:if="${state} != null">
+             <span style="float: left">
+            共<span th:text="${page2.getTotal()}"></span>条记录，当前<span th:text="${page2.pageNum}"></span>/<span th:text="${page2.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/app/app?pageNum2=1'+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}" >首页</a></li>
                 <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/app/app?pageNum2=' + ${page2.prePage}+ '&username='+${params.username}+'&deptName='+${params.deptName} +'&jobName='+${params.jobName}}"  >上一页</a></li>
