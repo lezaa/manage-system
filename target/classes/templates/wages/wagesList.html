@@ -240,6 +240,9 @@
         <!--pagestart-->
 
         <div class="box-footer clearfix" th:if="${username} == null">
+             <span style="float: left">
+            共<span th:text="${page.getTotal()}"></span>条记录，当前<span th:text="${page.pageNum}"></span>/<span th:text="${page.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/wages/list?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/wages/list?pageNum=' + ${page.prePage}}"  >上一页</a></li>
@@ -252,6 +255,9 @@
         </div>
         <!--查询结果-->
         <div class="box-footer clearfix" th:if="${username} != null">
+             <span style="float: left">
+            共<span th:text="${page2.getTotal()}"></span>条记录，当前<span th:text="${page2.pageNum}"></span>/<span th:text="${page2.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/wages/search?pageNum2=1'+ '&username='+${username}}" >首页</a></li>
                 <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/wages/search?pageNum2=' + ${page2.prePage}+ '&username='+${username}}"  >上一页</a></li>

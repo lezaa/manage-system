@@ -58,6 +58,8 @@
             <div class="box-header with-border">
                 <button id="sign" ></button>
                 <button class="btn btn-warning"  id="leave">快速请假</button>
+                <div style="float: right"> <a type="button" class="btn btn-primary" id="pass"><i class="fa fa-edit" ></i> 修改密码</a></div>
+
             </div>
 
 
@@ -371,6 +373,39 @@
                 }
             }
         });
+    })
+
+</script>
+<script>
+    //弹出一个提示层
+    $('#pass').click(function () {
+        layer.open({
+            type: 2,
+            title: '修改密码',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['650px', '300px'],
+            content: '/user/toPassword/', //iframe的url
+            success:function(layero,index){
+            },
+            end:function(){
+                var handle_status = $("#handle_status").val();
+                if ( handle_status == '1' ) {
+                    layer.msg('修改成功！请重新登录',{
+                        icon: 1,
+                        time: 3000 //2秒关闭（如果不配置，默认是3秒）
+                    },function(){
+                        window.location.href='/user/toLogin';
+                    });
+                } else if ( handle_status == '2' ) {
+                    layer.msg('修改失败，密码不符合规范！',{
+                        icon: 2,
+                        time: 3000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                }
+            }
+        });
+
     })
 
 </script>

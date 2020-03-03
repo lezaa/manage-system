@@ -78,6 +78,9 @@
                             <!--pagestart-->
 
                             <div class="box-footer clearfix">
+                                 <span style="float: left">
+            共<span th:text="${adminPage.getTotal()}"></span>条记录，当前<span th:text="${adminPage.pageNum}"></span>/<span th:text="${adminPage.pages}"></span>页
+            </span>
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     <li><a th:href="@{'/role/list?pageNum1=1'}" >首页</a></li>
                                     <li><a th:if="${adminPage.hasPreviousPage} == true" th:href="@{'/role/list?pageNum1=' + ${adminPage.prePage}}"  >上一页</a></li>

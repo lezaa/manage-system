@@ -193,6 +193,9 @@
         <!--pagestart-->
 
         <div class="box-footer clearfix" th:if="${head} == null">
+             <span style="float: left">
+            共<span th:text="${page.getTotal()}"></span>条记录，当前<span th:text="${page.pageNum}"></span>/<span th:text="${page.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/notice/notices?pageNum=1'}" >首页</a></li>
                 <li><a th:if="${page.hasPreviousPage} == true" th:href="@{'/notice/notices?pageNum=' + ${page.prePage}}"  >上一页</a></li>
@@ -206,6 +209,9 @@
 
         <!--搜索结果-->
         <div class="box-footer clearfix" th:if="${head} != null">
+             <span style="float: left">
+            共<span th:text="${page2.getTotal()}"></span>条记录，当前<span th:text="${page2.pageNum}"></span>/<span th:text="${page2.pages}"></span>页
+            </span>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a th:href="@{'/notice/notice?pageNum2=1'+ '&head='+${head}}" >首页</a></li>
                 <li><a th:if="${page2.hasPreviousPage} == true" th:href="@{'/notice/notice?pageNum2=' + ${page2.prePage} + '&head='+${head}}"  >上一页</a></li>

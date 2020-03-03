@@ -1,31 +1,23 @@
 package cn.mju.admintle.controller;
 
-import cn.mju.admintle.domain.Role;
 import cn.mju.admintle.domain.User;
 import cn.mju.admintle.mapper.RoleMapper;
-import cn.mju.admintle.mapper.UserMapper;
+import cn.mju.admintle.service.AdminService;
 import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.UserService;
+import cn.mju.admintle.utils.AJAXUtil;
 import cn.mju.admintle.utils.RandomValidateCode;
-import com.alibaba.druid.sql.dialect.oracle.ast.clause.ModelClause;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ibatis.annotations.Select;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
-import org.omg.CORBA.StringHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.lang.model.element.VariableElement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +25,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 @Controller
@@ -42,12 +33,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
-    private PubService pubService;
-
-    @Autowired
-    private RoleMapper roleMapper;
+    private AdminService adminService;
 
 
     @RequestMapping("/toLogin")
@@ -133,5 +120,25 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/toPassword")
+    public String toPass() {
+        return "emp/password";
+    }
+
+
+    @RequestMapping("/password")
+    @ResponseBody
+    public Map<String,Object> pass(@RequestParam(value = "password",required = false) String password,HttpServletRequest request) {
+        User user = (User)request.getSession().getAttribute("user");
+        if (password.equals("") || password.length()<3 ||password.length()>15){
+            HashMap<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", "false");
+            return resultMap;
+        }
+        user.setPassword(password);
+        boolean flag = adminService.updatePass(user);
+        Map<String, Object> resultMap = AJAXUtil.getReturn(flag);
+        return resultMap;
+    }
 
 }
