@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{../../static/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{../../static/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet"th:href="@{../../static/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" th:href="@{../../static/css/skins/skin-blue.min.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div class="box box-info">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">每日任务</h3>
+                    </div>
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <form th:action="@{/health/addHealth}" method="post" id="form">
+                            <div class="box-body">
+
+
+                                <div class="form-group">
+                                    <label for="address" class="col-sm-2 control-label"><span style="color: red">*</span>现住址</label>
+                                    <span id="mytip1" ></span>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="address" name="address"   placeholder="现住址" >
+                                    </div>
+
+                                    <label for="temp" class="col-sm-2 control-label"><span style="color: red">*</span>体温</label>
+                                    <span id="mytip2" ></span>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="temp" name="temp"   placeholder="体温"  max = "43"  min = "35"  step = "0.1">
+                                    </div>
+
+                                    <label for="path" class="col-sm-2 control-label">活动轨迹</label>
+                                    <span id="mytip5" ></span>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="path" name="path"   placeholder="活动轨迹（去了哪）" >
+                                    </div>
+
+                                    <label for="touch" class="col-sm-2 control-label"><span style="color: red">*</span>接触病源状态：</label>
+                                    <span id="mytip3" ></span>
+                                    <div class="col-sm-10">
+                                    <select class="form-control" id="touch" name="touch">
+                                         <option  value="" selected="selected" disabled>-------选择状态-------</option>
+                                         <option  value="1">未接触</option>
+                                         <option  value="0">有接触</option>
+                                    </select>
+                                    </div>
+
+                                    <label for="state" class="col-sm-2 control-label"><span style="color: red">*</span>身体状况：</label>
+                                    <span id="mytip4" ></span>
+                                    <div class="col-sm-10">
+                                    <select class="form-control " id="state" name="state">
+                                        <option  value="" selected="selected" disabled>-------选择身体状况-------</option>
+                                        <option  value="健康">健康</option>
+                                        <option  value="头痛">头痛</option>
+                                        <option  value="发热">发热</option>
+                                        <option  value="咳嗽">咳嗽</option>
+                                        <option  value="乏力">乏力</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+
+                                <button type="reset" class="btn btn-default">重置</button>
+                                <button type="submit" id="queren" class="btn btn-primary pull-right">确认</button>
+                            </div>
+                            </div>
+                            <!-- /.box-footer -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/js/adminlte.min.js"></script>
+
+
+
+<script>
+    /*表单验证 */
+    $("#form").submit(function (e) {
+        if ($('#address').val() == ""){
+            $('#mytip1').html('现住址不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#temp').val() == ""){
+            $('#mytip2').html('体温不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#touch  option:selected').val() == ""){
+            $('#mytip3').html('接触病源状态不允许为空').css("color","#f00");
+            return false;
+        }else if ($('#state  option:selected').val() == ""){
+            $('#mytip4').html('身体状况不允许为空').css("color","#f00");
+            return false;
+        }
+        return true;
+    });
+    /*弹窗处理*/
+    $("#form").submit(function (e) {
+        var index = parent.layer.getFrameIndex(window.name);
+        $.post("/health/addHealth",$('#form').serialize(),function (data) {
+            if (data.result == "true") {
+                parent.$("#handle_status").val('1');
+                parent.layer.close(index);
+
+            } else {
+                parent.$("#handle_status").val('2');
+                parent.layer.close(index);
+
+            }
+        })
+        return false;
+    })
+
+</script>
+
+
+
+
+</body>
+</html>

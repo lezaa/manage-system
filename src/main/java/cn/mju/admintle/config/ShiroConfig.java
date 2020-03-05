@@ -50,8 +50,8 @@ public class ShiroConfig {
         linkedHashMap.put("/static/**","anon");
         linkedHashMap.put("/user/logout", "logout");
 
-        //记住我
         linkedHashMap.put("/main","authc");
+        linkedHashMap.put("/user/toPassword","authc");
 
         linkedHashMap.put("/emp/addEmp","roles[admin],perms[add]");
         linkedHashMap.put("/emp/update","roles[admin],perms[update]");
@@ -69,6 +69,7 @@ public class ShiroConfig {
 
         linkedHashMap.put("/time//approval","roles[admin],perms[update]");
 
+
         linkedHashMap.put("/user/**","anon");
         linkedHashMap.put("/emp/**","authc");
         linkedHashMap.put("/role/**","roles[admin]");
@@ -78,6 +79,7 @@ public class ShiroConfig {
         linkedHashMap.put("/wages/**","authc");
         linkedHashMap.put("/app/**","roles[admin]");
         linkedHashMap.put("/time/**","authc");
+        linkedHashMap.put("/health/**","authc");
 
 
 

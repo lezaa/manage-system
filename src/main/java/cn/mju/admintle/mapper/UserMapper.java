@@ -17,6 +17,10 @@ public interface UserMapper {
     @Select("select * from tb_user")
     List<User> getUsers();
 
+
+    @Select("select * from tb_user where state = #{state}")
+    List<User> getUsersByState(int state);
+
     @Select("select * from tb_user where username = #{username}")
     User getUserByUsername(String username);
 

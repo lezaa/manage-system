@@ -34,6 +34,8 @@ public interface PubService {
 
     List<LeaveVo> changeLeaveVo(PageInfo<Leave> pageInfo);
 
+    List<HealthVo> changeHealthVo(PageInfo<Health> pageInfo);
+
     User passwordToMD5(User user);
 
 

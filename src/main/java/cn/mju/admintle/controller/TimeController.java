@@ -175,6 +175,11 @@ public class TimeController {
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+        if (leave.getReason().equals("") || leave.getReason().length()<5){
+            HashMap<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", "false");
+            return resultMap;
+        }
         User user = (User) session.getAttribute("user");
         boolean flag = timeService.applyLeave(user.getId(),leave.getReason(),leave.getBeginTime(),leave.getEndTime());
         return AJAXUtil.getReturn(flag);

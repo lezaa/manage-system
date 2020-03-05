@@ -174,6 +174,17 @@ public class PubServcieImpl implements PubService {
         return leaveVos;
     }
 
+    @Override
+    public List<HealthVo> changeHealthVo(PageInfo<Health> pageInfo) {
+        List<Health> healths = pageInfo.getList();
+        List<HealthVo> healthVos =healths.stream().map(e->(
+                new HealthVo(e.getId(),userMapper.getUserById(e.getUserId()).getUsername(),deptMapper.getDeptById(userMapper.getUserById(e.getUserId()
+                ).getDeptId()).getDeptName(),jobMapper.getJobById(userMapper.getUserById(e.getUserId()).getJobId()).getJobName(),e.getAddress(),e.getTemp(),e.getPath(),e.getTouch(),e.getState(),e.getToday())
+                )).collect(Collectors.toList());
+
+        return healthVos;
+    }
+
 
     @Override
     public User passwordToMD5(User user) {

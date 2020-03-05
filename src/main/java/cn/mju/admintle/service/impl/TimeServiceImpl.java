@@ -6,6 +6,7 @@ import cn.mju.admintle.mapper.SignMapper;
 import cn.mju.admintle.mapper.UserMapper;
 import cn.mju.admintle.service.PubService;
 import cn.mju.admintle.service.TimeService;
+import cn.mju.admintle.utils.DateFormatUtil;
 import cn.mju.admintle.vo.LeaveVo;
 import cn.mju.admintle.vo.SignVo;
 import com.github.pagehelper.PageHelper;
@@ -64,15 +65,8 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public Sign getSign(long userId) {
-        //改成用sql取年月日
-        Date time = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        try {
-            time = sdf.parse(sdf.format(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Sign sign = signMapper.getSignByUserIdDate(userId, time);
+        Date today = DateFormatUtil.getToday();
+        Sign sign = signMapper.getSignByUserIdDate(userId,today);
         return sign;
 
     }

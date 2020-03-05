@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private RedisUtil.redisString redisString;
     @Autowired
-    private RedisUtil.redisList redisList;
+    private HealthMapper healthMapper;
 
     /**
      * 条件组合查询
@@ -193,6 +193,7 @@ public class AdminServiceImpl implements AdminService {
             noticeMapper.deleteByUser(id);
             signMapper.deleteSignByUserId(id);
             leaveMapper.deleteLeaveByUserId(id);
+            healthMapper.delete(id);
             return true;
         }else{
             return false;
@@ -210,6 +211,7 @@ public class AdminServiceImpl implements AdminService {
             noticeMapper.deleleteBatchByUserId(cids);
             signMapper.deleleteBatchByUserIdS(cids);
             leaveMapper.deleleteBatchByUserIdS(cids);
+            healthMapper.deleleteBatch(cids);
             return true;
         } else {
             return false;

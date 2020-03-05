@@ -49,6 +49,8 @@ class AdmintleApplicationTests {
     private SignMapper signMapper;
     @Autowired
     private PubService pubService;
+    @Autowired
+    private HealthService healthService;
 
 
     @Test
@@ -153,9 +155,23 @@ class AdmintleApplicationTests {
 
     @Test
     void test11(){
-        boolean b1 = adminService.checkDept(888);
-        System.out.println("......"+b1);
+        Health health = new Health();
+        health.setUserId(62l);
+        health.setToday(new Date());
+        health.setTouch(0);
+        health.setTemp(36.5);
+        health.setAddress("福州市仓山区");
+        health.setState("健康");
+        health.setPath("居家");
+        boolean b = healthService.addHealth(health);
+
     }
 
+    @Test
+    void test12(){
+        Health oneToday = healthService.getOneToday(62l);
+        System.out.println("...."+oneToday.toString());
+
+    }
 
 }

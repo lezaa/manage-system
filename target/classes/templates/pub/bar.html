@@ -154,21 +154,17 @@
             </li>
             </shiro:hasRole>
 
-
-           <!-- <shiro:hasRole name="user">
-            <li th:class="${activeUri=='/time/sign/signs'?'active':''}">
-                <a href="#" th:href="@{/time/sign/signs}"><i class="fa fa-link"></i>
-                    <span>考勤管理</span>
-                </a>
-            </li>
-            </shiro:hasRole>-->
-
             <li th:class="${activeUri=='/wages/list'?'active':''}">
                 <a href="#" th:href="@{/wages/list}"><i class="fa fa-link"></i>
                     <span>薪资管理</span>
                 </a>
             </li>
 
+            <li th:class="${activeUri=='/health/healths'?'active':''}">
+                <a href="#" th:href="@{/health/healths}"><i class="fa fa-link"></i>
+                    <span>防疫管理</span>
+                </a>
+            </li>
 
             <shiro:hasRole name="admin">
             <li class="treeview" th:classappend="${activeUri=='/app/apps'?'active':(activeUri=='/app/talents'?'active':'')}">
