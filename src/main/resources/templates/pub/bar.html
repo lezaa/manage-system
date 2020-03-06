@@ -160,11 +160,13 @@
                 </a>
             </li>
 
+            <shiro:hasRole name="admin">
             <li th:class="${activeUri=='/health/healths'?'active':''}">
                 <a href="#" th:href="@{/health/healths}"><i class="fa fa-link"></i>
                     <span>防疫管理</span>
                 </a>
             </li>
+            </shiro:hasRole>
 
             <shiro:hasRole name="admin">
             <li class="treeview" th:classappend="${activeUri=='/app/apps'?'active':(activeUri=='/app/talents'?'active':'')}">
