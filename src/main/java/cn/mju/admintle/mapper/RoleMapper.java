@@ -17,7 +17,7 @@ public interface RoleMapper {
     List<Role> getRolesByName(String roleName);
 
     @Select("select * from tb_role where id = #{id}")
-    Role getRole(Long id);
+    Role getRole(Integer id);
 
     @Select("select * from tb_role where user_id = #{userId}")
     @Results(

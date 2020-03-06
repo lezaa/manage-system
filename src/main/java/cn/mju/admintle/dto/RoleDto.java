@@ -1,19 +1,22 @@
 package cn.mju.admintle.dto;
 
 public class RoleDto {
-    private Long id;
+    private Integer id;
     private String userName;
 
-    public RoleDto(Long id, String userName) {
+    public RoleDto() {
+    }
+
+    public RoleDto(Integer id, String userName) {
         this.id = id;
         this.userName = userName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

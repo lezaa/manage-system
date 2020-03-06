@@ -46,7 +46,7 @@ public class RoleController {
 
 
     @RequestMapping("/change")
-    public String changeRole(@RequestParam("id")Long id,@RequestParam("roleName") String roleName){
+    public String changeRole(@RequestParam("id")Integer id,@RequestParam("roleName") String roleName){
         Role role = roleMapper.getRole(id);
         role.setRoleName(roleName);
         roleMapper.updateRole(role);

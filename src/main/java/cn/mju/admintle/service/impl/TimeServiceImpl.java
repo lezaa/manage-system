@@ -143,6 +143,7 @@ public class TimeServiceImpl implements TimeService {
         boolean flag = leaveMapper.insertLeave(leave) >0;
         return flag;
     }
+
     //批准请假
     @Override
     public boolean approvalLeave(int id,int state) {

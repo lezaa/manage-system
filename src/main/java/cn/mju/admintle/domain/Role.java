@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class Role implements Serializable {
-    private Long id;
+    private Integer id;
     private Long userId;
     private String roleName;
     private Set<Permission> permissions;
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,15 +40,5 @@ public class Role implements Serializable {
 
     public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", roleName='" + roleName + '\'' +
-                ", permissions=" + permissions +
-                '}';
     }
 }
