@@ -24,13 +24,13 @@
     <![endif]-->
 
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
+<body class="hold-transition login-page" style="background-image: url(../static/img/bg.jpg)">
+<div class="login-box" >
     <div class="login-logo">
         <b>人事管理系统</b>
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body" style="opacity: 0.9; ">
         <p class="login-box-msg">用户登录</p>
         <!--th:action="@{/user/login}"-->
         <form  th:action="@{/user/login}" method="post" name="loginForm" id="loginForm">

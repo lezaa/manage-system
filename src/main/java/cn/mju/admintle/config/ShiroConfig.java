@@ -47,7 +47,7 @@ public class ShiroConfig {
 
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
 
-        linkedHashMap.put("/static/**","anon");
+
         linkedHashMap.put("/user/logout", "logout");
 
         linkedHashMap.put("/main","authc");
@@ -71,7 +71,7 @@ public class ShiroConfig {
 
         linkedHashMap.put("/health/healths","roles[admin],perms[query]");
 
-
+        linkedHashMap.put("/static/**","anon");
         linkedHashMap.put("/user/**","anon");
         linkedHashMap.put("/emp/**","authc");
         linkedHashMap.put("/role/**","roles[admin]");
