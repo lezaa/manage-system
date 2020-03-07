@@ -69,7 +69,7 @@ public class ShiroConfig {
 
         linkedHashMap.put("/time/approval","roles[admin],perms[update]");
 
-        linkedHashMap.put("/health/healths","roles[admin],perms[select]");
+        linkedHashMap.put("/health/healths","roles[admin],perms[query]");
 
 
         linkedHashMap.put("/user/**","anon");

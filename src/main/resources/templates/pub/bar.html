@@ -113,12 +113,6 @@
                 </a>
             </li>
 
-
-            <li  th:class="${activeUri=='/notice/notices'?'active':''}">
-                <a href="#" th:href="@{/notice/notices}"><i class="fa fa-link"></i>
-                    <span>系统公告</span>
-                </a>
-            </li>
             
             <shiro:hasRole name="admin">
             <li th:class="${activeUri=='/dept/depts'?'active':''}">
@@ -167,6 +161,12 @@
                 </a>
             </li>
             </shiro:hasRole>
+
+            <li  th:class="${activeUri=='/notice/notices'?'active':''}">
+                <a href="#" th:href="@{/notice/notices}"><i class="fa fa-link"></i>
+                    <span>系统公告</span>
+                </a>
+            </li>
 
             <shiro:hasRole name="admin">
             <li class="treeview" th:classappend="${activeUri=='/app/apps'?'active':(activeUri=='/app/talents'?'active':'')}">
